@@ -71,6 +71,16 @@ function isActive(href: string): boolean {
         <Search size={18} />
       </button>
 
+      <!-- Theme toggle (dark/light) -->
+      <button
+        id="theme-toggle"
+        class="w-9 h-9 rounded-full bg-transparent border border-[#2D2D4A] text-[#9CA3AF] flex items-center justify-center hover:bg-[#16162A] hover:text-white hover:border-[#3D3D5A] transition-all duration-150 cursor-pointer"
+        aria-label="Toggle dark/light mode"
+      >
+        <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+
       <!-- Language toggle -->
       <div
         class="nav__lang-toggle hidden sm:flex items-center bg-[#16162A] rounded-full border border-[#2D2D4A] p-0.5 h-8"
@@ -192,6 +202,49 @@ function isActive(href: string): boolean {
 </style>
 
 <script>
+  // ── Theme Toggle ──
+  function initTheme() {
+    const toggle = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
+    if (!toggle || !sunIcon || !moonIcon) return;
+
+    function getPreferred(): string {
+      const saved = localStorage.getItem('theme');
+      if (saved) return saved;
+      return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+
+    function applyTheme(theme: string) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (theme === 'light') {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    }
+
+    // Apply on load
+    applyTheme(getPreferred());
+
+    // Toggle on click
+    toggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Listen for system changes
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        applyTheme(e.matches ? 'light' : 'dark');
+      }
+    });
+  }
+  initTheme();
+
   function initTopNav() {
     const nav = document.querySelector<HTMLElement>('.nav');
     const menuBtn = document.getElementById('mobile-menu-btn');
