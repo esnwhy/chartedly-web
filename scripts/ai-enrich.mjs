@@ -31,6 +31,7 @@ const LOCAL_DATA_DIR = path.join(__dirname, '..', 'data');
 const GDRIVE_DIR = fs.existsSync(GDRIVE_DIR_WIN) ? GDRIVE_DIR_WIN : LOCAL_DATA_DIR;
 if (!fs.existsSync(GDRIVE_DIR)) fs.mkdirSync(GDRIVE_DIR, { recursive: true });
 const DISCOVERIES_CSV = path.join(GDRIVE_DIR, 'rakuten-discoveries.csv');
+const YAHOO_DISCOVERIES_CSV = path.join(GDRIVE_DIR, 'yahoo-discoveries.csv');
 const PRODUCTS_CSV = path.join(GDRIVE_DIR, 'products.csv');
 const PROGRESS_FILE = path.join(GDRIVE_DIR, 'enrich-progress.json');
 
@@ -224,14 +225,27 @@ function enrichedToCSVRow(enriched, original) {
 // ── Main ───────────────────────────────────────────────
 console.log('\n🤖 AI Product Enrichment Pipeline\n');
 
-// Load discoveries
-if (!fs.existsSync(DISCOVERIES_CSV)) {
-  console.log('❌ No discoveries found. Run fetch-rakuten.mjs first.');
+// Load discoveries from Rakuten + Yahoo
+let discoveries = [];
+
+if (fs.existsSync(DISCOVERIES_CSV)) {
+  const rakutenRows = csvToRows(fs.readFileSync(DISCOVERIES_CSV, 'utf-8'));
+  discoveries.push(...rakutenRows);
+  console.log(`📋 ${rakutenRows.length} products in rakuten-discoveries.csv`);
+}
+
+if (fs.existsSync(YAHOO_DISCOVERIES_CSV)) {
+  const yahooRows = csvToRows(fs.readFileSync(YAHOO_DISCOVERIES_CSV, 'utf-8'));
+  discoveries.push(...yahooRows);
+  console.log(`📋 ${yahooRows.length} products in yahoo-discoveries.csv`);
+}
+
+if (discoveries.length === 0) {
+  console.log('❌ No discoveries found. Run fetch-rakuten.mjs or fetch-yahoo.mjs first.');
   process.exit(1);
 }
 
-const discoveries = csvToRows(fs.readFileSync(DISCOVERIES_CSV, 'utf-8'));
-console.log(`📋 ${discoveries.length} products in rakuten-discoveries.csv`);
+console.log(`📋 ${discoveries.length} total products to consider`);
 
 // Filter already processed
 const existingSlugs = loadExistingSlugs();
@@ -244,12 +258,13 @@ if (rescoreAll) {
   console.log('🔄 RESCORE MODE: Re-evaluating ALL products with latest data\n');
   // Clear progress so all get re-processed
   progress.processed = [];
-  toProcess = discoveries.filter((d) => d.rakutenItemCode);
+  toProcess = discoveries.filter((d) => d.rakutenItemCode || d.slug);
 } else {
   // Normal mode: only new products
   toProcess = discoveries.filter((d) => {
-    if (!d.rakutenItemCode) return false;
-    if (processedCodes.has(d.rakutenItemCode)) return false;
+    const itemKey = d.rakutenItemCode || d.slug || '';
+    if (!itemKey) return false;
+    if (processedCodes.has(itemKey)) return false;
     return true;
   });
 }
@@ -343,7 +358,7 @@ for (let i = 0; i < toProcess.length; i += BATCH_SIZE) {
       allEnriched.push({ enriched, original });
 
       // Track progress
-      progress.processed.push(original.rakutenItemCode);
+      progress.processed.push(original.rakutenItemCode || original.slug);
 
       console.log(`   ✅ ${enriched.name_en} — Score: ${enriched.score} | Radar: Q${enriched.radar?.quality} V${enriched.radar?.value} P${enriched.radar?.popularity}`);
     }

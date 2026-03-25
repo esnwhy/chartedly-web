@@ -19,9 +19,13 @@ echo "$(date) — Starting weekly update..." >> "$LOG"
 # Pull latest code
 git pull origin master 2>&1 >> "$LOG" || true
 
-# ── Step 1: Fetch new Rakuten rankings ──
-echo "[1] Fetching Rakuten rankings..." >> "$LOG"
+# ── Step 1a: Fetch new Rakuten rankings ──
+echo "[1a] Fetching Rakuten rankings..." >> "$LOG"
 node scripts/fetch-rakuten.mjs --all 2>&1 | tail -5 >> "$LOG"
+
+# ── Step 1b: Fetch new Yahoo Shopping products ──
+echo "[1b] Fetching Yahoo Shopping products..." >> "$LOG"
+node scripts/fetch-yahoo.mjs --all 2>&1 | tail -5 >> "$LOG"
 
 # ── Step 2: AI Enrich ──
 # Check if it's the 1st Monday of the month → RESCORE ALL
@@ -33,6 +37,10 @@ else
   echo "[2] Enriching new products only..." >> "$LOG"
   node scripts/ai-enrich.mjs 2>&1 | tail -10 >> "$LOG"
 fi
+
+# ── Step 2b: Dedup products ──
+echo "[2b] Running deduplication filter..." >> "$LOG"
+node scripts/dedup-products.mjs --force 2>&1 | tail -10 >> "$LOG"
 
 # ── Step 3: Sync products ──
 echo "[3] Syncing products..." >> "$LOG"
