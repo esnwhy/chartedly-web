@@ -47,6 +47,7 @@ const getArg = (flag) => { const i = args.indexOf(flag); return i >= 0 ? args[i 
 const limitArg = getArg('--limit');
 const categoryArg = getArg('--category');
 const dryRun = args.includes('--dry-run');
+const rescoreAll = args.includes('--rescore');  // Re-score ALL existing products
 const maxProducts = limitArg ? parseInt(limitArg, 10) : 999;
 
 // ── CSV Parser ─────────────────────────────────────────
@@ -237,11 +238,21 @@ const existingSlugs = loadExistingSlugs();
 const progress = loadProgress();
 const processedCodes = new Set(progress.processed);
 
-let toProcess = discoveries.filter((d) => {
-  if (!d.rakutenItemCode) return false;
-  if (processedCodes.has(d.rakutenItemCode)) return false;
-  return true;
-});
+let toProcess;
+if (rescoreAll) {
+  // Re-score mode: process ALL products in discoveries (even already enriched)
+  console.log('🔄 RESCORE MODE: Re-evaluating ALL products with latest data\n');
+  // Clear progress so all get re-processed
+  progress.processed = [];
+  toProcess = discoveries.filter((d) => d.rakutenItemCode);
+} else {
+  // Normal mode: only new products
+  toProcess = discoveries.filter((d) => {
+    if (!d.rakutenItemCode) return false;
+    if (processedCodes.has(d.rakutenItemCode)) return false;
+    return true;
+  });
+}
 
 if (categoryArg) {
   toProcess = toProcess.filter((d) => d.category === categoryArg);
