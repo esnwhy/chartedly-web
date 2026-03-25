@@ -46,45 +46,75 @@ const API_HEADERS = {
 };
 
 // Chartedly's target categories with Rakuten genre IDs
+// Based on ATLAS research: 25 categories for foreigners in Japan
 const CATEGORIES = {
-  // Beauty — Skincare
+  // ═══ TIER 1: CORE (Launch) ═══
+
+  // 1. Sunscreen — #1 searched J-beauty product
   'sunscreen':       { genreId: 216492, category: 'Beauty', subcategory: 'Skincare', type: 'Sunscreen' },
+  // 2. Skincare — Evergreen demand
   'skincare':        { genreId: 100944, category: 'Beauty', subcategory: 'Skincare', type: 'Skincare' },
   'face-wash':       { genreId: 210498, category: 'Beauty', subcategory: 'Skincare', type: 'Face Wash' },
   'face-mask':       { genreId: 308434, category: 'Beauty', subcategory: 'Skincare', type: 'Face Mask' },
-  // Beauty — Haircare
-  'haircare':        { genreId: 100940, category: 'Beauty', subcategory: 'Haircare', type: 'Shampoo' },
-  'hair-treatment':  { genreId: 503236, category: 'Beauty', subcategory: 'Haircare', type: 'Treatment' },
-  'hair-styling':    { genreId: 210686, category: 'Beauty', subcategory: 'Haircare', type: 'Styling' },
-  // Beauty — Cosmetics
+  // 3. SIM / eSIM / Pocket WiFi — Every tourist needs
+  'sim-card':        { genreId: 509336, category: 'Travel & Connectivity', subcategory: 'SIM & WiFi', type: 'SIM Card' },
+  'pocket-wifi':     { genreId: 564394, category: 'Travel & Connectivity', subcategory: 'SIM & WiFi', type: 'Pocket WiFi' },
+  // 4. OTC Medicine — Language barrier = huge need
+  'medicine':        { genreId: 100945, category: 'Health', subcategory: 'OTC Medicine', type: 'Medicine' },
+  'pain-relief':     { genreId: 401541, category: 'Health', subcategory: 'OTC Medicine', type: 'Pain Relief' },
+  // 5. Kitchen Knives — High AOV, iconic Japan
+  'kitchen-knife':   { genreId: 200956, category: 'Kitchen', subcategory: 'Knives', type: 'Kitchen Knife' },
+
+  // ═══ TIER 2: GROWTH (Month 3-6) ═══
+
+  // 6. Cosmetics & Makeup
   'cosmetics':       { genreId: 100939, category: 'Beauty', subcategory: 'Cosmetics', type: 'Cosmetics' },
   'lip':             { genreId: 503224, category: 'Beauty', subcategory: 'Cosmetics', type: 'Lip' },
   'foundation':      { genreId: 503222, category: 'Beauty', subcategory: 'Cosmetics', type: 'Foundation' },
-  // Electronics — Home Appliances
-  'electronics':     { genreId: 562637, category: 'Electronics', subcategory: 'Home Appliances', type: 'Appliance' },
-  'vacuum':          { genreId: 565004, category: 'Electronics', subcategory: 'Home Appliances', type: 'Vacuum' },
-  'air-purifier':    { genreId: 565002, category: 'Electronics', subcategory: 'Home Appliances', type: 'Air Purifier' },
-  'hair-dryer':      { genreId: 504328, category: 'Electronics', subcategory: 'Home Appliances', type: 'Hair Dryer' },
-  // Electronics — Kitchen
-  'kitchen':         { genreId: 100644, category: 'Electronics', subcategory: 'Kitchen', type: 'Kitchen Appliance' },
-  'rice-cooker':     { genreId: 204558, category: 'Electronics', subcategory: 'Kitchen', type: 'Rice Cooker' },
-  'microwave':       { genreId: 204561, category: 'Electronics', subcategory: 'Kitchen', type: 'Microwave' },
-  'kettle':          { genreId: 564972, category: 'Electronics', subcategory: 'Kitchen', type: 'Kettle' },
-  // Health
+  // 7. Supplements & Vitamins
   'supplements':     { genreId: 100938, category: 'Health', subcategory: 'Supplements', type: 'Supplement' },
-  'diet':            { genreId: 558885, category: 'Health', subcategory: 'Diet', type: 'Diet' },
-  'oral-care':       { genreId: 215783, category: 'Health', subcategory: 'Oral Care', type: 'Toothbrush' },
-  // Home & Living
-  'bedding':         { genreId: 100804, category: 'Home', subcategory: 'Bedding', type: 'Bedding' },
-  'storage':         { genreId: 215103, category: 'Home', subcategory: 'Storage', type: 'Storage' },
-  'cleaning':        { genreId: 302399, category: 'Home', subcategory: 'Cleaning', type: 'Cleaning' },
-  // Baby & Kids
-  'baby':            { genreId: 100533, category: 'Baby', subcategory: 'Baby Care', type: 'Baby' },
-  'baby-food':       { genreId: 302498, category: 'Baby', subcategory: 'Baby Food', type: 'Baby Food' },
-  // Food & Drink
-  'coffee':          { genreId: 204145, category: 'Food', subcategory: 'Coffee & Tea', type: 'Coffee' },
-  'snacks':          { genreId: 201351, category: 'Food', subcategory: 'Snacks', type: 'Snacks' },
-  'water':           { genreId: 100316, category: 'Food', subcategory: 'Drinks', type: 'Water' },
+  // 8. Japanese Snacks & Sweets
+  'snacks':          { genreId: 201351, category: 'Food & Drink', subcategory: 'Snacks & Sweets', type: 'Snacks' },
+  'chocolate':       { genreId: 201336, category: 'Food & Drink', subcategory: 'Snacks & Sweets', type: 'Chocolate' },
+  // 9. Rice Cookers & Kitchen Appliances
+  'rice-cooker':     { genreId: 204558, category: 'Electronics', subcategory: 'Kitchen Appliances', type: 'Rice Cooker' },
+  'kettle':          { genreId: 564972, category: 'Electronics', subcategory: 'Kitchen Appliances', type: 'Electric Kettle' },
+  // 10. Anime & Manga Merch
+  'anime-figures':   { genreId: 204780, category: 'Anime & Manga', subcategory: 'Figures & Collectibles', type: 'Figure' },
+  'trading-cards':   { genreId: 509890, category: 'Anime & Manga', subcategory: 'Trading Cards', type: 'Cards' },
+
+  // ═══ TIER 3: EXPANSION ═══
+
+  // 11. Hair Care
+  'haircare':        { genreId: 100940, category: 'Beauty', subcategory: 'Haircare', type: 'Shampoo' },
+  'hair-treatment':  { genreId: 503236, category: 'Beauty', subcategory: 'Haircare', type: 'Treatment' },
+  // 12. Stationery
+  'stationery':      { genreId: 100606, category: 'Stationery', subcategory: 'Pens & Writing', type: 'Pen' },
+  'notebook':        { genreId: 503678, category: 'Stationery', subcategory: 'Notebooks', type: 'Notebook' },
+  // 13. Tea & Matcha
+  'green-tea':       { genreId: 201265, category: 'Food & Drink', subcategory: 'Tea & Matcha', type: 'Green Tea' },
+  'matcha':          { genreId: 510915, category: 'Food & Drink', subcategory: 'Tea & Matcha', type: 'Matcha' },
+  // 14. Whisky & Sake
+  'whisky':          { genreId: 201197, category: 'Food & Drink', subcategory: 'Whisky & Sake', type: 'Whisky' },
+  'sake':            { genreId: 201178, category: 'Food & Drink', subcategory: 'Whisky & Sake', type: 'Sake' },
+  // 15. Cooling & Seasonal
+  'cooling':         { genreId: 503958, category: 'Seasonal', subcategory: 'Summer Cooling', type: 'Cooling Product' },
+  // 16. Baby & Kids
+  'baby':            { genreId: 100533, category: 'Baby & Kids', subcategory: 'Baby Essentials', type: 'Baby' },
+  // 17. Pet Products
+  'pet-dog':         { genreId: 101205, category: 'Pet', subcategory: 'Dog', type: 'Dog Supplies' },
+  'pet-cat':         { genreId: 101213, category: 'Pet', subcategory: 'Cat', type: 'Cat Supplies' },
+  // 18. Electronics & Gadgets
+  'earphones':       { genreId: 564498, category: 'Electronics', subcategory: 'Gadgets', type: 'Earphones' },
+  'electronics':     { genreId: 562637, category: 'Electronics', subcategory: 'Home Appliances', type: 'Appliance' },
+  // 19. Cleaning & Household
+  'cleaning':        { genreId: 302399, category: 'Home & Living', subcategory: 'Cleaning', type: 'Cleaning' },
+  // 20. Seasonings & Condiments
+  'seasoning':       { genreId: 201282, category: 'Food & Drink', subcategory: 'Seasonings', type: 'Seasoning' },
+  // 21. Coffee
+  'coffee':          { genreId: 204145, category: 'Food & Drink', subcategory: 'Coffee', type: 'Coffee' },
+  // 22. DIY & Tools
+  'diy-tools':       { genreId: 112893, category: 'DIY & Tools', subcategory: 'Tools', type: 'Tool' },
 };
 
 // ── Rate Limiter ───────────────────────────────────────
