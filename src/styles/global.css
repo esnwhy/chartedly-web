@@ -396,6 +396,82 @@
   opacity: 0.6;
 }
 
+/* ══════ CATCH-ALL: Force light background on EVERYTHING ══════ */
+/* This overrides any remaining dark colors that individual selectors miss */
+
+[data-theme="light"] {
+  background-color: #F2F2F7 !important;
+  color: #1C1C1E !important;
+}
+
+[data-theme="light"] * {
+  border-color: #D1D1D6;
+}
+
+/* Any element with dark background via Tailwind arbitrary values */
+[data-theme="light"] [class*="bg-[#0"],
+[data-theme="light"] [class*="bg-[#1"],
+[data-theme="light"] [class*="bg-[#2"] {
+  background-color: #FFFFFF !important;
+}
+
+/* Specific Tailwind bg classes with opacity */
+[data-theme="light"] [class*="bg-\[#16162A\]"],
+[data-theme="light"] [class*="bg-\[#1E1E38\]"],
+[data-theme="light"] [class*="bg-\[#0A0A0F\]"],
+[data-theme="light"] [class*="bg-\[#0D0D18\]"],
+[data-theme="light"] [class*="bg-\[#12122A\]"] {
+  background-color: #FFFFFF !important;
+}
+
+/* Backdrop blur elements (nav, overlays) */
+[data-theme="light"] [class*="backdrop-blur"] {
+  background-color: rgba(242,242,247,0.88) !important;
+}
+
+/* All sections, divs, articles with dark inline backgrounds */
+[data-theme="light"] section,
+[data-theme="light"] main,
+[data-theme="light"] article {
+  color: #1C1C1E;
+}
+
+/* Fix inline style backgrounds — broader matching */
+[data-theme="light"] [style*="background"][style*="#0"],
+[data-theme="light"] [style*="background"][style*="#1"],
+[data-theme="light"] [style*="background"][style*="#2"] {
+  background-color: #F2F2F7 !important;
+}
+
+/* But preserve colored backgrounds (blue accent, green score, etc.) */
+[data-theme="light"] [style*="background: #4F7DF7"],
+[data-theme="light"] [style*="background:#4F7DF7"] { background: #4F7DF7 !important; }
+[data-theme="light"] [style*="background: #22C55E"],
+[data-theme="light"] [style*="background:#22C55E"] { background: #22C55E !important; }
+[data-theme="light"] [style*="background: #F59E0B"],
+[data-theme="light"] [style*="background:#F59E0B"] { background: #F59E0B !important; }
+[data-theme="light"] [style*="background: #EF4444"],
+[data-theme="light"] [style*="background:#EF4444"] { background: #EF4444 !important; }
+[data-theme="light"] [style*="background: #FFD700"],
+[data-theme="light"] [style*="background:#FFD700"] { background: #FFD700 !important; }
+[data-theme="light"] [style*="background: #C0C0C0"],
+[data-theme="light"] [style*="background:#C0C0C0"] { background: #C0C0C0 !important; }
+[data-theme="light"] [style*="background: #CD7F32"],
+[data-theme="light"] [style*="background:#CD7F32"] { background: #CD7F32 !important; }
+
+/* Preserve score badge colors */
+[data-theme="light"] [style*="background: #F7A94F"],
+[data-theme="light"] [style*="background:#F7A94F"] { background: #F7A94F !important; }
+[data-theme="light"] [style*="background: #9CA3AF"],
+[data-theme="light"] [style*="background:#9CA3AF"] { background: #9CA3AF !important; }
+
+/* Cards should be white with shadow for depth */
+[data-theme="light"] [style*="background"][style*="#16162A"],
+[data-theme="light"] [style*="background"][style*="#1E1E38"] {
+  background: #FFFFFF !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+}
+
 /* ── Scrollbar ── */
 [data-theme="light"] ::-webkit-scrollbar-track { background: #F2F2F7; }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: #C7C7CC; }
