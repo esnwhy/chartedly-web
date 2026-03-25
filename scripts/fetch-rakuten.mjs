@@ -47,14 +47,44 @@ const API_HEADERS = {
 
 // Chartedly's target categories with Rakuten genre IDs
 const CATEGORIES = {
-  // Beauty
-  'sunscreen':    { genreId: 216492, category: 'Beauty', subcategory: 'Skincare', type: 'Sunscreen' },
-  'skincare':     { genreId: 100944, category: 'Beauty', subcategory: 'Skincare', type: 'Skincare' },
-  'haircare':     { genreId: 100940, category: 'Beauty', subcategory: 'Haircare', type: 'Shampoo' },
-  'cosmetics':    { genreId: 100939, category: 'Beauty', subcategory: 'Cosmetics', type: 'Cosmetics' },
-  // Electronics
-  'electronics':  { genreId: 562637, category: 'Electronics', subcategory: 'Home Appliances', type: 'Appliance' },
-  'kitchen':      { genreId: 100644, category: 'Electronics', subcategory: 'Kitchen', type: 'Kitchen Appliance' },
+  // Beauty — Skincare
+  'sunscreen':       { genreId: 216492, category: 'Beauty', subcategory: 'Skincare', type: 'Sunscreen' },
+  'skincare':        { genreId: 100944, category: 'Beauty', subcategory: 'Skincare', type: 'Skincare' },
+  'face-wash':       { genreId: 210498, category: 'Beauty', subcategory: 'Skincare', type: 'Face Wash' },
+  'face-mask':       { genreId: 308434, category: 'Beauty', subcategory: 'Skincare', type: 'Face Mask' },
+  // Beauty — Haircare
+  'haircare':        { genreId: 100940, category: 'Beauty', subcategory: 'Haircare', type: 'Shampoo' },
+  'hair-treatment':  { genreId: 503236, category: 'Beauty', subcategory: 'Haircare', type: 'Treatment' },
+  'hair-styling':    { genreId: 210686, category: 'Beauty', subcategory: 'Haircare', type: 'Styling' },
+  // Beauty — Cosmetics
+  'cosmetics':       { genreId: 100939, category: 'Beauty', subcategory: 'Cosmetics', type: 'Cosmetics' },
+  'lip':             { genreId: 503224, category: 'Beauty', subcategory: 'Cosmetics', type: 'Lip' },
+  'foundation':      { genreId: 503222, category: 'Beauty', subcategory: 'Cosmetics', type: 'Foundation' },
+  // Electronics — Home Appliances
+  'electronics':     { genreId: 562637, category: 'Electronics', subcategory: 'Home Appliances', type: 'Appliance' },
+  'vacuum':          { genreId: 565004, category: 'Electronics', subcategory: 'Home Appliances', type: 'Vacuum' },
+  'air-purifier':    { genreId: 565002, category: 'Electronics', subcategory: 'Home Appliances', type: 'Air Purifier' },
+  'hair-dryer':      { genreId: 504328, category: 'Electronics', subcategory: 'Home Appliances', type: 'Hair Dryer' },
+  // Electronics — Kitchen
+  'kitchen':         { genreId: 100644, category: 'Electronics', subcategory: 'Kitchen', type: 'Kitchen Appliance' },
+  'rice-cooker':     { genreId: 204558, category: 'Electronics', subcategory: 'Kitchen', type: 'Rice Cooker' },
+  'microwave':       { genreId: 204561, category: 'Electronics', subcategory: 'Kitchen', type: 'Microwave' },
+  'kettle':          { genreId: 564972, category: 'Electronics', subcategory: 'Kitchen', type: 'Kettle' },
+  // Health
+  'supplements':     { genreId: 100938, category: 'Health', subcategory: 'Supplements', type: 'Supplement' },
+  'diet':            { genreId: 558885, category: 'Health', subcategory: 'Diet', type: 'Diet' },
+  'oral-care':       { genreId: 215783, category: 'Health', subcategory: 'Oral Care', type: 'Toothbrush' },
+  // Home & Living
+  'bedding':         { genreId: 100804, category: 'Home', subcategory: 'Bedding', type: 'Bedding' },
+  'storage':         { genreId: 215103, category: 'Home', subcategory: 'Storage', type: 'Storage' },
+  'cleaning':        { genreId: 302399, category: 'Home', subcategory: 'Cleaning', type: 'Cleaning' },
+  // Baby & Kids
+  'baby':            { genreId: 100533, category: 'Baby', subcategory: 'Baby Care', type: 'Baby' },
+  'baby-food':       { genreId: 302498, category: 'Baby', subcategory: 'Baby Food', type: 'Baby Food' },
+  // Food & Drink
+  'coffee':          { genreId: 204145, category: 'Food', subcategory: 'Coffee & Tea', type: 'Coffee' },
+  'snacks':          { genreId: 201351, category: 'Food', subcategory: 'Snacks', type: 'Snacks' },
+  'water':           { genreId: 100316, category: 'Food', subcategory: 'Drinks', type: 'Water' },
 };
 
 // ── Rate Limiter ───────────────────────────────────────
