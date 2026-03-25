@@ -230,6 +230,24 @@
   color: #1C1C1E !important;
 }
 
+/* ── Body & main wrapper: THE KEY FIX ── */
+[data-theme="light"] body,
+[data-theme="light"] .bg-bg-base,
+[data-theme="light"] .bg-bg-deep,
+[data-theme="light"] .bg-bg-charcoal,
+[data-theme="light"] [class*="bg-bg-"] {
+  background-color: #F2F2F7 !important;
+  color: #1C1C1E !important;
+}
+[data-theme="light"] .text-text-primary { color: #1C1C1E !important; }
+[data-theme="light"] .text-text-secondary { color: #636366 !important; }
+
+/* ── Section backgrounds that use inline style with #0A0A0F ── */
+[data-theme="light"] section[style*="#0A0A0F"],
+[data-theme="light"] div[style*="#0A0A0F"] {
+  background: #F2F2F7 !important;
+}
+
 /* ── Global: all borders lighter ── */
 [data-theme="light"] * { border-color: #D1D1D6; }
 
