@@ -5,7 +5,7 @@ PRODUCTS_DIR = 'src/content/products'
 
 def make_amazon_url(name, brand):
     query = f"{brand} {re.sub(r'[^a-zA-Z0-9 ]', '', name)}".strip()[:80]
-    return f"https://www.amazon.co.jp/s?k={urllib.parse.quote(query)}&tag=chartedly-22"
+    return f"https://www.amazon.co.jp/s?k={urllib.parse.quote(query)}&tag=movemate04-22"
 
 def make_rakuten_url(name, brand):
     query = f"{brand} {name}".strip()[:80]
