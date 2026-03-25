@@ -21,8 +21,8 @@ const offset = circumference * (1 - score / 100);
 {size === 'sm' ? (
   <!-- Small badge: pill shape on product card -->
   <div
-    class="h-7 px-2 rounded-full flex items-center justify-center gap-0.5 font-bold text-white border-2 border-[#16162A] tabular-nums whitespace-nowrap"
-    style={`background: ${scoreColor}; font-family: 'Inter', sans-serif;`}
+    class="h-7 px-2 rounded-full flex items-center justify-center gap-0.5 font-bold text-white border-2 tabular-nums whitespace-nowrap"
+    style={`background: ${scoreColor}; font-family: 'Inter', sans-serif; border-color: var(--color-surface-card);`}
     aria-label={`Score ${displayScore} out of 10`}
   >
     <span class="text-sm leading-none">{displayScore}</span>
@@ -40,7 +40,7 @@ const offset = circumference * (1 - score / 100);
       <circle
         cx="60" cy="60" r="52"
         fill="none"
-        stroke="#2D2D4A"
+        stroke="var(--color-border-subtle)"
         stroke-width="8"
       />
       <!-- Score ring (animated fill) -->
@@ -66,7 +66,7 @@ const offset = circumference * (1 - score / 100);
       </span>
       <span
         class="text-[10px] font-medium tracking-wide"
-        style="color: #6B7280;"
+        style="color: var(--color-text-tertiary);"
       >
         / 10
       </span>

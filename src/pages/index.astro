@@ -35,15 +35,10 @@ const featuredProducts = [...allProducts]
     badge: p.data.badge,
   }));
 
-// ── Top Picks: #1 product per category (highest score per unique category) ──
-const categoryBest = new Map<string, typeof allProducts[0]>();
-for (const p of allProducts) {
-  const cat = p.data.category;
-  if (!categoryBest.has(cat) || p.data.score > categoryBest.get(cat)!.data.score) {
-    categoryBest.set(cat, p);
-  }
-}
-const topPicks = [...categoryBest.values()].sort((a, b) => b.data.score - a.data.score);
+// ── Top Picks: top 8 products by score (regardless of category) ──
+const topPicks = [...allProducts]
+  .sort((a, b) => b.data.score - a.data.score)
+  .slice(0, 8);
 
 // ── Categories for quick-nav strip ──
 const categoryIcons: Record<string, string> = {
@@ -136,7 +131,7 @@ function toCardProps(p: typeof allProducts[0]) {
 
   <!-- ── Category Quick-Nav Strip ── -->
   {categories.length > 0 && (
-    <section class="relative py-6" style="background: #0A0A0F;">
+    <section class="relative py-6" style="background: var(--color-bg-base);">
       <div class="max-w-[1200px] mx-auto px-4 sm:px-8">
         <div class="flex overflow-x-auto gap-4 sm:gap-6 pb-2 scrollbar-hide sm:justify-center">
           {categories.slice(0, 10).map((cat) => {
@@ -148,11 +143,11 @@ function toCardProps(p: typeof allProducts[0]) {
               >
                 <span
                   class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-colors"
-                  style="background: #16162A; color: #6B7280;"
+                  style="background: var(--color-surface-card); color: var(--color-text-tertiary);"
                 >
                   <span class="[&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6 sm:[&>svg]:h-6 group-hover:text-[#4F7DF7] transition-colors" set:html={svg} />
                 </span>
-                <span class="text-xs font-medium text-center leading-tight transition-colors" style="color: #9CA3AF;">
+                <span class="text-xs font-medium text-center leading-tight transition-colors" style="color: var(--color-text-secondary);">
                   {cat.name}
                 </span>
               </a>
@@ -161,8 +156,8 @@ function toCardProps(p: typeof allProducts[0]) {
         </div>
       </div>
       <!-- Fade edges on mobile -->
-      <div class="pointer-events-none absolute inset-y-0 left-0 w-8 sm:hidden" style="background: linear-gradient(to right, #0A0A0F, transparent);" />
-      <div class="pointer-events-none absolute inset-y-0 right-0 w-8 sm:hidden" style="background: linear-gradient(to left, #0A0A0F, transparent);" />
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-8 sm:hidden" style="background: linear-gradient(to right, var(--color-bg-base), transparent);" />
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-8 sm:hidden" style="background: linear-gradient(to left, var(--color-bg-base), transparent);" />
     </section>
   )}
 
@@ -220,11 +215,11 @@ function toCardProps(p: typeof allProducts[0]) {
     )}
 
     <!-- ── Newsletter CTA ── -->
-    <section class="rounded-2xl py-16 -mx-4 sm:-mx-8 px-4 sm:px-8" style="background: #16162A;">
-      <div class="max-w-[640px] mx-auto rounded-2xl p-8 sm:p-12 text-center" style="background: #1E1E38; box-shadow: 0 4px 24px rgba(0,0,0,0.3);">
-        <h2 class="text-2xl sm:text-[28px] font-bold mb-1" style="color: #FFFFFF;">Stay in the Loop</h2>
-        <p class="text-base mb-4" style="color: #9CA3AF;">最新情報をお届け</p>
-        <p class="text-base leading-relaxed mb-6" style="color: #9CA3AF;">
+    <section class="rounded-2xl py-16 -mx-4 sm:-mx-8 px-4 sm:px-8" style="background: var(--color-surface-card);">
+      <div class="max-w-[640px] mx-auto rounded-2xl p-8 sm:p-12 text-center" style="background: var(--color-surface-elevated); box-shadow: 0 4px 24px rgba(0,0,0,0.3);">
+        <h2 class="text-2xl sm:text-[28px] font-bold mb-1" style="color: var(--color-text-primary);">Stay in the Loop</h2>
+        <p class="text-base mb-4" style="color: var(--color-text-secondary);">最新情報をお届け</p>
+        <p class="text-base leading-relaxed mb-6" style="color: var(--color-text-secondary);">
           Weekly product picks, new reviews, and Japan living tips. No spam.
         </p>
 
@@ -234,7 +229,7 @@ function toCardProps(p: typeof allProducts[0]) {
             placeholder="email@example.com"
             required
             class="flex-grow h-12 px-4 rounded-lg sm:rounded-l-lg sm:rounded-r-none text-sm focus:outline-none focus:ring-2 focus:ring-[#4F7DF7]"
-            style="background: #0A0A0F; border: 1px solid #2D2D4A; color: #FFFFFF;"
+            style="background: var(--color-bg-base); border: 1px solid var(--color-border-subtle); color: var(--color-text-primary);"
           />
           <button
             type="submit"
@@ -245,7 +240,7 @@ function toCardProps(p: typeof allProducts[0]) {
           </button>
         </form>
 
-        <p class="text-sm" style="color: #6B7280;">
+        <p class="text-sm" style="color: var(--color-text-tertiary);">
           1,200+ readers &nbsp;&bull;&nbsp; Weekly &nbsp;&bull;&nbsp; Free
         </p>
       </div>

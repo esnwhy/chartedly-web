@@ -7,18 +7,18 @@ import { Search, Home, ArrowLeft } from 'lucide-astro';
   <div class="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
 
     <!-- Large 404 -->
-    <p class="text-8xl sm:text-9xl font-extrabold mb-2" style="color: #2D2D4A;">404</p>
+    <p class="text-8xl sm:text-9xl font-extrabold mb-2" style="color: var(--color-border-subtle);">404</p>
 
     <!-- Heading -->
-    <h1 class="text-2xl sm:text-3xl font-bold mb-3" style="color: #FFFFFF;">
+    <h1 class="text-2xl sm:text-3xl font-bold mb-3" style="color: var(--color-text-primary);">
       This page wandered off.
     </h1>
 
     <!-- Subheading -->
-    <p class="text-base mb-2" style="color: #9CA3AF;">
+    <p class="text-base mb-2" style="color: var(--color-text-secondary);">
       It might have been moved, renamed, or it never existed.
     </p>
-    <p class="text-sm mb-8" style="color: #6B7280;">
+    <p class="text-sm mb-8" style="color: var(--color-text-tertiary);">
       ページが見つかりませんでした。
     </p>
 
@@ -35,7 +35,7 @@ import { Search, Home, ArrowLeft } from 'lucide-astro';
       <a
         href="/ranking"
         class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-colors"
-        style="background: #1E1E38; color: #9CA3AF; border: 1px solid #2D2D4A;"
+        style="background: var(--color-surface-elevated); color: var(--color-text-secondary); border: 1px solid var(--color-border-subtle);"
       >
         <Search size={16} />
         Browse Rankings
@@ -43,8 +43,8 @@ import { Search, Home, ArrowLeft } from 'lucide-astro';
     </div>
 
     <!-- Helpful links -->
-    <div class="rounded-xl p-6 max-w-md w-full" style="background: #16162A; border: 1px solid #2D2D4A;">
-      <p class="text-sm font-medium mb-3" style="color: #9CA3AF;">Here are some places to go instead:</p>
+    <div class="rounded-xl p-6 max-w-md w-full" style="background: var(--color-surface-card); border: 1px solid var(--color-border-subtle);">
+      <p class="text-sm font-medium mb-3" style="color: var(--color-text-secondary);">Here are some places to go instead:</p>
       <ul class="space-y-2 text-left">
         <li>
           <a href="/" class="flex items-center gap-2 text-sm hover:underline" style="color: #4F7DF7;">
@@ -68,7 +68,7 @@ import { Search, Home, ArrowLeft } from 'lucide-astro';
     </div>
 
     <!-- Contact fallback -->
-    <p class="text-xs mt-6" style="color: #6B7280;">
+    <p class="text-xs mt-6" style="color: var(--color-text-tertiary);">
       Still lost? Email us at
       <a href="mailto:hello@chartedly.com" class="hover:underline" style="color: #4F7DF7;">hello@chartedly.com</a>
       and we will point you in the right direction.

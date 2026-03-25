@@ -138,14 +138,14 @@ const heroGradient = categoryGradients[category] || categoryGradients['Living'];
 
     <!-- ── Breadcrumb ── -->
     <nav aria-label="Breadcrumb" class="mb-6">
-      <ol class="flex items-center gap-1.5 text-[13px] flex-wrap" style="color: #6B7280;">
+      <ol class="flex items-center gap-1.5 text-[13px] flex-wrap" style="color: var(--color-text-tertiary);">
         <li><a href="/" class="hover:text-[#4F7DF7] transition-colors">Home</a></li>
         {level >= 1 && (
           <>
-            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: var(--color-border-subtle);" /></li>
             <li>
               {level === 1 ? (
-                <span class="font-medium" style="color: #9CA3AF;" aria-current="page">{category}</span>
+                <span class="font-medium" style="color: var(--color-text-secondary);" aria-current="page">{category}</span>
               ) : (
                 <a href={`/category/${catSlug}`} class="hover:text-[#4F7DF7] transition-colors">{category}</a>
               )}
@@ -154,10 +154,10 @@ const heroGradient = categoryGradients[category] || categoryGradients['Living'];
         )}
         {level >= 2 && subcategory && (
           <>
-            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: var(--color-border-subtle);" /></li>
             <li>
               {level === 2 ? (
-                <span class="font-medium" style="color: #9CA3AF;" aria-current="page">{subcategory}</span>
+                <span class="font-medium" style="color: var(--color-text-secondary);" aria-current="page">{subcategory}</span>
               ) : (
                 <a href={`/category/${catSlug}/${subcatSlug}`} class="hover:text-[#4F7DF7] transition-colors">{subcategory}</a>
               )}
@@ -166,8 +166,8 @@ const heroGradient = categoryGradients[category] || categoryGradients['Living'];
         )}
         {level >= 3 && type && (
           <>
-            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
-            <li><span class="font-medium" style="color: #9CA3AF;" aria-current="page">{type}</span></li>
+            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: var(--color-border-subtle);" /></li>
+            <li><span class="font-medium" style="color: var(--color-text-secondary);" aria-current="page">{type}</span></li>
           </>
         )}
       </ol>
@@ -176,13 +176,13 @@ const heroGradient = categoryGradients[category] || categoryGradients['Living'];
     <!-- ── Category Hero Header ── -->
     <header
       class="mb-8 rounded-xl p-8 sm:p-10"
-      style={`background: ${heroGradient}; border: 1px solid #2D2D4A;`}
+      style={`background: ${heroGradient}; border: 1px solid var(--color-border-subtle);`}
     >
-      <h1 class="text-3xl sm:text-4xl font-extrabold mb-2" style="color: #FFFFFF;">{heading}</h1>
+      <h1 class="text-3xl sm:text-4xl font-extrabold mb-2" style="color: var(--color-text-primary);">{heading}</h1>
       {level === 1 && (
-        <p class="text-base max-w-[600px] leading-relaxed" style="color: #9CA3AF;">{heroDescription}</p>
+        <p class="text-base max-w-[600px] leading-relaxed" style="color: var(--color-text-secondary);">{heroDescription}</p>
       )}
-      <p class="text-sm mt-2" style="color: #6B7280;">
+      <p class="text-sm mt-2" style="color: var(--color-text-tertiary);">
         {productCount} {productCount === 1 ? 'product' : 'products'}
         {level === 1 && subcategories.length > 0 && ` \u2022 ${subcategories.length} subcategories`}
       </p>
@@ -191,17 +191,17 @@ const heroGradient = categoryGradients[category] || categoryGradients['Living'];
     <!-- ── Subcategory Cards (Level 1) ── -->
     {level === 1 && subcategories.length > 0 && (
       <section class="mb-10">
-        <h2 class="text-xl font-semibold mb-4" style="color: #FFFFFF;">Browse Subcategories</h2>
-        <p class="text-sm mb-4" style="color: #6B7280;">サブカテゴリ</p>
+        <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">Browse Subcategories</h2>
+        <p class="text-sm mb-4" style="color: var(--color-text-tertiary);">サブカテゴリ</p>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {subcategories.map((sub) => (
             <a
               href={`/category/${catSlug}/${sub.slug}`}
               class="group block rounded-xl p-6 transition-all hover:-translate-y-0.5"
-              style="background: #16162A; border: 1px solid #2D2D4A;"
+              style="background: var(--color-surface-card); border: 1px solid var(--color-border-subtle);"
             >
-              <span class="text-lg font-bold transition-colors group-hover:text-[#4F7DF7]" style="color: #FFFFFF;">{sub.name}</span>
-              <span class="block text-sm mt-1" style="color: #6B7280;">
+              <span class="text-lg font-bold transition-colors group-hover:text-[#4F7DF7]" style="color: var(--color-text-primary);">{sub.name}</span>
+              <span class="block text-sm mt-1" style="color: var(--color-text-tertiary);">
                 {sub.count} {sub.count === 1 ? 'product' : 'products'}
               </span>
             </a>
@@ -237,16 +237,16 @@ const heroGradient = categoryGradients[category] || categoryGradients['Living'];
     <!-- ── Type Cards (Level 2) ── -->
     {level === 2 && types.length > 1 && (
       <section class="mb-10">
-        <h2 class="text-xl font-semibold mb-4" style="color: #FFFFFF;">Product Types</h2>
+        <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">Product Types</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {types.map((t) => (
             <a
               href={`/category/${catSlug}/${subcatSlug}/${t.slug}`}
               class="group block rounded-xl p-6 transition-all hover:-translate-y-0.5"
-              style="background: #16162A; border: 1px solid #2D2D4A;"
+              style="background: var(--color-surface-card); border: 1px solid var(--color-border-subtle);"
             >
-              <span class="text-lg font-bold transition-colors group-hover:text-[#4F7DF7]" style="color: #FFFFFF;">{t.name}</span>
-              <span class="block text-sm mt-1" style="color: #6B7280;">
+              <span class="text-lg font-bold transition-colors group-hover:text-[#4F7DF7]" style="color: var(--color-text-primary);">{t.name}</span>
+              <span class="block text-sm mt-1" style="color: var(--color-text-tertiary);">
                 {t.count} {t.count === 1 ? 'product' : 'products'}
               </span>
             </a>
@@ -258,14 +258,14 @@ const heroGradient = categoryGradients[category] || categoryGradients['Living'];
     <!-- ── Filter / Sort Bar ── -->
     {sortedProducts.length > 0 && (
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-semibold" style="color: #FFFFFF;">
+        <h2 class="text-xl font-semibold" style="color: var(--color-text-primary);">
           {level === 1 ? `All ${category} Products` : level === 2 ? `All ${subcategory} Products` : `All ${type} Products`}
         </h2>
         <div class="flex items-center gap-2">
-          <ArrowUpDown size={14} style="color: #6B7280;" />
+          <ArrowUpDown size={14} style="color: var(--color-text-tertiary);" />
           <select
             class="appearance-none rounded-lg px-3 py-1.5 pr-7 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F7DF7]"
-            style="background: #16162A; border: 1px solid #2D2D4A; color: #9CA3AF;"
+            style="background: var(--color-surface-card); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary);"
             id="category-sort"
           >
             <option value="score">Score</option>
@@ -305,8 +305,8 @@ const heroGradient = categoryGradients[category] || categoryGradients['Living'];
       </div>
     ) : (
       <div class="text-center py-20">
-        <p class="text-lg mb-2" style="color: #6B7280;">No products found in this category yet.</p>
-        <p class="text-sm mb-4" style="color: #6B7280;">このカテゴリにはまだ製品がありません</p>
+        <p class="text-lg mb-2" style="color: var(--color-text-tertiary);">No products found in this category yet.</p>
+        <p class="text-sm mb-4" style="color: var(--color-text-tertiary);">このカテゴリにはまだ製品がありません</p>
         <a href="/" class="text-sm font-medium hover:underline" style="color: #4F7DF7;">Back to homepage</a>
       </div>
     )}

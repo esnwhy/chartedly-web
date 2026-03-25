@@ -71,11 +71,12 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
 {skeleton ? (
   <!-- Skeleton loading state -->
   <div
-    class="product-card product-card--skeleton block rounded-xl overflow-hidden border border-[#2D2D4A] bg-[#16162A]"
+    class="product-card product-card--skeleton block rounded-xl overflow-hidden border"
+    style="border-color: var(--color-border-subtle); background: var(--color-surface-card);"
     aria-busy="true"
     aria-label="Loading product"
   >
-    <div class="skeleton-shimmer aspect-[16/10] bg-[#0A0A0F]" />
+    <div class="skeleton-shimmer aspect-[16/10]" style="background: var(--color-bg-base);" />
     <div class="p-4 flex flex-col gap-3">
       <div class="skeleton-shimmer h-3 w-[45%] rounded" />
       <div class="skeleton-shimmer h-4 w-[85%] rounded" />
@@ -91,11 +92,12 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
   <!-- Real product card -->
   <a
     href={`/product/${slug}`}
-    class="product-card group block rounded-xl overflow-hidden relative border border-[#2D2D4A] bg-[#16162A] cursor-pointer"
+    class="product-card group block rounded-xl overflow-hidden relative border cursor-pointer"
+    style="border-color: var(--color-border-subtle); background: var(--color-surface-card);"
     aria-label={ariaLabel}
   >
     <!-- Image area — fixed square aspect ratio for uniform card heights -->
-    <div class="relative aspect-square overflow-hidden bg-[#1E1E38]">
+    <div class="relative aspect-square overflow-hidden" style="background: var(--color-surface-elevated);">
       {image ? (
         <img
           src={image}
@@ -105,13 +107,13 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
           decoding="async"
         />
       ) : (
-        <div class="absolute inset-0 bg-gradient-to-br from-[#2a2a3e] to-[#16162A] flex items-center justify-center p-6">
-          <span class="text-xl font-bold text-[#6B7280] text-center leading-tight">{brand}</span>
+        <div class="absolute inset-0 flex items-center justify-center p-6" style="background: linear-gradient(to bottom right, var(--color-surface-elevated), var(--color-surface-card));">
+          <span class="text-xl font-bold text-center leading-tight" style="color: var(--color-text-tertiary);">{brand}</span>
         </div>
       )}
 
       <!-- Dark gradient overlay to blend product images into dark card -->
-      <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(to bottom, transparent 40%, rgba(22, 22, 42, 0.6) 80%, #16162A 100%);" />
+      <div class="absolute inset-0 pointer-events-none card-image-gradient" />
 
       <!-- Rank badge — top-left overlay -->
       {rankStyle && rank && rank <= 10 && (
@@ -147,12 +149,12 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
     <!-- Card body — fixed height, content pushed to edges -->
     <div class="p-4 flex flex-col h-[115px]">
       <!-- Category overline -->
-      <span class="text-xs font-semibold tracking-[0.08em] uppercase text-[#6B7280]">
+      <span class="text-xs font-semibold tracking-[0.08em] uppercase" style="color: var(--color-text-tertiary);">
         {category} &middot; {subcategory}
       </span>
 
       <!-- Product title — 2-line clamp -->
-      <h3 class="text-base font-semibold leading-[1.2] text-white line-clamp-2 mt-1.5">
+      <h3 class="text-base font-semibold leading-[1.2] line-clamp-2 mt-1.5" style="color: var(--color-text-primary);">
         {name}
       </h3>
 
@@ -160,7 +162,7 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
       <div class="flex-grow" />
 
       <!-- Price -->
-      <span class="text-base font-semibold text-white tabular-nums" style="font-family: 'Inter', sans-serif;">
+      <span class="text-base font-semibold tabular-nums" style="font-family: 'Inter', sans-serif; color: var(--color-text-primary);">
         {price}
       </span>
     </div>
@@ -168,9 +170,14 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
 )}
 
 <style>
+  /* Card image gradient overlay */
+  .card-image-gradient {
+    background: linear-gradient(to bottom, transparent 40%, rgba(22, 22, 42, 0.6) 80%, var(--color-surface-card) 100%);
+  }
+
   /* Base card transitions */
   .product-card:not(.product-card--skeleton) {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-card);
     transition: transform 300ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out;
   }
 
@@ -184,8 +191,8 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
   /* Active / pressed */
   .product-card:not(.product-card--skeleton):active {
     transform: translateY(-2px);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-    background: #1a1a30;
+    box-shadow: var(--shadow-card);
+    background: var(--color-surface-pressed);
   }
 
   /* Focus visible */
@@ -200,7 +207,7 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
     .product-card:not(.product-card--skeleton):hover {
       transform: none !important;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
-      border-color: #2D2D4A !important;
+      border-color: var(--color-border-subtle) !important;
     }
   }
 
@@ -228,9 +235,9 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
   .skeleton-shimmer {
     background: linear-gradient(
       90deg,
-      #16162A 0%,
-      #1E1E38 50%,
-      #16162A 100%
+      var(--color-surface-card) 0%,
+      var(--color-surface-elevated) 50%,
+      var(--color-surface-card) 100%
     );
     background-size: 200% 100%;
     animation: shimmer 1.5s ease-in-out infinite;
@@ -244,7 +251,7 @@ const ariaLabel = `${name}, Score ${score}, ${price}`;
   @media (prefers-reduced-motion: reduce) {
     .skeleton-shimmer {
       animation: none;
-      background: #1E1E38;
+      background: var(--color-surface-elevated);
     }
   }
 </style>

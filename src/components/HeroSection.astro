@@ -125,13 +125,15 @@ const scoreColor = (s: number) =>
   {maxSlides.length > 1 && (
     <>
       <button
-        class="hero-arrow hero-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#16162A]/85 backdrop-blur-sm border border-[#2D2D4A] flex items-center justify-center text-white/80 hover:bg-[#1E1E38]/95 hover:text-white hover:border-[#3D3D5A] transition-all duration-200 cursor-pointer"
+        class="hero-arrow hero-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-200 cursor-pointer"
+        style="background: var(--color-surface-overlay); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary);"
         aria-label="Previous slide"
       >
         <ChevronLeft size={22} />
       </button>
       <button
-        class="hero-arrow hero-next absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#16162A]/85 backdrop-blur-sm border border-[#2D2D4A] flex items-center justify-center text-white/80 hover:bg-[#1E1E38]/95 hover:text-white hover:border-[#3D3D5A] transition-all duration-200 cursor-pointer"
+        class="hero-arrow hero-next absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-200 cursor-pointer"
+        style="background: var(--color-surface-overlay); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary);"
         aria-label="Next slide"
       >
         <ChevronRight size={22} />
@@ -191,7 +193,7 @@ const scoreColor = (s: number) =>
     background:
       linear-gradient(
         to top,
-        #0A0A0F 0%,
+        var(--color-bg-base) 0%,
         rgba(10, 10, 15, 0.85) 15%,
         rgba(10, 10, 15, 0.4) 50%,
         rgba(10, 10, 15, 0.2) 100%
@@ -245,7 +247,7 @@ const scoreColor = (s: number) =>
     font-size: 1.125rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #9CA3AF;
+    color: var(--color-text-secondary);
     max-width: 480px;
   }
   @media (max-width: 639px) {

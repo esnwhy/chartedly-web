@@ -44,11 +44,11 @@ const carouselId = `carousel-${title.replace(/\s+/g, '-').toLowerCase()}-${Math.
   <!-- Section header -->
   <div class="flex items-baseline justify-between mb-4 px-6 max-w-[1440px] mx-auto">
     <div>
-      <h2 class="text-2xl font-semibold text-white tracking-tight" style="font-family: 'Inter', sans-serif; letter-spacing: -0.01em;">
+      <h2 class="text-2xl font-semibold tracking-tight" style="font-family: 'Inter', sans-serif; letter-spacing: -0.01em; color: var(--color-text-primary);">
         {title}
       </h2>
       {titleJa && (
-        <p class="text-sm mt-0.5" style="color: #6B7280;">{titleJa}</p>
+        <p class="text-sm mt-0.5" style="color: var(--color-text-tertiary);">{titleJa}</p>
       )}
     </div>
     {seeAllUrl && (
@@ -85,7 +85,8 @@ const carouselId = `carousel-${title.replace(/\s+/g, '-').toLowerCase()}-${Math.
     <!-- Left arrow -->
     {products.length > 3 && (
       <button
-        class="carousel__arrow carousel__arrow--left absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#16162A]/85 backdrop-blur-sm border border-[#2D2D4A] flex items-center justify-center text-white/80 hover:bg-[#1E1E38]/95 hover:text-white hover:border-[#3D3D5A] transition-all duration-200 cursor-pointer"
+        class="carousel__arrow carousel__arrow--left absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-200 cursor-pointer"
+        style="background: var(--color-surface-overlay); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary);"
         aria-label={`Scroll ${title} left`}
         data-arrow="left"
       >
@@ -96,7 +97,8 @@ const carouselId = `carousel-${title.replace(/\s+/g, '-').toLowerCase()}-${Math.
     <!-- Right arrow -->
     {products.length > 3 && (
       <button
-        class="carousel__arrow carousel__arrow--right absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#16162A]/85 backdrop-blur-sm border border-[#2D2D4A] flex items-center justify-center text-white/80 hover:bg-[#1E1E38]/95 hover:text-white hover:border-[#3D3D5A] transition-all duration-200 cursor-pointer"
+        class="carousel__arrow carousel__arrow--right absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-200 cursor-pointer"
+        style="background: var(--color-surface-overlay); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary);"
         aria-label={`Scroll ${title} right`}
         data-arrow="right"
       >
@@ -109,10 +111,10 @@ const carouselId = `carousel-${title.replace(/\s+/g, '-').toLowerCase()}-${Math.
 <style>
   /* Track */
   .carousel__track {
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    overscroll-behavior-x: contain;
+    overscroll-behavior-x: auto;
   }
   .carousel__track::-webkit-scrollbar {
     display: none;
@@ -127,10 +129,10 @@ const carouselId = `carousel-${title.replace(/\s+/g, '-').toLowerCase()}-${Math.
 
   /* Edge fade gradients */
   .carousel__fade-left {
-    background: linear-gradient(to right, #0A0A0F 0%, transparent 100%);
+    background: linear-gradient(to right, var(--color-bg-base) 0%, transparent 100%);
   }
   .carousel__fade-right {
-    background: linear-gradient(to left, #0A0A0F 0%, transparent 100%);
+    background: linear-gradient(to left, var(--color-bg-base) 0%, transparent 100%);
   }
 
   /* Show fades based on scroll position */

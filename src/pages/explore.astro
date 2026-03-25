@@ -91,12 +91,12 @@ const categoryColors: Record<string, string> = {
     <header class="mb-10">
       <div class="flex items-center gap-3 mb-2">
         <Compass size={28} style="color: #4F7DF7;" />
-        <h1 class="text-3xl font-extrabold" style="color: #FFFFFF;">Explore</h1>
+        <h1 class="text-3xl font-extrabold" style="color: var(--color-text-primary);">Explore</h1>
       </div>
-      <p class="text-base" style="color: #9CA3AF;">
+      <p class="text-base" style="color: var(--color-text-secondary);">
         Browse products by category. Find exactly what you need in Japan.
       </p>
-      <p class="text-sm mt-1" style="color: #6B7280;">
+      <p class="text-sm mt-1" style="color: var(--color-text-tertiary);">
         カテゴリーから探す
       </p>
     </header>
@@ -112,7 +112,7 @@ const categoryColors: Record<string, string> = {
           <a
             href={`/category/${cat.slug}`}
             class="group block rounded-2xl overflow-hidden border transition-all duration-300 hover:border-[#4F7DF7]/30 hover:shadow-lg hover:shadow-[#4F7DF7]/5 hover:-translate-y-1"
-            style="background: #16162A; border-color: #2D2D4A;"
+            style="background: var(--color-surface-card); border-color: var(--color-border-subtle);"
           >
             <!-- Category hero area -->
             <div class={`relative h-48 bg-gradient-to-br ${gradient} overflow-hidden`}>
@@ -138,14 +138,14 @@ const categoryColors: Record<string, string> = {
                 {cat.subcategories.sort((a, b) => b.count - a.count).slice(0, 6).map((sub) => (
                   <span
                     class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm transition-colors"
-                    style="background: #1E1E38; color: #9CA3AF;"
+                    style="background: var(--color-surface-elevated); color: var(--color-text-secondary);"
                   >
                     {sub.name}
-                    <span class="text-xs" style="color: #6B7280;">({sub.count})</span>
+                    <span class="text-xs" style="color: var(--color-text-tertiary);">({sub.count})</span>
                   </span>
                 ))}
                 {cat.subcategories.length > 6 && (
-                  <span class="inline-flex items-center px-3 py-1.5 text-sm" style="color: #6B7280;">
+                  <span class="inline-flex items-center px-3 py-1.5 text-sm" style="color: var(--color-text-tertiary);">
                     +{cat.subcategories.length - 6} more
                   </span>
                 )}
@@ -165,7 +165,7 @@ const categoryColors: Record<string, string> = {
       <a
         href="/ranking"
         class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-colors hover:bg-[#4F7DF7]"
-        style="background: #1E1E38; color: #9CA3AF; border: 1px solid #2D2D4A;"
+        style="background: var(--color-surface-elevated); color: var(--color-text-secondary); border: 1px solid var(--color-border-subtle);"
       >
         View All Products ({allProducts.length})
         <ChevronRight size={16} />

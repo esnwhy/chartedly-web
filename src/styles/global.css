@@ -223,142 +223,68 @@
 
 :root { color-scheme: dark; }
 
-/* ── Light Theme ── */
+/* ── Light Theme: Override CSS custom properties ── */
 [data-theme="light"] {
   color-scheme: light;
-  background-color: #F2F2F7 !important;
-  color: #1C1C1E !important;
+
+  /* Background */
+  --color-bg-base: #F2F2F7;
+  --color-bg-deep: #EEEEF2;
+  --color-bg-charcoal: #E5E5EA;
+
+  /* Surface */
+  --color-surface-card: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-hover: #F0F0F5;
+  --color-surface-pressed: #E8E8ED;
+  --color-surface-input: #F0F0F5;
+  --color-surface-overlay: rgba(255, 255, 255, 0.95);
+
+  /* Text */
+  --color-text-primary: #1C1C1E;
+  --color-text-secondary: #636366;
+  --color-text-tertiary: #8E8E93;
+  --color-text-disabled: #AEAEB2;
+  --color-text-inverse: #FFFFFF;
+
+  /* Border */
+  --color-border-subtle: #D1D1D6;
+  --color-border-default: #C7C7CC;
+  --color-border-strong: #8E8E93;
+
+  /* Shadows */
+  --shadow-card: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow-card-hover: 0 8px 24px rgba(0,0,0,0.08);
+
+  /* Backward-compat aliases */
+  --color-surface-base: #F2F2F7;
+  --color-surface-article: #FFFFFF;
+  --color-surface-raised: #FFFFFF;
+  --color-surface-inset: #F0F0F5;
+  --color-surface-scrim: rgba(242, 242, 247, 0.8);
 }
 
-/* ── Body & main wrapper: THE KEY FIX ── */
-[data-theme="light"] body,
-[data-theme="light"] .bg-bg-base,
-[data-theme="light"] .bg-bg-deep,
-[data-theme="light"] .bg-bg-charcoal,
-[data-theme="light"] [class*="bg-bg-"] {
-  background-color: #F2F2F7 !important;
-  color: #1C1C1E !important;
-}
-[data-theme="light"] .text-text-primary { color: #1C1C1E !important; }
-[data-theme="light"] .text-text-secondary { color: #636366 !important; }
-
-/* ── Section backgrounds that use inline style with #0A0A0F ── */
-[data-theme="light"] section[style*="#0A0A0F"],
-[data-theme="light"] div[style*="#0A0A0F"] {
-  background: #F2F2F7 !important;
-}
-
-/* ── Global: all borders lighter ── */
-[data-theme="light"] * { border-color: #D1D1D6; }
-
-/* ── BACKGROUNDS: exact hex matches (safe — won't break images) ── */
-[data-theme="light"] [style*="background: #0A0A0F"] { background: #F2F2F7 !important; }
-[data-theme="light"] [style*="background:#0A0A0F"] { background: #F2F2F7 !important; }
-[data-theme="light"] [style*="background: #0D0D18"] { background: #EEEEF2 !important; }
-[data-theme="light"] [style*="background:#0D0D18"] { background: #EEEEF2 !important; }
-[data-theme="light"] [style*="background: #12122A"] { background: #F0F0F5 !important; }
-[data-theme="light"] [style*="background:#12122A"] { background: #F0F0F5 !important; }
-[data-theme="light"] [style*="background: #141428"] { background: #F0F0F5 !important; }
-[data-theme="light"] [style*="background:#141428"] { background: #F0F0F5 !important; }
-[data-theme="light"] [style*="background: #16162A"] { background: #FFFFFF !important; }
-[data-theme="light"] [style*="background:#16162A"] { background: #FFFFFF !important; }
-[data-theme="light"] [style*="background: #1E1E38"] { background: #FFFFFF !important; }
-[data-theme="light"] [style*="background:#1E1E38"] { background: #FFFFFF !important; }
-[data-theme="light"] [style*="background: #1C1C36"] { background: #F5F5FA !important; }
-[data-theme="light"] [style*="background:#1C1C36"] { background: #F5F5FA !important; }
-[data-theme="light"] [style*="background: #1a1a30"] { background: #F5F5FA !important; }
-[data-theme="light"] [style*="background:#1a1a30"] { background: #F5F5FA !important; }
-[data-theme="light"] [style*="background: #2D2D4A"] { background: #D1D1D6 !important; }
-[data-theme="light"] [style*="background:#2D2D4A"] { background: #D1D1D6 !important; }
-[data-theme="light"] [style*="background: #374151"] { background: #D1D1D6 !important; }
-[data-theme="light"] [style*="background:#374151"] { background: #D1D1D6 !important; }
-
-/* ── BACKGROUNDS: rgba dark values ── */
-[data-theme="light"] [style*="rgba(22, 22, 42"] { background-color: rgba(255,255,255,0.95) !important; }
-[data-theme="light"] [style*="rgba(10, 10, 15"] { background-color: rgba(242,242,247,0.95) !important; }
-[data-theme="light"] [style*="rgba(28,28,30"] { background-color: rgba(255,255,255,0.9) !important; }
-
-/* ── TEXT ── */
-[data-theme="light"] [style*="color: #FFFFFF"] { color: #1C1C1E !important; }
-[data-theme="light"] [style*="color:#FFFFFF"] { color: #1C1C1E !important; }
-[data-theme="light"] [style*="color: #F0F0F5"] { color: #1C1C1E !important; }
-[data-theme="light"] [style*="color: #9CA3AF"] { color: #636366 !important; }
-[data-theme="light"] [style*="color:#9CA3AF"] { color: #636366 !important; }
-[data-theme="light"] [style*="color: #6B7280"] { color: #8E8E93 !important; }
-[data-theme="light"] [style*="color:#6B7280"] { color: #8E8E93 !important; }
-
-/* ── BORDERS ── */
-[data-theme="light"] [style*="border: 1px solid #2D2D4A"] { border-color: #D1D1D6 !important; }
-[data-theme="light"] [style*="border:1px solid #2D2D4A"] { border-color: #D1D1D6 !important; }
-
-/* ── TAILWIND CLASS OVERRIDES ── */
-[data-theme="light"] .bg-\[\#0A0A0F\] { background-color: #F2F2F7 !important; }
-[data-theme="light"] .bg-\[\#0D0D18\] { background-color: #EEEEF2 !important; }
-[data-theme="light"] .bg-\[\#16162A\] { background-color: #FFFFFF !important; }
-[data-theme="light"] .bg-\[\#1E1E38\] { background-color: #FFFFFF !important; }
-[data-theme="light"] .bg-\[\#12122A\] { background-color: #F0F0F5 !important; }
-[data-theme="light"] .bg-\[\#16162A\]\/85 { background-color: rgba(255,255,255,0.9) !important; }
+/* ── Light: Tailwind class overrides (for classes that still use hardcoded dark colors) ── */
 [data-theme="light"] .text-white { color: #1C1C1E !important; }
 [data-theme="light"] .text-white\/80 { color: rgba(28,28,30,0.8) !important; }
 [data-theme="light"] .text-white\/50 { color: rgba(28,28,30,0.5) !important; }
-[data-theme="light"] .text-\[\#9CA3AF\] { color: #636366 !important; }
-[data-theme="light"] .text-\[\#6B7280\] { color: #8E8E93 !important; }
-[data-theme="light"] .border-\[\#2D2D4A\] { border-color: #D1D1D6 !important; }
-[data-theme="light"] .bg-gradient-to-br.from-\[\#2a2a3e\] { background: #F0F0F5 !important; }
+[data-theme="light"] .text-white\/30 { color: rgba(28,28,30,0.3) !important; }
+[data-theme="light"] .bg-\[\#0A0A0F\] { background-color: var(--color-bg-base) !important; }
+[data-theme="light"] .bg-\[\#16162A\] { background-color: var(--color-surface-card) !important; }
+[data-theme="light"] .bg-\[\#1E1E38\] { background-color: var(--color-surface-elevated) !important; }
+[data-theme="light"] .border-\[\#2D2D4A\] { border-color: var(--color-border-subtle) !important; }
 
-/* ── PRODUCT CARDS ── */
-[data-theme="light"] .product-card {
-  background: #FFFFFF !important;
-  border-color: #E5E5EA !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
-}
-[data-theme="light"] .product-card:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(79,125,247,0.08) !important;
-  border-color: rgba(79,125,247,0.3) !important;
-}
-[data-theme="light"] .product-card [class*="aspect-"] {
-  background: #F2F2F7 !important;
-}
-/* Gradient overlay on cards: blend to white */
-[data-theme="light"] .product-card [style*="linear-gradient"] {
+/* ── Light: Product card gradient overlay ── */
+[data-theme="light"] .card-image-gradient {
   background: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.4) 80%, #FFFFFF 100%) !important;
 }
 
-/* ── NAV ── */
-[data-theme="light"] nav {
-  background: rgba(242,242,247,0.88) !important;
-  border-bottom: 1px solid #D1D1D6 !important;
-}
-
-/* ── HERO: keep dark for cinematic effect but lighten gradient ── */
-[data-theme="light"] [class*="hero"] [style*="linear-gradient(to right"] {
-  background: linear-gradient(to right, rgba(242,242,247,0.95) 0%, rgba(242,242,247,0.6) 40%, transparent 70%) !important;
-}
-
-/* ── CAROUSEL ── */
-[data-theme="light"] .carousel__fade-left { background: linear-gradient(to right, #F2F2F7, transparent) !important; }
-[data-theme="light"] .carousel__fade-right { background: linear-gradient(to left, #F2F2F7, transparent) !important; }
-[data-theme="light"] .carousel__arrow {
-  background: rgba(255,255,255,0.9) !important;
-  border-color: #D1D1D6 !important;
-  color: #636366 !important;
-}
-
-/* ── CATEGORY ICONS ── */
-[data-theme="light"] .category-item span:first-child { background: #E5E5EA !important; }
-
-/* ── FILTER BUTTONS ── */
-[data-theme="light"] .category-filter { background: #FFFFFF !important; border-color: #D1D1D6 !important; color: #636366 !important; }
-[data-theme="light"] .category-filter[style*="background: #4F7DF7"] { background: #4F7DF7 !important; color: #FFFFFF !important; }
-
-/* ── FOOTER ── */
-[data-theme="light"] footer { background: #EEEEF2 !important; }
-
-/* ── SCROLLBAR ── */
+/* ── Light: Scrollbar ── */
 [data-theme="light"] ::-webkit-scrollbar-track { background: #F2F2F7; }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: #C7C7CC; }
+[data-theme="light"] * { scrollbar-color: #C7C7CC #F2F2F7; }
 
-/* ── EXPLORE CARDS ── */
+/* ── Light: Explore cards gradient overrides ── */
 [data-theme="light"] [class*="from-pink-900"] { background: linear-gradient(135deg, #FFF0F5, #F5E6FF) !important; }
 [data-theme="light"] [class*="from-blue-900"] { background: linear-gradient(135deg, #EBF5FF, #E0F0FF) !important; }
 [data-theme="light"] [class*="from-orange-900"] { background: linear-gradient(135deg, #FFF8EB, #FFF0DB) !important; }

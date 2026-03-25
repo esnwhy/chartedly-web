@@ -6,8 +6,9 @@ export const translations = {
 
     // Nav
     'nav.home': 'Home',
+    'nav.explore': 'Explore',
     'nav.whatsNew': "What's New",
-    'nav.ranking': 'Ranking',
+    'nav.ranking': 'Rankings',
     'nav.search': 'Search...',
 
     // Homepage sections
@@ -101,6 +102,7 @@ export const translations = {
 
     // Nav
     'nav.home': 'ホーム',
+    'nav.explore': '探す',
     'nav.whatsNew': '新着',
     'nav.ranking': 'ランキング',
     'nav.search': '検索...',

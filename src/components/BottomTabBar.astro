@@ -17,7 +17,8 @@ function isActive(href: string): boolean {
 ---
 
 <nav
-  class="tab-bar fixed bottom-0 inset-x-0 z-50 border-t border-[#2D2D4A] sm:hidden"
+  class="tab-bar fixed bottom-0 inset-x-0 z-50 border-t sm:hidden"
+  style="border-color: var(--color-border-subtle);"
   role="navigation"
   aria-label="Quick navigation"
   style="padding-bottom: env(safe-area-inset-bottom, 0px);"
@@ -31,7 +32,7 @@ function isActive(href: string): boolean {
             href={href}
             class:list={[
               'flex flex-col items-center justify-center gap-0.5 h-full transition-colors duration-150',
-              active ? 'text-[#4F7DF7]' : 'text-[#6B7280]',
+              active ? 'text-[#4F7DF7]' : 'tab-bar__inactive',
             ]}
             aria-current={active ? 'page' : undefined}
             style="-webkit-tap-highlight-color: transparent;"
@@ -47,9 +48,12 @@ function isActive(href: string): boolean {
 
 <style>
   .tab-bar {
-    background: rgba(10, 10, 15, 0.95);
+    background: var(--color-surface-overlay);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+  .tab-bar__inactive {
+    color: var(--color-text-tertiary);
   }
 
   /* Add bottom padding to body to prevent content overlap */

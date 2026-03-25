@@ -70,12 +70,12 @@ for (const [dateKey, products] of groupedByDate.entries()) {
     <header class="mb-10">
       <div class="flex items-center gap-3 mb-2">
         <Sparkles size={28} style="color: #4F7DF7;" />
-        <h1 class="text-3xl font-extrabold" style="color: #FFFFFF;">What's New</h1>
+        <h1 class="text-3xl font-extrabold" style="color: var(--color-text-primary);">What's New</h1>
       </div>
-      <p class="text-base" style="color: #9CA3AF;">
+      <p class="text-base" style="color: var(--color-text-secondary);">
         The latest product reviews and updates from our team.
       </p>
-      <p class="text-sm mt-1" style="color: #6B7280;">
+      <p class="text-sm mt-1" style="color: var(--color-text-tertiary);">
         新着レビュー &bull; 最新のレビューとアップデート
       </p>
     </header>
@@ -83,7 +83,7 @@ for (const [dateKey, products] of groupedByDate.entries()) {
     {recentProducts.length === 0 ? (
       <div class="text-center py-20">
         <Clock size={48} class="mx-auto mb-4" style="color: #2D2D4A;" />
-        <p class="text-lg mb-2" style="color: #6B7280;">No products added yet.</p>
+        <p class="text-lg mb-2" style="color: var(--color-text-tertiary);">No products added yet.</p>
         <a href="/" class="text-sm font-medium hover:underline" style="color: #4F7DF7;">Back to homepage</a>
       </div>
     ) : (
@@ -95,7 +95,7 @@ for (const [dateKey, products] of groupedByDate.entries()) {
               <h2 class="text-sm font-semibold uppercase tracking-widest flex-shrink-0" style="color: #6B7280; letter-spacing: 2px;">
                 {period}
               </h2>
-              <div class="flex-grow h-px" style="background: #2D2D4A;" />
+              <div class="flex-grow h-px" style="background: var(--color-border-subtle);" />
             </div>
 
             <div class="space-y-8">
@@ -104,25 +104,25 @@ for (const [dateKey, products] of groupedByDate.entries()) {
                 return (
                   <section class="relative">
                     {/* Timeline connector */}
-                    <div class="absolute left-4 top-10 bottom-0 w-px hidden sm:block" style="background: #2D2D4A;" />
+                    <div class="absolute left-4 top-10 bottom-0 w-px hidden sm:block" style="background: var(--color-border-subtle);" />
 
                     {/* Date header */}
                     <div class="flex items-center gap-3 mb-5">
                       <div
                         class="relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                        style={recent ? 'background: #4F7DF7;' : 'background: #1E1E38; border: 1px solid #2D2D4A;'}
+                        style={recent ? 'background: #4F7DF7;' : 'background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle);'}
                       >
                         <Clock size={14} style={recent ? 'color: #FFFFFF;' : 'color: #6B7280;'} />
                       </div>
                       <div>
-                        <h3 class="text-lg font-semibold" style="color: #FFFFFF;">{formatDate(dateKey)}</h3>
+                        <h3 class="text-lg font-semibold" style="color: var(--color-text-primary);">{formatDate(dateKey)}</h3>
                         {recent && (
                           <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase px-2 py-0.5 rounded-full mt-0.5" style="background: rgba(239,68,68,0.15); color: #EF4444;">
                             NEW
                           </span>
                         )}
                       </div>
-                      <span class="text-sm ml-auto" style="color: #6B7280;">
+                      <span class="text-sm ml-auto" style="color: var(--color-text-tertiary);">
                         {products.length} {products.length === 1 ? 'product' : 'products'}
                       </span>
                     </div>

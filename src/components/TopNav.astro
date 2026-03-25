@@ -4,10 +4,10 @@ import { Search, Globe, Menu, X } from 'lucide-astro';
 const pathname = Astro.url.pathname;
 
 const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Explore', href: '/explore' },
-  { label: 'Rankings', href: '/ranking' },
-  { label: "What's New", href: '/new' },
+  { label: 'Home', href: '/', i18nKey: 'nav.home' },
+  { label: 'Explore', href: '/explore', i18nKey: 'nav.explore' },
+  { label: 'Rankings', href: '/ranking', i18nKey: 'nav.ranking' },
+  { label: "What's New", href: '/new', i18nKey: 'nav.whatsNew' },
 ];
 
 function isActive(href: string): boolean {
@@ -25,7 +25,8 @@ function isActive(href: string): boolean {
 </a>
 
 <nav
-  class="nav fixed top-0 inset-x-0 z-50 h-16 border-b border-[#2D2D4A]"
+  class="nav fixed top-0 inset-x-0 z-50 h-16 border-b"
+  style="border-color: var(--color-border-subtle);"
   role="navigation"
   aria-label="Main navigation"
 >
@@ -33,7 +34,7 @@ function isActive(href: string): boolean {
 
     <!-- Left: Logo -->
     <a href="/" class="shrink-0 flex items-center gap-1.5 group">
-      <span class="text-xl font-semibold text-white tracking-tight" style="font-family: 'Inter', sans-serif;">
+      <span class="text-xl font-semibold tracking-tight" style="font-family: 'Inter', sans-serif; color: var(--color-text-primary);">
         Chartedly
       </span>
       <span class="text-[#4F7DF7] text-sm" aria-hidden="true">&#10022;</span>
@@ -41,7 +42,7 @@ function isActive(href: string): boolean {
 
     <!-- Center: Nav links (desktop) -->
     <ul class="nav__links hidden md:flex items-center gap-8 list-none m-0 p-0 absolute left-1/2 -translate-x-1/2">
-      {navItems.map(({ label, href }) => {
+      {navItems.map(({ label, href, i18nKey }) => {
         const active = isActive(href);
         return (
           <li>
@@ -52,6 +53,7 @@ function isActive(href: string): boolean {
                 active ? 'nav__link--active text-white' : 'text-[#9CA3AF] hover:text-white',
               ]}
               aria-current={active ? 'page' : undefined}
+              data-i18n={i18nKey}
             >
               {label}
             </a>
@@ -65,7 +67,8 @@ function isActive(href: string): boolean {
       <!-- Search button -->
       <button
         id="nav-search-trigger"
-        class="nav__search-btn w-9 h-9 rounded-full bg-transparent border border-[#2D2D4A] text-[#9CA3AF] flex items-center justify-center hover:bg-[#16162A] hover:text-white hover:border-[#3D3D5A] transition-all duration-150 cursor-pointer"
+        class="nav__search-btn nav__icon-btn w-9 h-9 rounded-full bg-transparent flex items-center justify-center transition-all duration-150 cursor-pointer"
+        style="border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary);"
         aria-label="Search (Ctrl+K)"
       >
         <Search size={18} />
@@ -74,7 +77,8 @@ function isActive(href: string): boolean {
       <!-- Theme toggle (dark/light) -->
       <button
         id="theme-toggle"
-        class="w-9 h-9 rounded-full bg-transparent border border-[#2D2D4A] text-[#9CA3AF] flex items-center justify-center hover:bg-[#16162A] hover:text-white hover:border-[#3D3D5A] transition-all duration-150 cursor-pointer"
+        class="nav__icon-btn w-9 h-9 rounded-full bg-transparent flex items-center justify-center transition-all duration-150 cursor-pointer"
+        style="border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary);"
         aria-label="Toggle dark/light mode"
       >
         <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
@@ -83,7 +87,8 @@ function isActive(href: string): boolean {
 
       <!-- Language toggle -->
       <div
-        class="nav__lang-toggle hidden sm:flex items-center bg-[#16162A] rounded-full border border-[#2D2D4A] p-0.5 h-8"
+        class="nav__lang-toggle hidden sm:flex items-center rounded-full p-0.5 h-8"
+        style="background: var(--color-surface-card); border: 1px solid var(--color-border-subtle);"
         role="radiogroup"
         aria-label="Language"
       >
@@ -107,7 +112,8 @@ function isActive(href: string): boolean {
 
       <!-- Mobile: Globe shortcut for language (visible on small screens only) -->
       <button
-        class="sm:hidden w-9 h-9 rounded-full bg-transparent text-[#9CA3AF] flex items-center justify-center hover:text-white transition-colors duration-150 cursor-pointer"
+        class="sm:hidden w-9 h-9 rounded-full bg-transparent flex items-center justify-center transition-colors duration-150 cursor-pointer"
+        style="color: var(--color-text-secondary);"
         aria-label="Switch language"
         id="mobile-lang-btn"
       >
@@ -117,7 +123,8 @@ function isActive(href: string): boolean {
       <!-- Mobile hamburger -->
       <button
         id="mobile-menu-btn"
-        class="md:hidden w-9 h-9 rounded-full bg-transparent text-[#9CA3AF] flex items-center justify-center hover:text-white transition-colors duration-150 cursor-pointer"
+        class="md:hidden w-9 h-9 rounded-full bg-transparent flex items-center justify-center transition-colors duration-150 cursor-pointer"
+        style="color: var(--color-text-secondary);"
         aria-label="Open menu"
         aria-expanded="false"
       >
@@ -130,10 +137,11 @@ function isActive(href: string): boolean {
   <!-- Mobile menu panel -->
   <div
     id="mobile-menu-panel"
-    class="md:hidden hidden border-t border-[#2D2D4A] bg-[#0A0A0F]/95 backdrop-blur-xl"
+    class="md:hidden hidden border-t backdrop-blur-xl"
+    style="border-color: var(--color-border-subtle); background: var(--color-surface-overlay);"
   >
     <div class="px-4 py-3 flex flex-col gap-1">
-      {navItems.map(({ label, href }) => {
+      {navItems.map(({ label, href, i18nKey }) => {
         const active = isActive(href);
         return (
           <a
@@ -145,6 +153,7 @@ function isActive(href: string): boolean {
                 : 'text-[#9CA3AF] hover:text-white hover:bg-white/[0.06]',
             ]}
             aria-current={active ? 'page' : undefined}
+            data-i18n={i18nKey}
           >
             {label}
           </a>
@@ -157,7 +166,7 @@ function isActive(href: string): boolean {
 <style>
   /* Sticky nav background */
   .nav {
-    background: rgba(10, 10, 15, 0.8);
+    background: var(--color-surface-overlay);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     transition: background 200ms ease;
@@ -165,7 +174,14 @@ function isActive(href: string): boolean {
 
   /* Scrolled: more opaque */
   .nav--scrolled {
-    background: rgba(10, 10, 15, 0.95);
+    background: var(--color-surface-overlay);
+  }
+
+  /* Icon buttons hover */
+  .nav__icon-btn:hover {
+    background: var(--color-surface-card);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-default);
   }
 
   /* Active link underline — aligned with nav bottom border */
@@ -183,14 +199,14 @@ function isActive(href: string): boolean {
   /* Language toggle */
   .nav__lang-option {
     background: transparent;
-    color: #6B7280;
+    color: var(--color-text-tertiary);
   }
   .nav__lang-option--active {
     background: #4F7DF7;
     color: #FFFFFF;
   }
   .nav__lang-option:hover:not(.nav__lang-option--active) {
-    color: #9CA3AF;
+    color: var(--color-text-secondary);
   }
 
   /* Mobile: simplified nav */
@@ -308,13 +324,64 @@ function isActive(href: string): boolean {
     const langOptions = document.querySelectorAll<HTMLElement>('.nav__lang-option');
     langOptions.forEach((btn) => {
       btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang') as 'en' | 'ja';
+        if (!lang) return;
+
+        // Update toggle UI
         langOptions.forEach((b) => {
           b.classList.remove('nav__lang-option--active');
           b.setAttribute('aria-checked', 'false');
         });
         btn.classList.add('nav__lang-option--active');
         btn.setAttribute('aria-checked', 'true');
+
+        // Apply language via i18n client
+        localStorage.setItem('chartedly-lang', lang);
+        document.documentElement.lang = lang;
+        // Dispatch for any listeners
+        window.dispatchEvent(new CustomEvent('chartedly-lang-change', { detail: { lang } }));
+        // Use the i18n client if available
+        if (typeof (window as any).__chartelySetLang === 'function') {
+          (window as any).__chartelySetLang(lang);
+        }
       });
+    });
+
+    // Mobile language toggle (cycles en/ja)
+    const mobileLangBtn = document.getElementById('mobile-lang-btn');
+    mobileLangBtn?.addEventListener('click', () => {
+      const current = localStorage.getItem('chartedly-lang') || 'en';
+      const next = current === 'en' ? 'ja' : 'en';
+      // Update desktop toggle UI if visible
+      langOptions.forEach((b) => {
+        const bLang = b.getAttribute('data-lang');
+        if (bLang === next) {
+          b.classList.add('nav__lang-option--active');
+          b.setAttribute('aria-checked', 'true');
+        } else {
+          b.classList.remove('nav__lang-option--active');
+          b.setAttribute('aria-checked', 'false');
+        }
+      });
+      localStorage.setItem('chartedly-lang', next);
+      document.documentElement.lang = next;
+      window.dispatchEvent(new CustomEvent('chartedly-lang-change', { detail: { lang: next } }));
+      if (typeof (window as any).__chartelySetLang === 'function') {
+        (window as any).__chartelySetLang(next);
+      }
+    });
+
+    // Sync toggle UI with stored language on load
+    const storedLang = localStorage.getItem('chartedly-lang') || (navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en');
+    langOptions.forEach((b) => {
+      const bLang = b.getAttribute('data-lang');
+      if (bLang === storedLang) {
+        b.classList.add('nav__lang-option--active');
+        b.setAttribute('aria-checked', 'true');
+      } else {
+        b.classList.remove('nav__lang-option--active');
+        b.setAttribute('aria-checked', 'false');
+      }
     });
   }
 

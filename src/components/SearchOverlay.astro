@@ -24,20 +24,23 @@ import { Search, X, ArrowRight } from 'lucide-astro';
         placeholder="Search products, categories..."
         autocomplete="off"
         aria-autocomplete="list"
-        class="w-full h-12 pl-12 pr-12 bg-[#1E1E38] border border-[#3D3D5A] rounded-xl text-white text-base placeholder-[#6B7280] outline-none focus:border-[#4F7DF7] focus:shadow-[0_0_0_3px_rgba(79,125,247,0.2)] transition-all duration-150"
+        class="w-full h-12 pl-12 pr-12 rounded-xl text-base outline-none focus:border-[#4F7DF7] focus:shadow-[0_0_0_3px_rgba(79,125,247,0.2)] transition-all duration-150"
+        style="background: var(--color-surface-elevated); border: 1px solid var(--color-border-default); color: var(--color-text-primary);"
         style="font-family: 'Inter', 'Noto Sans JP', sans-serif;"
       />
 
       <!-- ESC badge / clear button (right) -->
       <span
         id="search-esc-badge"
-        class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-[#6B7280] bg-[#16162A] border border-[#2D2D4A] rounded px-1.5 py-0.5 tracking-wide"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-semibold rounded px-1.5 py-0.5 tracking-wide"
+        style="color: var(--color-text-tertiary); background: var(--color-surface-card); border: 1px solid var(--color-border-subtle);"
       >
         ESC
       </span>
       <button
         id="search-clear-btn"
-        class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[#16162A] border-none text-[#6B7280] flex items-center justify-center cursor-pointer hover:bg-[#2D2D4A] hover:text-white transition-all duration-150 hidden"
+        class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full border-none flex items-center justify-center cursor-pointer transition-all duration-150 hidden"
+        style="background: var(--color-surface-card); color: var(--color-text-tertiary);"
         aria-label="Clear search"
       >
         <X size={14} />
@@ -47,7 +50,8 @@ import { Search, X, ArrowRight } from 'lucide-astro';
     <!-- Dropdown results -->
     <div
       id="search-dropdown"
-      class="search-dropdown absolute left-4 right-4 sm:left-0 sm:right-0 mt-2 max-h-[480px] overflow-y-auto bg-[#1E1E38] border border-[#2D2D4A] rounded-xl shadow-2xl z-20 hidden"
+      class="search-dropdown absolute left-4 right-4 sm:left-0 sm:right-0 mt-2 max-h-[480px] overflow-y-auto rounded-xl shadow-2xl z-20 hidden"
+      style="background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle);"
       role="listbox"
     >
       <!-- Product results section -->
@@ -96,7 +100,7 @@ import { Search, X, ArrowRight } from 'lucide-astro';
 <style>
   /* Overlay background */
   .search-overlay {
-    background: rgba(10, 10, 15, 0.7);
+    background: var(--color-surface-scrim);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
   }
@@ -104,7 +108,7 @@ import { Search, X, ArrowRight } from 'lucide-astro';
   /* Mobile: fullscreen */
   @media (max-width: 639px) {
     .search-overlay {
-      background: #0A0A0F;
+      background: var(--color-bg-base);
       padding-top: 0;
     }
     .search-overlay > div:first-child {

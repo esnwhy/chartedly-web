@@ -109,14 +109,14 @@ const scoreOut10 = (score / 10).toFixed(1);
 
     <!-- ── Breadcrumb ── -->
     <nav aria-label="Breadcrumb" class="mb-6 overflow-x-auto">
-      <ol class="flex items-center gap-1.5 text-[13px] flex-nowrap whitespace-nowrap" style="color: #6B7280;">
+      <ol class="flex items-center gap-1.5 text-[13px] flex-nowrap whitespace-nowrap" style="color: var(--color-text-tertiary);">
         <li><a href="/" class="hover:text-[#4F7DF7] transition-colors">Home</a></li>
-        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: var(--color-border-subtle);" /></li>
         <li><a href={`/category/${catSlug}`} class="hover:text-[#4F7DF7] transition-colors">{category}</a></li>
-        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: var(--color-border-subtle);" /></li>
         <li><a href={`/category/${catSlug}/${subcatSlug}`} class="hover:text-[#4F7DF7] transition-colors">{subcategory}</a></li>
-        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
-        <li><span class="font-medium" style="color: #9CA3AF;" aria-current="page">{name}</span></li>
+        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: var(--color-border-subtle);" /></li>
+        <li><span class="font-medium" style="color: var(--color-text-secondary);" aria-current="page">{name}</span></li>
       </ol>
     </nav>
 
@@ -125,7 +125,7 @@ const scoreOut10 = (score / 10).toFixed(1);
 
       <!-- Left: Product Image -->
       <div class="lg:w-[55%] flex-shrink-0">
-        <div class="rounded-xl p-6 flex items-center justify-center aspect-[3/2]" style="background: #16162A; border: 1px solid #2D2D4A;">
+        <div class="rounded-xl p-6 flex items-center justify-center aspect-[3/2]" style="background: var(--color-surface-card); border: 1px solid var(--color-border-subtle);">
           {image ? (
             <img
               src={image}
@@ -135,7 +135,7 @@ const scoreOut10 = (score / 10).toFixed(1);
               decoding="async"
             />
           ) : (
-            <span class="text-4xl font-bold" style="color: #2D2D4A;">{brand}</span>
+            <span class="text-4xl font-bold" style="color: var(--color-border-subtle);">{brand}</span>
           )}
         </div>
       </div>
@@ -150,10 +150,10 @@ const scoreOut10 = (score / 10).toFixed(1);
         )}
 
         <!-- Title -->
-        <h1 class="text-2xl sm:text-[28px] font-bold leading-tight mb-2" style="color: #FFFFFF;">{name}</h1>
+        <h1 class="text-2xl sm:text-[28px] font-bold leading-tight mb-2" style="color: var(--color-text-primary);">{name}</h1>
 
         <!-- Brand -->
-        <p class="text-base mb-3" style="color: #9CA3AF;">by <span class="font-medium">{brand}</span></p>
+        <p class="text-base mb-3" style="color: var(--color-text-secondary);">by <span class="font-medium">{brand}</span></p>
 
         <!-- Badges -->
         {badgeLabel && (
@@ -173,10 +173,10 @@ const scoreOut10 = (score / 10).toFixed(1);
           <!-- Large score circle -->
           <div
             class="w-24 h-24 rounded-full flex flex-col items-center justify-center flex-shrink-0"
-            style={`border: 4px solid ${color}; background: #16162A; box-shadow: 0 2px 12px rgba(0,0,0,0.3);`}
+            style={`border: 4px solid ${color}; background: var(--color-surface-card); box-shadow: 0 2px 12px rgba(0,0,0,0.3);`}
           >
-            <span class="text-4xl font-extrabold leading-none" style="color: #FFFFFF;">{scoreOut10}</span>
-            <span class="text-sm" style="color: #6B7280;">/10</span>
+            <span class="text-4xl font-extrabold leading-none" style="color: var(--color-text-primary);">{scoreOut10}</span>
+            <span class="text-sm" style="color: var(--color-text-tertiary);">/10</span>
           </div>
 
           <!-- Score breakdown bars (from radar) -->
@@ -191,10 +191,10 @@ const scoreOut10 = (score / 10).toFixed(1);
               ].map((item) => (
                 <div>
                   <div class="flex justify-between text-sm mb-0.5">
-                    <span style="color: #9CA3AF;">{item.label}</span>
-                    <span class="font-semibold" style="color: #FFFFFF;">{(item.val / 10).toFixed(1)}</span>
+                    <span style="color: var(--color-text-secondary);">{item.label}</span>
+                    <span class="font-semibold" style="color: var(--color-text-primary);">{(item.val / 10).toFixed(1)}</span>
                   </div>
-                  <div class="h-2 w-full rounded-full overflow-hidden" style="background: #2D2D4A;">
+                  <div class="h-2 w-full rounded-full overflow-hidden" style="background: var(--color-border-subtle);">
                     <div
                       class="h-full rounded-full"
                       style={`width: ${item.val}%; background: ${scoreBgHex(item.val)};`}
@@ -212,7 +212,7 @@ const scoreOut10 = (score / 10).toFixed(1);
             <summary class="lg:hidden text-sm font-medium cursor-pointer flex items-center gap-1 mb-2" style="color: #4F7DF7;">
               Show Chart <ChevronDown size={14} />
             </summary>
-            <div class="flex justify-center p-4 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+            <div class="flex justify-center p-4 rounded-lg" style="background: var(--color-surface-card); border: 1px solid var(--color-border-subtle);">
               <RadarChart radar={radar} />
             </div>
           </details>
@@ -220,8 +220,8 @@ const scoreOut10 = (score / 10).toFixed(1);
 
         <!-- ── Price + Purchase CTAs ── -->
         <div class="mb-6">
-          <p class="text-[28px] font-extrabold mb-1" style="color: #FFFFFF;">{price}</p>
-          <p class="text-[13px] mb-4" style="color: #6B7280;">Tax included</p>
+          <p class="text-[28px] font-extrabold mb-1" style="color: var(--color-text-primary);">{price}</p>
+          <p class="text-[13px] mb-4" style="color: var(--color-text-tertiary);">Tax included</p>
 
           <div class="flex flex-col gap-2">
             {retailerList.map((r) => (
@@ -232,7 +232,7 @@ const scoreOut10 = (score / 10).toFixed(1);
                 class="flex items-center justify-between h-12 px-4 rounded-lg font-semibold text-sm transition-colors"
                 style={r.primary
                   ? 'background: #F7A94F; color: #0A0A0F;'
-                  : 'background: #1E1E38; border: 1px solid #2D2D4A; color: #9CA3AF;'}
+                  : 'background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary);'}
               >
                 <span class="flex items-center gap-2">
                   <ExternalLink size={16} />
@@ -243,7 +243,7 @@ const scoreOut10 = (score / 10).toFixed(1);
             ))}
           </div>
 
-          <p class="text-xs mt-3" style="color: #6B7280;">
+          <p class="text-xs mt-3" style="color: var(--color-text-tertiary);">
             <a href="/about#affiliate-disclosure" class="hover:underline">Affiliate disclosure</a>
           </p>
         </div>
@@ -254,7 +254,7 @@ const scoreOut10 = (score / 10).toFixed(1);
             <p class="text-[13px] font-semibold uppercase tracking-wide mb-2" style="color: #4F7DF7;">
               Quick Verdict
             </p>
-            <p class="text-base italic leading-relaxed" style="color: #9CA3AF;">
+            <p class="text-base italic leading-relaxed" style="color: var(--color-text-secondary);">
               "{description}"
             </p>
           </div>
@@ -272,7 +272,7 @@ const scoreOut10 = (score / 10).toFixed(1);
             </h2>
             <ul class="space-y-3" aria-label={`Pros of ${name}`}>
               {pros.map((pro) => (
-                <li class="flex items-start gap-2.5 text-sm leading-relaxed" style="color: #9CA3AF;">
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed" style="color: var(--color-text-secondary);">
                   <Check size={16} class="shrink-0 mt-0.5" style="color: #22C55E;" aria-hidden="true" />
                   <span>{pro}</span>
                 </li>
@@ -287,7 +287,7 @@ const scoreOut10 = (score / 10).toFixed(1);
             </h2>
             <ul class="space-y-3" aria-label={`Cons of ${name}`}>
               {cons.map((con) => (
-                <li class="flex items-start gap-2.5 text-sm leading-relaxed" style="color: #9CA3AF;">
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed" style="color: var(--color-text-secondary);">
                   <X size={16} class="shrink-0 mt-0.5" style="color: #EF4444;" aria-hidden="true" />
                   <span>{con}</span>
                 </li>
@@ -301,22 +301,22 @@ const scoreOut10 = (score / 10).toFixed(1);
     <!-- ── Specs Table (expandable) ── -->
     {specEntries.length > 0 && (
       <section class="mb-10">
-        <h2 class="text-xl font-bold mb-1" style="color: #FFFFFF;">Specifications</h2>
-        <p class="text-sm mb-4" style="color: #6B7280;">仕様</p>
+        <h2 class="text-xl font-bold mb-1" style="color: var(--color-text-primary);">Specifications</h2>
+        <p class="text-sm mb-4" style="color: var(--color-text-tertiary);">仕様</p>
 
-        <div class="rounded-lg overflow-hidden" style="border: 1px solid #2D2D4A;" id="specs-table">
+        <div class="rounded-lg overflow-hidden" style="border: 1px solid var(--color-border-subtle);" id="specs-table">
           {specEntries.map(([key, value], idx) => (
             <div
               class:list={[
                 'flex',
                 idx >= 8 ? 'specs-hidden hidden' : '',
               ]}
-              style={idx % 2 === 0 ? 'background: #16162A;' : 'background: #1E1E38;'}
+              style={idx % 2 === 0 ? 'background: var(--color-surface-card);' : 'background: var(--color-surface-elevated);'}
             >
-              <div class="w-[35%] px-4 py-3 text-sm font-medium" style="color: #9CA3AF; background: rgba(0,0,0,0.15); border-right: 1px solid #2D2D4A;">
+              <div class="w-[35%] px-4 py-3 text-sm font-medium" style="color: var(--color-text-secondary); background: rgba(0,0,0,0.15); border-right: 1px solid var(--color-border-subtle);">
                 {key}
               </div>
-              <div class="w-[65%] px-4 py-3 text-sm" style="color: #FFFFFF;">
+              <div class="w-[65%] px-4 py-3 text-sm" style="color: var(--color-text-primary);">
                 {value}
               </div>
             </div>
@@ -339,18 +339,18 @@ const scoreOut10 = (score / 10).toFixed(1);
     <!-- ── Full Review ── -->
     {review && (
       <section class="mb-10 max-w-[720px] mx-auto">
-        <h2 class="text-xl font-bold mb-1" style="color: #FFFFFF;">Our Review</h2>
-        <p class="text-sm mb-2" style="color: #6B7280;">レビュー</p>
+        <h2 class="text-xl font-bold mb-1" style="color: var(--color-text-primary);">Our Review</h2>
+        <p class="text-sm mb-2" style="color: var(--color-text-tertiary);">レビュー</p>
         <div class="w-10 h-0.5 mb-6" style="background: #4F7DF7;" />
 
         <div class="space-y-4">
           {review.split('\n\n').map((paragraph) => (
-            <p class="text-base leading-[1.8]" style="color: #9CA3AF;">{paragraph}</p>
+            <p class="text-base leading-[1.8]" style="color: var(--color-text-secondary);">{paragraph}</p>
           ))}
         </div>
 
-        <div class="pt-4 mt-6" style="border-top: 1px solid #2D2D4A;">
-          <p class="text-sm" style="color: #6B7280;">
+        <div class="pt-4 mt-6" style="border-top: 1px solid var(--color-border-subtle);">
+          <p class="text-sm" style="color: var(--color-text-tertiary);">
             Published {d.dateAdded instanceof Date ? d.dateAdded.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : d.dateAdded}
             {d.dateUpdated && (
               <span> &bull; Last updated {d.dateUpdated instanceof Date ? d.dateUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : d.dateUpdated}</span>
@@ -362,12 +362,12 @@ const scoreOut10 = (score / 10).toFixed(1);
 
     <!-- ── How We Test Accordion ── -->
     <section class="mb-10 max-w-[720px] mx-auto">
-      <details class="rounded-xl overflow-hidden" style="background: #16162A; border: 1px solid #2D2D4A;">
-        <summary class="flex items-center justify-between h-12 px-6 cursor-pointer text-base font-semibold transition-colors" style="color: #FFFFFF;">
-          <span>How We Test <span class="text-sm font-normal ml-2" style="color: #6B7280;">テスト方法</span></span>
-          <ChevronDown size={20} class="summary-chevron transition-transform" style="color: #6B7280;" />
+      <details class="rounded-xl overflow-hidden" style="background: var(--color-surface-card); border: 1px solid var(--color-border-subtle);">
+        <summary class="flex items-center justify-between h-12 px-6 cursor-pointer text-base font-semibold transition-colors" style="color: var(--color-text-primary);">
+          <span>How We Test <span class="text-sm font-normal ml-2" style="color: var(--color-text-tertiary);">テスト方法</span></span>
+          <ChevronDown size={20} class="summary-chevron transition-transform" style="color: var(--color-text-tertiary);" />
         </summary>
-        <div class="px-6 pb-6 pt-2 text-sm leading-relaxed space-y-3" style="color: #9CA3AF;">
+        <div class="px-6 pb-6 pt-2 text-sm leading-relaxed space-y-3" style="color: var(--color-text-secondary);">
           <p>Our testing methodology for {type} products involves comprehensive evaluation across multiple criteria:</p>
           <ol class="list-decimal list-inside space-y-2 pl-2">
             <li><strong style="color: #4F7DF7;">Performance Testing</strong> — Real-world use under typical conditions</li>
