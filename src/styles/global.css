@@ -242,7 +242,25 @@
 [data-theme="light"] [style*="background: #0A0A0F"],
 [data-theme="light"] [style*="background:#0A0A0F"] { background: #F2F2F7 !important; }
 [data-theme="light"] [style*="background: #0D0D18"],
-[data-theme="light"] [style*="background:#0D0D18"] { background: #E5E5EA !important; }
+[data-theme="light"] [style*="background:#0D0D18"] { background: #EEEEF2 !important; }
+
+/* ── Catch any remaining dark blues ── */
+[data-theme="light"] [style*="background: #12122A"],
+[data-theme="light"] [style*="background:#12122A"] { background: #E8E8ED !important; }
+[data-theme="light"] [style*="background: #141428"],
+[data-theme="light"] [style*="background:#141428"] { background: #E5E5EA !important; }
+[data-theme="light"] [style*="background: #1C1C36"],
+[data-theme="light"] [style*="background:#1C1C36"] { background: #F0F0F5 !important; }
+[data-theme="light"] [style*="background: #1a1a30"],
+[data-theme="light"] [style*="background:#1a1a30"] { background: #F0F0F5 !important; }
+
+/* ── rgba dark backgrounds ── */
+[data-theme="light"] [style*="rgba(22, 22, 42"] { background-color: rgba(255,255,255,0.95) !important; }
+[data-theme="light"] [style*="rgba(10, 10, 15"] { background-color: rgba(242,242,247,0.95) !important; }
+
+/* ── Blue accent backgrounds (keep blue but lighter) ── */
+[data-theme="light"] [style*="rgba(79,125,247,0.1)"],
+[data-theme="light"] [style*="rgba(79, 125, 247, 0.1)"] { background: rgba(79,125,247,0.08) !important; }
 
 /* ── Card & surface backgrounds ── */
 [data-theme="light"] [style*="background: #16162A"],
@@ -308,8 +326,17 @@
 [data-theme="light"] nav .text-\[\#9CA3AF\] { color: #636366 !important; }
 [data-theme="light"] nav .hover\:bg-\[\#16162A\]:hover { background-color: #E5E5EA !important; }
 
-/* ── Hero section: darken text overlay for readability ── */
+/* ── Hero section ── */
 [data-theme="light"] .hero-section { background: #E5E5EA !important; }
+[data-theme="light"] [class*="hero"] [style*="gradient"] {
+  background: linear-gradient(to right, rgba(242,242,247,0.95) 0%, rgba(242,242,247,0.7) 40%, transparent 70%) !important;
+}
+
+/* ── Any inline background with dark hex: catch-all ── */
+[data-theme="light"] [style*="background: #2D2D4A"],
+[data-theme="light"] [style*="background:#2D2D4A"] { background: #D1D1D6 !important; }
+[data-theme="light"] [style*="background: #374151"],
+[data-theme="light"] [style*="background:#374151"] { background: #D1D1D6 !important; }
 
 /* ── Category icons ── */
 [data-theme="light"] .category-item span:first-child {
