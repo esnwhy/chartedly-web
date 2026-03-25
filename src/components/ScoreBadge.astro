@@ -6,6 +6,9 @@ interface Props {
 
 const { score, size = 'sm' } = Astro.props;
 
+// Convert 0-100 to 0-10 scale for display
+const displayScore = (score / 10).toFixed(1);
+
 // Color thresholds
 const scoreColor = score >= 80 ? '#22C55E' : score >= 60 ? '#F59E0B' : '#EF4444';
 const scoreLabel = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : 'Needs Work';
@@ -18,11 +21,11 @@ const offset = circumference * (1 - score / 100);
 {size === 'sm' ? (
   <!-- Small badge: 44x44 circle on product card -->
   <div
-    class="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white border-2 border-[#16162A] tabular-nums"
+    class="w-12 h-12 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-[#16162A] tabular-nums"
     style={`background: ${scoreColor}; font-family: 'Inter', sans-serif;`}
-    aria-label={`Score ${score}`}
+    aria-label={`Score ${displayScore} out of 10`}
   >
-    {score}
+    {displayScore}
   </div>
 ) : (
   <!-- Large badge: 120px ring for product detail -->
@@ -55,16 +58,16 @@ const offset = circumference * (1 - score / 100);
     </svg>
     <div class="absolute inset-0 flex flex-col items-center justify-center gap-0.5">
       <span
-        class="text-4xl font-bold leading-none tracking-tight tabular-nums"
+        class="text-3xl font-bold leading-none tracking-tight tabular-nums"
         style={`color: ${scoreColor}; font-family: 'Inter', sans-serif; letter-spacing: -0.02em;`}
       >
-        {score}
+        {displayScore}
       </span>
       <span
-        class="text-xs font-medium tracking-wide"
-        style={`color: ${scoreColor};`}
+        class="text-[10px] font-medium tracking-wide"
+        style="color: #6B7280;"
       >
-        {scoreLabel}
+        / 10
       </span>
     </div>
   </div>
