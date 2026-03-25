@@ -1,0 +1,176 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { Compass, ChevronRight } from 'lucide-astro';
+
+function getName(data: any): string {
+  return data.name_en ?? data.name ?? data.brand ?? 'Untitled';
+}
+
+const allProducts = await getCollection('products', (p) => !p.data.draft && !p.data.discontinued);
+
+// Build category tree: category → subcategory → count + top product
+interface SubcatInfo {
+  name: string;
+  slug: string;
+  count: number;
+  topProduct: typeof allProducts[0] | null;
+}
+
+interface CatInfo {
+  name: string;
+  slug: string;
+  count: number;
+  subcategories: SubcatInfo[];
+  topProduct: typeof allProducts[0] | null;
+}
+
+const categoryMap = new Map<string, CatInfo>();
+
+for (const p of allProducts) {
+  const cat = p.data.category;
+  const subcat = p.data.subcategory;
+  const catSlug = cat.toLowerCase().replace(/\s+/g, '-');
+  const subcatSlug = subcat.toLowerCase().replace(/\s+/g, '-');
+
+  if (!categoryMap.has(cat)) {
+    categoryMap.set(cat, {
+      name: cat,
+      slug: catSlug,
+      count: 0,
+      subcategories: [],
+      topProduct: null,
+    });
+  }
+
+  const catInfo = categoryMap.get(cat)!;
+  catInfo.count++;
+
+  // Track top product per category (highest score)
+  if (!catInfo.topProduct || p.data.score > catInfo.topProduct.data.score) {
+    catInfo.topProduct = p;
+  }
+
+  // Build subcategory
+  let subcatInfo = catInfo.subcategories.find((s) => s.name === subcat);
+  if (!subcatInfo) {
+    subcatInfo = { name: subcat, slug: subcatSlug, count: 0, topProduct: null };
+    catInfo.subcategories.push(subcatInfo);
+  }
+  subcatInfo.count++;
+  if (!subcatInfo.topProduct || p.data.score > subcatInfo.topProduct.data.score) {
+    subcatInfo.topProduct = p;
+  }
+}
+
+const categories = [...categoryMap.values()].sort((a, b) => b.count - a.count);
+
+// Category gradient colors
+const categoryGradients: Record<string, string> = {
+  'Beauty': 'from-pink-900/40 to-purple-900/40',
+  'Electronics': 'from-blue-900/40 to-cyan-900/40',
+  'Kitchen': 'from-orange-900/40 to-amber-900/40',
+  'Health': 'from-green-900/40 to-emerald-900/40',
+  'Home': 'from-slate-800/40 to-gray-900/40',
+};
+
+const categoryColors: Record<string, string> = {
+  'Beauty': '#EC4899',
+  'Electronics': '#3B82F6',
+  'Kitchen': '#F59E0B',
+  'Health': '#22C55E',
+  'Home': '#9CA3AF',
+};
+---
+
+<BaseLayout title="Explore — Chartedly">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-8 py-8">
+
+    <!-- Header -->
+    <header class="mb-10">
+      <div class="flex items-center gap-3 mb-2">
+        <Compass size={28} style="color: #4F7DF7;" />
+        <h1 class="text-3xl font-extrabold" style="color: #FFFFFF;">Explore</h1>
+      </div>
+      <p class="text-base" style="color: #9CA3AF;">
+        Browse products by category. Find exactly what you need in Japan.
+      </p>
+      <p class="text-sm mt-1" style="color: #6B7280;">
+        カテゴリーから探す
+      </p>
+    </header>
+
+    <!-- Category Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {categories.map((cat) => {
+        const gradient = categoryGradients[cat.name] || 'from-slate-800/40 to-gray-900/40';
+        const accentColor = categoryColors[cat.name] || '#4F7DF7';
+        const topImg = cat.topProduct?.data.image;
+
+        return (
+          <a
+            href={`/category/${cat.slug}`}
+            class="group block rounded-2xl overflow-hidden border transition-all duration-300 hover:border-[#4F7DF7]/30 hover:shadow-lg hover:shadow-[#4F7DF7]/5 hover:-translate-y-1"
+            style="background: #16162A; border-color: #2D2D4A;"
+          >
+            <!-- Category hero area -->
+            <div class={`relative h-48 bg-gradient-to-br ${gradient} overflow-hidden`}>
+              {topImg && (
+                <img
+                  src={topImg}
+                  alt=""
+                  class="absolute right-4 top-1/2 -translate-y-1/2 h-36 w-36 object-contain opacity-60 group-hover:opacity-80 group-hover:scale-110 transition-all duration-500"
+                  loading="lazy"
+                />
+              )}
+              <div class="absolute inset-0 p-6 flex flex-col justify-end" style="background: linear-gradient(to top, rgba(22,22,42,0.9) 0%, transparent 60%);">
+                <h2 class="text-2xl font-bold text-white">{cat.name}</h2>
+                <p class="text-sm mt-1" style={`color: ${accentColor};`}>
+                  {cat.count} products
+                </p>
+              </div>
+            </div>
+
+            <!-- Subcategories -->
+            <div class="p-5">
+              <div class="flex flex-wrap gap-2">
+                {cat.subcategories.sort((a, b) => b.count - a.count).slice(0, 6).map((sub) => (
+                  <span
+                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm transition-colors"
+                    style="background: #1E1E38; color: #9CA3AF;"
+                  >
+                    {sub.name}
+                    <span class="text-xs" style="color: #6B7280;">({sub.count})</span>
+                  </span>
+                ))}
+                {cat.subcategories.length > 6 && (
+                  <span class="inline-flex items-center px-3 py-1.5 text-sm" style="color: #6B7280;">
+                    +{cat.subcategories.length - 6} more
+                  </span>
+                )}
+              </div>
+              <div class="flex items-center gap-1 mt-4 text-sm font-medium" style={`color: ${accentColor};`}>
+                Browse {cat.name}
+                <ChevronRight size={16} class="group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+
+    <!-- All Products Quick Link -->
+    <div class="mt-10 text-center">
+      <a
+        href="/ranking"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-colors hover:bg-[#4F7DF7]"
+        style="background: #1E1E38; color: #9CA3AF; border: 1px solid #2D2D4A;"
+      >
+        View All Products ({allProducts.length})
+        <ChevronRight size={16} />
+      </a>
+    </div>
+
+  </div>
+</BaseLayout>
