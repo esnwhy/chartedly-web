@@ -1,0 +1,124 @@
+---
+import Button from './Button.astro';
+import { Award, Coins } from 'lucide-astro';
+
+interface Props {
+  topPick: {
+    name: string;
+    reason: string;
+    image?: string;
+    buyUrl: string;
+    buyLabel?: string;
+  };
+  budgetPick: {
+    name: string;
+    reason: string;
+    image?: string;
+    buyUrl: string;
+    buyLabel?: string;
+  };
+}
+
+const { topPick, budgetPick } = Astro.props;
+---
+
+<section
+  role="region"
+  aria-label="Top picks"
+  class="bg-surface-raised rounded-lg border-l-4 border-cta-default p-6"
+>
+  {/* Title */}
+  <div class="flex items-center gap-2 mb-4">
+    <Award size={24} class="text-cta-default shrink-0" />
+    <h2 class="text-xl font-bold text-text-primary">Our Top Picks</h2>
+  </div>
+
+  {/* Pick cards grid */}
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+
+    {/* ── Top Pick ── */}
+    <div class="flex flex-col gap-3">
+      {/* Badge */}
+      <span class="inline-flex items-center gap-1 self-start rounded-full bg-success-bg px-2 py-1 text-xs font-semibold text-success">
+        <Award size={14} />
+        Top Pick
+      </span>
+
+      {/* Image + info row */}
+      <div class="flex gap-4">
+        {topPick.image && (
+          <div class="shrink-0 rounded-md bg-surface-inset p-1">
+            <img
+              src={topPick.image}
+              alt={topPick.name}
+              width="80"
+              height="80"
+              loading="lazy"
+              decoding="async"
+              class="size-16 rounded-md object-contain md:size-20"
+            />
+          </div>
+        )}
+        <div class="min-w-0 flex-1">
+          <p class="font-semibold text-base text-text-primary">{topPick.name}</p>
+          <p class="mt-1 text-sm text-text-secondary">{topPick.reason}</p>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <Button
+        variant="primary"
+        size="lg"
+        href={topPick.buyUrl}
+        external
+        class="w-full mt-auto"
+        aria-label={`Buy ${topPick.name} on Amazon Japan (opens in new tab)`}
+      >
+        {topPick.buyLabel || 'Buy on Amazon'}
+      </Button>
+    </div>
+
+    {/* ── Budget Pick ── */}
+    <div class="flex flex-col gap-3">
+      {/* Badge */}
+      <span class="inline-flex items-center gap-1 self-start rounded-full bg-warning-bg px-2 py-1 text-xs font-semibold text-warning">
+        <Coins size={14} />
+        Budget Pick
+      </span>
+
+      {/* Image + info row */}
+      <div class="flex gap-4">
+        {budgetPick.image && (
+          <div class="shrink-0 rounded-md bg-surface-inset p-1">
+            <img
+              src={budgetPick.image}
+              alt={budgetPick.name}
+              width="80"
+              height="80"
+              loading="lazy"
+              decoding="async"
+              class="size-16 rounded-md object-contain md:size-20"
+            />
+          </div>
+        )}
+        <div class="min-w-0 flex-1">
+          <p class="font-semibold text-base text-text-primary">{budgetPick.name}</p>
+          <p class="mt-1 text-sm text-text-secondary">{budgetPick.reason}</p>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <Button
+        variant="primary"
+        size="lg"
+        href={budgetPick.buyUrl}
+        external
+        class="w-full mt-auto"
+        aria-label={`Buy ${budgetPick.name} on Amazon Japan (opens in new tab)`}
+      >
+        {budgetPick.buyLabel || 'Buy on Amazon'}
+      </Button>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,238 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { Trophy, ChevronDown } from 'lucide-astro';
+
+function getName(data: any): string {
+  return data.name_en ?? data.name ?? data.brand ?? 'Untitled';
+}
+
+const allProducts = await getCollection('products', (p: any) => !p.data.draft && !p.data.discontinued);
+
+const categories = ['All', ...new Set(allProducts.map((p) => p.data.category))];
+
+const sortedProducts = [...allProducts].sort((a, b) => {
+  if (a.data.rank != null && b.data.rank != null) return a.data.rank - b.data.rank;
+  if (a.data.rank != null) return -1;
+  if (b.data.rank != null) return 1;
+  return b.data.score - a.data.score;
+});
+
+function podiumColor(position: number): string {
+  if (position === 1) return '#F7A94F'; // gold
+  if (position === 2) return '#9CA3AF'; // silver
+  if (position === 3) return '#CD7F32'; // bronze
+  return '';
+}
+
+const totalCount = sortedProducts.length;
+---
+
+<BaseLayout title="Ranking — Chartedly">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-8 py-8">
+
+    <!-- Header -->
+    <header class="mb-8">
+      <div class="flex items-center gap-3 mb-2">
+        <Trophy size={28} style="color: #F7A94F;" />
+        <h1 class="text-3xl font-extrabold" style="color: #FFFFFF;">Ranking</h1>
+      </div>
+      <p class="text-base" style="color: #9CA3AF;">
+        The best products in Japan, ranked by our testing
+      </p>
+      <p class="text-sm mt-1" style="color: #6B7280;">
+        日本のベスト製品ランキング
+      </p>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
+        <p class="text-sm" style="color: #6B7280;">
+          {totalCount} products ranked
+        </p>
+        <span class="text-sm" style="color: #6B7280;">&bull;</span>
+        <p class="text-sm" style="color: #6B7280;">
+          Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </p>
+        <span class="text-sm" style="color: #6B7280;">&bull;</span>
+        <a href="/about#methodology" class="text-sm hover:underline" style="color: #4F7DF7;">
+          How we rank &rarr;
+        </a>
+      </div>
+    </header>
+
+    <!-- Category Filter Tabs -->
+    <div class="flex items-center gap-3 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+      {categories.map((cat, idx) => (
+        <button
+          class:list={[
+            'category-filter flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer',
+            idx === 0
+              ? 'active-filter'
+              : '',
+          ]}
+          style={idx === 0
+            ? 'background: #4F7DF7; color: #FFFFFF;'
+            : 'background: #16162A; color: #9CA3AF; border: 1px solid #2D2D4A;'}
+          data-category={cat}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+
+    <!-- Sort + Results Count -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-2">
+        <label for="sort-select" class="text-sm" style="color: #6B7280;">Sort by:</label>
+        <div class="relative">
+          <select
+            id="sort-select"
+            class="appearance-none rounded-lg px-3 py-2 pr-8 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F7DF7]"
+            style="background: #16162A; border: 1px solid #2D2D4A; color: #9CA3AF;"
+          >
+            <option value="score">Score</option>
+            <option value="price">Price</option>
+            <option value="newest">Newest</option>
+          </select>
+          <ChevronDown size={14} class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" style="color: #6B7280;" />
+        </div>
+      </div>
+      <p class="text-sm" style="color: #6B7280;" id="results-count">
+        Showing {totalCount} products
+      </p>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" id="ranking-grid">
+      {sortedProducts.map((product, idx) => {
+        const position = idx + 1;
+        const isPodium = position < 4;
+        const borderColor = isPodium ? podiumColor(position) : '';
+
+        return (
+          <div
+            class:list={[
+              'product-item relative',
+              isPodium ? 'ring-2 rounded-xl' : '',
+            ]}
+            style={isPodium ? `--tw-ring-color: ${borderColor}` : ''}
+            data-category={product.data.category}
+            data-score={product.data.score}
+            data-price={product.data.price}
+            data-date={product.data.dateAdded instanceof Date ? product.data.dateAdded.toISOString() : product.data.dateAdded}
+          >
+            <!-- Rank badge -->
+            <div
+              class:list={[
+                'absolute -top-2 -left-2 z-10 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-md',
+                isPodium ? '' : '',
+              ]}
+              style={isPodium
+                ? `background: ${borderColor}; color: #FFFFFF;`
+                : 'background: #1E1E38; color: #9CA3AF; border: 1px solid #2D2D4A;'}
+            >
+              {position}
+            </div>
+
+            <ProductCard
+              name={getName(product.data)}
+              brand={product.data.brand}
+              image={product.data.image}
+              slug={product.id}
+              category={product.data.category}
+              subcategory={product.data.subcategory}
+              type={product.data.type}
+              score={product.data.score}
+              rank={product.data.rank}
+              badge={product.data.badge}
+              price={product.data.price}
+            />
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Empty state -->
+    {sortedProducts.length === 0 && (
+      <div class="text-center py-20">
+        <p class="text-lg" style="color: #6B7280;">No products found</p>
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+<script>
+  function initRanking() {
+    const grid = document.getElementById('ranking-grid');
+    const filterBtns = document.querySelectorAll('.category-filter');
+    const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
+    const resultsCount = document.getElementById('results-count');
+    if (!grid) return;
+
+    let activeCategory = 'All';
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.getAttribute('data-category') || 'All';
+
+        // Reset all buttons to inactive style
+        filterBtns.forEach((b) => {
+          (b as HTMLElement).style.background = '#16162A';
+          (b as HTMLElement).style.color = '#9CA3AF';
+          (b as HTMLElement).style.border = '1px solid #2D2D4A';
+        });
+        // Active button
+        (btn as HTMLElement).style.background = '#4F7DF7';
+        (btn as HTMLElement).style.color = '#FFFFFF';
+        (btn as HTMLElement).style.border = 'none';
+
+        applyFilters();
+      });
+    });
+
+    sortSelect?.addEventListener('change', () => applyFilters());
+
+    function applyFilters() {
+      const items = Array.from(grid!.querySelectorAll('.product-item')) as HTMLElement[];
+
+      items.forEach((item) => {
+        const cat = item.getAttribute('data-category');
+        const visible = activeCategory === 'All' || cat === activeCategory;
+        item.style.display = visible ? '' : 'none';
+      });
+
+      const sortBy = sortSelect?.value || 'score';
+      const visibleItems = items.filter((i) => i.style.display !== 'none');
+
+      visibleItems.sort((a, b) => {
+        if (sortBy === 'score') {
+          return parseFloat(b.getAttribute('data-score') || '0') - parseFloat(a.getAttribute('data-score') || '0');
+        }
+        if (sortBy === 'price') {
+          const priceA = parseInt((a.getAttribute('data-price') || '0').replace(/[^\d]/g, ''), 10);
+          const priceB = parseInt((b.getAttribute('data-price') || '0').replace(/[^\d]/g, ''), 10);
+          return priceA - priceB;
+        }
+        if (sortBy === 'newest') {
+          return new Date(b.getAttribute('data-date') || 0).getTime() - new Date(a.getAttribute('data-date') || 0).getTime();
+        }
+        return 0;
+      });
+
+      visibleItems.forEach((item) => grid!.appendChild(item));
+      items.filter((i) => i.style.display === 'none').forEach((item) => grid!.appendChild(item));
+
+      // Update counter
+      if (resultsCount) {
+        resultsCount.textContent = `Showing ${visibleItems.length} products`;
+      }
+    }
+  }
+
+  initRanking();
+  document.addEventListener('astro:page-load', initRanking);
+</script>

@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Search, Home, ArrowLeft } from 'lucide-astro';
+---
+
+<BaseLayout title="Page Not Found — Chartedly">
+  <div class="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
+
+    <!-- Large 404 -->
+    <p class="text-8xl sm:text-9xl font-extrabold mb-2" style="color: #2D2D4A;">404</p>
+
+    <!-- Heading -->
+    <h1 class="text-2xl sm:text-3xl font-bold mb-3" style="color: #FFFFFF;">
+      This page wandered off.
+    </h1>
+
+    <!-- Subheading -->
+    <p class="text-base mb-2" style="color: #9CA3AF;">
+      It might have been moved, renamed, or it never existed.
+    </p>
+    <p class="text-sm mb-8" style="color: #6B7280;">
+      ページが見つかりませんでした。
+    </p>
+
+    <!-- Action links -->
+    <div class="flex flex-col sm:flex-row gap-3 mb-8">
+      <a
+        href="/"
+        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-colors"
+        style="background: #4F7DF7; color: #FFFFFF;"
+      >
+        <Home size={16} />
+        Go to Homepage
+      </a>
+      <a
+        href="/ranking"
+        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-colors"
+        style="background: #1E1E38; color: #9CA3AF; border: 1px solid #2D2D4A;"
+      >
+        <Search size={16} />
+        Browse Rankings
+      </a>
+    </div>
+
+    <!-- Helpful links -->
+    <div class="rounded-xl p-6 max-w-md w-full" style="background: #16162A; border: 1px solid #2D2D4A;">
+      <p class="text-sm font-medium mb-3" style="color: #9CA3AF;">Here are some places to go instead:</p>
+      <ul class="space-y-2 text-left">
+        <li>
+          <a href="/" class="flex items-center gap-2 text-sm hover:underline" style="color: #4F7DF7;">
+            <ArrowLeft size={14} />
+            Homepage -- start fresh
+          </a>
+        </li>
+        <li>
+          <a href="/ranking" class="flex items-center gap-2 text-sm hover:underline" style="color: #4F7DF7;">
+            <ArrowLeft size={14} />
+            Rankings -- see everything we have reviewed
+          </a>
+        </li>
+        <li>
+          <a href="/new" class="flex items-center gap-2 text-sm hover:underline" style="color: #4F7DF7;">
+            <ArrowLeft size={14} />
+            What's New -- latest reviews
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Contact fallback -->
+    <p class="text-xs mt-6" style="color: #6B7280;">
+      Still lost? Email us at
+      <a href="mailto:hello@chartedly.com" class="hover:underline" style="color: #4F7DF7;">hello@chartedly.com</a>
+      and we will point you in the right direction.
+    </p>
+
+  </div>
+</BaseLayout>

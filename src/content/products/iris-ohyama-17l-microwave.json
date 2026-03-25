@@ -1,0 +1,33 @@
+{
+  "name": "Iris Ohyama 17L Compact Microwave",
+  "brand": "Iris Ohyama",
+  "image": "/images/products/iris-ohyama-17l-microwave.png",
+  "category": "Electronics",
+  "subcategory": "Kitchen",
+  "type": "Compact Microwave Oven",
+  "price": "¥7,980",
+  "score": 72,
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00t3ztm.rgryp8a3.g00t3ztm.rgryq65a/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Firisplaza-r%2F100943%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Compact 17L size perfect for single apartments and dorm rooms",
+    "Multi-power settings (650W, 500W, 200W) for versatile cooking",
+    "Reliable Iris Ohyama brand with straightforward single-function design"
+  ],
+  "cons": [
+    "Only 302 reviews suggest limited market penetration compared to competitors",
+    "Basic turntable model offers no inverter or sensor cooking technology"
+  ],
+  "specs": {},
+  "shortDescription": "Practical compact microwave for one-person households at reasonable price.",
+  "review": "Iris Ohyama's small microwave is honest and functional—good for single expats on a budget. It heats food reliably but lacks the smart features (inverter, sensor) of pricier models. Japanese instructions come standard; English manual may need searching. At ¥7,980, it's fair value but not exceptional.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 70,
+    "value": 75,
+    "popularity": 75,
+    "ease": 80,
+    "innovation": 60
+  }
+}

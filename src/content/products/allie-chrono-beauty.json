@@ -1,0 +1,32 @@
+{
+  "name": "Allie Chrono Beauty Gel UV EX",
+  "brand": "Kanebo",
+  "image": "/images/products/allie-chrono-beauty.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen",
+  "price": "¥1800",
+  "score": 86,
+  "rank": 5,
+  "buyUrl": "https://www.amazon.co.jp/dp/B0BX5WD4G5",
+  "pros": [
+    "Friction-proof technology",
+    "Gel texture absorbs quickly",
+    "Good for daily use"
+  ],
+  "cons": [
+    "Mid-range price",
+    "Slight white cast on darker skin"
+  ],
+  "specs": {
+    "SPF": "50+",
+    "PA": "PA++++",
+    "Volume": "90g",
+    "Key Ingredients": "Beauty Gene Technology"
+  },
+  "shortDescription": "A friction-proof gel sunscreen that stays put through daily wear.",
+  "review": "Allie Chrono Beauty uses Kanebo friction-proof technology that keeps the UV film intact even when your skin is touched or rubbed.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-15",
+  "featured": false
+}

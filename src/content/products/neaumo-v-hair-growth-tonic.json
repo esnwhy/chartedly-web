@@ -1,0 +1,33 @@
+{
+  "name": "Neaumo V Hair Growth Tonic",
+  "brand": "Tamago Kichi",
+  "image": "/images/products/neaumo-v-hair-growth-tonic.png",
+  "category": "Beauty",
+  "subcategory": "Haircare",
+  "type": "Hair Growth Tonic",
+  "price": "¥7,970",
+  "score": 68,
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00u11lm.rgryp247.g00u11lm.rgryq877/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Ftamago-kichi%2Fnewmo_v01%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Dermatologically-approved quasi-drug status (医薬部外品) indicates regulatory testing",
+    "Unisex formula works for both male and female pattern thinning",
+    "Free shipping and competitive pricing in the ¥8,000 range"
+  ],
+  "cons": [
+    "Instructions and product packaging are Japanese-only with no English translation available",
+    "Generic formulation lacks standout active ingredients compared to premium competitors"
+  ],
+  "specs": {},
+  "shortDescription": "Unisex quasi-drug hair tonic targeting thinning and post-partum hair loss.",
+  "review": "Neaumo V occupies the middle ground of Japan's hair growth market—it has legitimate quasi-drug certification (医薬部外品) backing its claims, and at ¥7,970 it's reasonably priced. However, it's a fairly standard tonic without breakthrough ingredients, and the complete lack of English instructions makes it frustrating for non-Japanese speakers. Best for those who can navigate Japanese product labels and want a certified option without premium pricing.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 72,
+    "value": 70,
+    "popularity": 65,
+    "ease": 60,
+    "innovation": 55
+  }
+}

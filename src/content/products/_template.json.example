@@ -1,0 +1,32 @@
+{
+  "name": "Product Name Here",
+  "brand": "Brand Name",
+  "image": "",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen",
+  "price": "¥1,000",
+  "score": 80,
+  "rank": null,
+  "badge": null,
+  "buyUrl": "https://www.amazon.co.jp/dp/XXXXXXXXXX",
+  "pros": [
+    "Pro 1",
+    "Pro 2",
+    "Pro 3"
+  ],
+  "cons": [
+    "Con 1",
+    "Con 2"
+  ],
+  "specs": {
+    "SPF": "50+",
+    "PA": "PA++++",
+    "Volume": "50ml"
+  },
+  "shortDescription": "One or two sentences describing the product.",
+  "review": "A longer review paragraph about the product. Include your honest assessment, who it's best for, and any trade-offs.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-14",
+  "featured": false
+}

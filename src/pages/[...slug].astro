@@ -1,0 +1,147 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AffiliateDisclosure from '../components/AffiliateDisclosure.astro';
+import VerdictBox from '../components/VerdictBox.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import BarChart from '../components/BarChart.astro';
+import ProductReviewCard from '../components/ProductReviewCard.astro';
+import Button from '../components/Button.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('comparisons', ({ data }) => !data.draft);
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+const formattedDate = article.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={article.data.title} description={article.data.description} isArticle={true}>
+  <div class="max-w-[960px] mx-auto px-4 sm:px-8 py-8">
+    <article>
+      {/* Article header */}
+      <header class="max-w-[768px] mx-auto">
+        <h1 class="text-3xl font-bold text-text-primary mb-2">
+          {article.data.title}
+        </h1>
+
+        <div class="flex flex-wrap items-center gap-3 text-sm text-text-muted mb-4">
+          <time datetime={article.data.date.toISOString().slice(0, 10)}>
+            {formattedDate}
+          </time>
+          <span class="inline-flex items-center rounded-full bg-surface-overlay px-2.5 py-0.5 text-xs font-medium text-frost-cyan capitalize">
+            {article.data.category}
+          </span>
+          <span>{article.data.productsCompared} products compared</span>
+        </div>
+
+        {article.data.methodology_summary && (
+          <p class="text-sm italic text-text-muted mb-4">
+            {article.data.methodology_summary}
+          </p>
+        )}
+      </header>
+
+      {/* Affiliate disclosure */}
+      <div class="max-w-[768px] mx-auto">
+        <AffiliateDisclosure />
+      </div>
+
+      {/* Jump to verdict */}
+      <div class="max-w-[768px] mx-auto mb-6">
+        <a href="#verdict" class="text-frost-blue text-sm hover:underline">
+          Jump to our picks ↓
+        </a>
+      </div>
+
+      {/* MDX content */}
+      <div class="max-w-[768px] mx-auto article-content">
+        <Content />
+      </div>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .article-content :global(p) {
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.75;
+  }
+
+  .article-content :global(h2) {
+    color: var(--color-text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .article-content :global(h3) {
+    color: var(--color-text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .article-content :global(a) {
+    color: var(--color-frost-blue);
+  }
+
+  .article-content :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .article-content :global(ul) {
+    list-style-type: disc;
+  }
+
+  .article-content :global(ol) {
+    list-style-type: decimal;
+  }
+
+  .article-content :global(li) {
+    margin-bottom: 0.25rem;
+  }
+
+  .article-content :global(strong) {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .article-content :global(blockquote) {
+    border-left: 3px solid var(--color-frost-blue);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  /* Add spacing around embedded components */
+  .article-content :global(section),
+  .article-content :global([role="figure"]),
+  .article-content :global(article),
+  .article-content :global(.affiliate-disclosure) {
+    margin-bottom: 1.5rem;
+  }
+</style>

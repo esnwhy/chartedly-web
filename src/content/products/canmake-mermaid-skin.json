@@ -1,0 +1,32 @@
+{
+  "name": "Canmake Mermaid Skin Gel UV",
+  "brand": "Canmake",
+  "image": "/images/products/canmake-mermaid-skin.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen",
+  "price": "¥770",
+  "score": 82,
+  "rank": 4,
+  "buyUrl": "https://www.amazon.co.jp/dp/B0C53NXT7Y",
+  "pros": [
+    "Beautiful dewy finish",
+    "Works as primer",
+    "Alcohol-free"
+  ],
+  "cons": [
+    "Small 40g tube",
+    "Can pill under some foundations"
+  ],
+  "specs": {
+    "SPF": "50+",
+    "PA": "PA++++",
+    "Volume": "40g",
+    "Key Ingredients": "Hyaluronic acid aloe extract"
+  },
+  "shortDescription": "A cult-favorite gel sunscreen that doubles as a glowy makeup base.",
+  "review": "Canmake Mermaid Skin Gel UV has a cult following for good reason. It gives skin a beautiful dewy glow while providing strong UV protection.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-15",
+  "featured": false
+}

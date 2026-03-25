@@ -1,0 +1,73 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  external?: boolean;
+  class?: string;
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  [key: string]: any;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  external = false,
+  class: className,
+  disabled = false,
+  type = 'button',
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+
+const baseClasses =
+  'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-100 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring select-none';
+
+const variantClasses: Record<string, string> = {
+  primary:
+    'bg-cta-default text-text-on-accent hover:bg-cta-hover active:bg-cta-active active:scale-[0.98] disabled:bg-cta-disabled disabled:cursor-not-allowed disabled:active:scale-100',
+  secondary:
+    'bg-transparent border border-frost-blue text-frost-blue hover:bg-frost-blue/10 active:bg-frost-blue/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100',
+  ghost:
+    'bg-transparent text-frost-blue hover:bg-surface-overlay disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100',
+};
+
+const sizeClasses: Record<string, string> = {
+  sm: 'h-8 text-sm px-3 rounded-md',
+  md: 'h-10 text-sm px-4 rounded-md',
+  lg: 'h-12 text-base px-6 rounded-md',
+};
+
+const classes = [baseClasses, variantClasses[variant], sizeClasses[size], className]
+  .filter(Boolean)
+  .join(' ');
+
+const externalAttrs = external
+  ? { target: '_blank', rel: 'noopener noreferrer' }
+  : {};
+---
+
+{Tag === 'a' ? (
+  <a
+    href={href}
+    class={classes}
+    aria-disabled={disabled || undefined}
+    {...externalAttrs}
+    {...rest}
+  >
+    <slot />
+    {external && <span class="sr-only">(opens in new tab)</span>}
+  </a>
+) : (
+  <button
+    type={type}
+    class={classes}
+    disabled={disabled}
+    {...rest}
+  >
+    <slot />
+  </button>
+)}

@@ -1,0 +1,34 @@
+{
+  "name": "Zojirushi Pressure IH Rice Cooker NW-FA10",
+  "brand": "Zojirushi",
+  "image": "/images/products/zojirushi-rice-cooker.png",
+  "category": "Electronics",
+  "subcategory": "Kitchen",
+  "type": "Rice Cooker",
+  "price": "¥55000",
+  "score": 95,
+  "rank": 1,
+  "badge": "top-pick",
+  "buyUrl": "https://www.amazon.co.jp/dp/B0D9L1X5BQ",
+  "pros": [
+    "AI-powered cooking adjustments",
+    "Pressure IH for perfect texture",
+    "121 cooking programs"
+  ],
+  "cons": [
+    "Very expensive",
+    "Heavy at 8.5kg",
+    "Japanese interface only"
+  ],
+  "specs": {
+    "Capacity": "5.5 cups",
+    "Power": "1240W",
+    "Weight": "8.5kg",
+    "Technology": "Pressure IH + AI"
+  },
+  "shortDescription": "The ultimate Japanese rice cooker with AI that learns your preferences.",
+  "review": "The Zojirushi NW-FA10 is the pinnacle of rice cooking technology. Its AI analyzes rice type moisture and your past preferences to deliver consistently perfect results.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-14",
+  "featured": true
+}

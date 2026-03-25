@@ -1,0 +1,71 @@
+name: Weekly Product Update
+
+on:
+  schedule:
+    # Every Monday at 3:00 AM JST (Sunday 18:00 UTC)
+    - cron: '0 18 * * 0'
+  workflow_dispatch: # Manual trigger
+
+env:
+  RAKUTEN_APP_ID: ${{ secrets.RAKUTEN_APP_ID }}
+  RAKUTEN_ACCESS_KEY: ${{ secrets.RAKUTEN_ACCESS_KEY }}
+  RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+jobs:
+  update-products:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 1: Fetch latest rankings from Rakuten
+      - name: Fetch Rakuten Rankings
+        run: node scripts/fetch-rakuten.mjs --all
+        continue-on-error: true
+
+      # Step 2: AI-enrich any new products (scores, pros/cons, reviews)
+      - name: AI Enrich New Products
+        run: node scripts/ai-enrich.mjs
+        continue-on-error: true
+
+      # Step 3: Sync CSV → JSON product files
+      - name: Sync Products
+        run: node scripts/sync-products.mjs
+
+      # Step 4: Build site to verify no errors
+      - name: Build Site
+        run: npm run build
+
+      # Step 5: Commit updated product data
+      - name: Commit Changes
+        run: |
+          git config user.name "Chartedly Bot"
+          git config user.email "bot@chartedly.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Weekly product update $(date +%Y-%m-%d)
+
+          - Refreshed Rakuten rankings
+          - AI-enriched new products
+          - Updated product scores and data"
+            git push
+          fi
+
+      # Step 6: Notify on failure
+      - name: Notify on Failure
+        if: failure()
+        run: echo "::warning::Weekly product update failed. Check logs."

@@ -1,0 +1,164 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { Clock, Sparkles } from 'lucide-astro';
+
+function getName(data: any): string {
+  return data.name_en ?? data.name ?? data.brand ?? 'Untitled';
+}
+
+const allProducts = await getCollection('products', (p) => !p.data.draft && !p.data.discontinued);
+
+// Sort by dateAdded descending
+const recentProducts = [...allProducts].sort(
+  (a, b) => new Date(b.data.dateAdded).getTime() - new Date(a.data.dateAdded).getTime()
+);
+
+// Group by date for timeline display
+type ProductEntry = typeof allProducts[0];
+const groupedByDate = new Map<string, ProductEntry[]>();
+for (const p of recentProducts) {
+  const d = p.data.dateAdded;
+  const dateKey = d instanceof Date ? d.toISOString().split('T')[0] : String(d).split('T')[0];
+  if (!groupedByDate.has(dateKey)) {
+    groupedByDate.set(dateKey, []);
+  }
+  groupedByDate.get(dateKey)!.push(p);
+}
+
+function formatDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+// Check if a date is within the last 7 days
+function isRecent(dateStr: string): boolean {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now.getTime() - d.getTime();
+  return diffMs < 7 * 24 * 60 * 60 * 1000;
+}
+
+// Time period labels
+function getTimePeriod(dateStr: string): string {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diffDays = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
+  if (diffDays === 0) return 'Today';
+  if (diffDays <= 7) return 'This Week';
+  if (diffDays <= 14) return 'Last Week';
+  if (diffDays <= 30) return 'Earlier This Month';
+  return 'Older';
+}
+
+// Group dates by time period
+const periodGroups = new Map<string, { dateKey: string; products: ProductEntry[] }[]>();
+for (const [dateKey, products] of groupedByDate.entries()) {
+  const period = getTimePeriod(dateKey);
+  if (!periodGroups.has(period)) {
+    periodGroups.set(period, []);
+  }
+  periodGroups.get(period)!.push({ dateKey, products });
+}
+---
+
+<BaseLayout title="What's New — Chartedly">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-8 py-8">
+
+    <!-- ── Header ── -->
+    <header class="mb-10">
+      <div class="flex items-center gap-3 mb-2">
+        <Sparkles size={28} style="color: #4F7DF7;" />
+        <h1 class="text-3xl font-extrabold" style="color: #FFFFFF;">What's New</h1>
+      </div>
+      <p class="text-base" style="color: #9CA3AF;">
+        The latest product reviews and updates from our team.
+      </p>
+      <p class="text-sm mt-1" style="color: #6B7280;">
+        新着レビュー &bull; 最新のレビューとアップデート
+      </p>
+    </header>
+
+    {recentProducts.length === 0 ? (
+      <div class="text-center py-20">
+        <Clock size={48} class="mx-auto mb-4" style="color: #2D2D4A;" />
+        <p class="text-lg mb-2" style="color: #6B7280;">No products added yet.</p>
+        <a href="/" class="text-sm font-medium hover:underline" style="color: #4F7DF7;">Back to homepage</a>
+      </div>
+    ) : (
+      <div class="space-y-12">
+        {[...periodGroups.entries()].map(([period, dateGroups]) => (
+          <div>
+            {/* Period header */}
+            <div class="flex items-center gap-4 mb-6">
+              <h2 class="text-sm font-semibold uppercase tracking-widest flex-shrink-0" style="color: #6B7280; letter-spacing: 2px;">
+                {period}
+              </h2>
+              <div class="flex-grow h-px" style="background: #2D2D4A;" />
+            </div>
+
+            <div class="space-y-8">
+              {dateGroups.map(({ dateKey, products }) => {
+                const recent = isRecent(dateKey);
+                return (
+                  <section class="relative">
+                    {/* Timeline connector */}
+                    <div class="absolute left-4 top-10 bottom-0 w-px hidden sm:block" style="background: #2D2D4A;" />
+
+                    {/* Date header */}
+                    <div class="flex items-center gap-3 mb-5">
+                      <div
+                        class="relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={recent ? 'background: #4F7DF7;' : 'background: #1E1E38; border: 1px solid #2D2D4A;'}
+                      >
+                        <Clock size={14} style={recent ? 'color: #FFFFFF;' : 'color: #6B7280;'} />
+                      </div>
+                      <div>
+                        <h3 class="text-lg font-semibold" style="color: #FFFFFF;">{formatDate(dateKey)}</h3>
+                        {recent && (
+                          <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase px-2 py-0.5 rounded-full mt-0.5" style="background: rgba(239,68,68,0.15); color: #EF4444;">
+                            NEW
+                          </span>
+                        )}
+                      </div>
+                      <span class="text-sm ml-auto" style="color: #6B7280;">
+                        {products.length} {products.length === 1 ? 'product' : 'products'}
+                      </span>
+                    </div>
+
+                    {/* Product grid for this date */}
+                    <div class="sm:ml-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                      {products.map((product) => (
+                        <div class="relative">
+                          {recent && (
+                            <span class="absolute top-2 right-2 z-10 text-[10px] font-bold uppercase px-1.5 py-0.5 rounded-full" style="background: #EF4444; color: #FFFFFF;">
+                              NEW
+                            </span>
+                          )}
+                          <ProductCard
+                            name={getName(product.data)}
+                            brand={product.data.brand}
+                            image={product.data.image}
+                            slug={product.id}
+                            category={product.data.category}
+                            subcategory={product.data.subcategory}
+                            type={product.data.type}
+                            score={product.data.score}
+                            rank={product.data.rank}
+                            badge={product.data.badge}
+                            price={product.data.price}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>

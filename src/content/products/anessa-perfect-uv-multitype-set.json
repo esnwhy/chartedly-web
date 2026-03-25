@@ -1,0 +1,33 @@
+{
+  "name": "Anessa Perfect UV Multi-Type Set",
+  "brand": "Shiseido",
+  "image": "/images/products/anessa-perfect-uv-multitype-set.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen Set",
+  "price": "¥2,200",
+  "score": 81,
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00unxam.rgryp3af.g00unxam.rgryq825/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Flilycosme%2F4909978147105-ra%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Eight formulation options (milk, gel, brightening variant) let you choose perfect texture for your skin",
+    "Same legendary Shiseido quality as standalone products with convenient variety sampling",
+    "High review rating (4.79★) from smaller but engaged customer base confirms consistency"
+  ],
+  "cons": [
+    "Buying a set limits flexibility—you're committed to multiple bottles even if you dislike one variant",
+    "Similar pricing to single bottles (¥2,200), so value advantage over buying individually is minimal"
+  ],
+  "specs": {},
+  "shortDescription": "Curated Anessa UV set offering texture variety within Japan's most trusted sunscreen line.",
+  "review": "This set intelligently addresses the main complaint about Anessa: finding *your* perfect formula. Whether you prefer lightweight gel or nourishing milk, you get to try Shiseido's technology across formulations. The trade-off is commitment—you're buying multiple bottles rather than testing one first. Best for users already confident in the brand or those with partners to share variants with.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 86,
+    "value": 72,
+    "popularity": 89,
+    "ease": 85,
+    "innovation": 76
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "name": "Chartedly Weekly Product Update",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtDay": 1,
+              "triggerAtHour": 3
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every Monday 3AM JST",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "command": "cd /opt/chartedly && git pull origin main 2>&1"
+      },
+      "id": "git-pull",
+      "name": "1. Git Pull Latest",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "command": "cd /opt/chartedly && RAKUTEN_APP_ID=${RAKUTEN_APP_ID} RAKUTEN_ACCESS_KEY=${RAKUTEN_ACCESS_KEY} RAKUTEN_AFFILIATE_ID=${RAKUTEN_AFFILIATE_ID} node scripts/fetch-rakuten.mjs --all 2>&1 | tail -20"
+      },
+      "id": "fetch-rakuten",
+      "name": "2. Fetch Rakuten Rankings",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "command": "cd /opt/chartedly && ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} node scripts/ai-enrich.mjs 2>&1 | tail -20"
+      },
+      "id": "ai-enrich",
+      "name": "3. AI Enrich New Products",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [660, 0]
+    },
+    {
+      "parameters": {
+        "command": "cd /opt/chartedly && node scripts/sync-products.mjs 2>&1 | tail -10"
+      },
+      "id": "sync-products",
+      "name": "4. Sync Products",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [880, 0]
+    },
+    {
+      "parameters": {
+        "command": "cd /opt/chartedly && python3 scripts/fetch-brand-images.mjs --limit 20 2>&1 | tail -10; python3 scripts/remove-backgrounds.py 2>&1 | tail -10; python3 scripts/center-products.py 2>&1 | tail -10"
+      },
+      "id": "process-images",
+      "name": "5. Process Images",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1100, 0]
+    },
+    {
+      "parameters": {
+        "command": "cd /opt/chartedly && npm run build 2>&1 | tail -5"
+      },
+      "id": "build-site",
+      "name": "6. Build Site",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1320, 0]
+    },
+    {
+      "parameters": {
+        "command": "cd /opt/chartedly && git add -A && git diff --staged --quiet && echo 'No changes' || (git commit -m \"Weekly update $(date +%Y-%m-%d)\" && git push origin main && echo 'Pushed!')"
+      },
+      "id": "git-commit",
+      "name": "7. Commit & Push",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1540, 0]
+    },
+    {
+      "parameters": {
+        "content": "=✅ **Chartedly Weekly Update Complete**\n\nRakuten: {{ $node['2. Fetch Rakuten Rankings'].json.stdout }}\nEnrich: {{ $node['3. AI Enrich New Products'].json.stdout }}\nBuild: {{ $node['6. Build Site'].json.stdout }}\nDeploy: {{ $node['7. Commit & Push'].json.stdout }}"
+      },
+      "id": "success-log",
+      "name": "8. Log Success",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1760, 0]
+    }
+  ],
+  "connections": {
+    "Every Monday 3AM JST": {
+      "main": [[{"node": "1. Git Pull Latest", "type": "main", "index": 0}]]
+    },
+    "1. Git Pull Latest": {
+      "main": [[{"node": "2. Fetch Rakuten Rankings", "type": "main", "index": 0}]]
+    },
+    "2. Fetch Rakuten Rankings": {
+      "main": [[{"node": "3. AI Enrich New Products", "type": "main", "index": 0}]]
+    },
+    "3. AI Enrich New Products": {
+      "main": [[{"node": "4. Sync Products", "type": "main", "index": 0}]]
+    },
+    "4. Sync Products": {
+      "main": [[{"node": "5. Process Images", "type": "main", "index": 0}]]
+    },
+    "5. Process Images": {
+      "main": [[{"node": "6. Build Site", "type": "main", "index": 0}]]
+    },
+    "6. Build Site": {
+      "main": [[{"node": "7. Commit & Push", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Tokyo"
+  }
+}

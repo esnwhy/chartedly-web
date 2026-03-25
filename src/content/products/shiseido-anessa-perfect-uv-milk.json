@@ -1,0 +1,34 @@
+{
+  "name": "Shiseido Anessa Perfect UV Milk SPF50+",
+  "brand": "Shiseido",
+  "image": "/images/products/shiseido-anessa-perfect-uv-milk.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen",
+  "price": "¥2,200",
+  "score": 82,
+  "badge": "top-pick",
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00t269m.rgrype8a.g00t269m.rgryq587/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Farianakosume%2F4909978147105-ra%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Legendary Japanese sunscreen with proven waterproof performance in humid summers",
+    "Affordable price point under ¥2,500 for a trusted daily-use product",
+    "Wide availability in every convenience store and drugstore across Japan"
+  ],
+  "cons": [
+    "Can leave a slight white cast on darker skin tones despite 'milk' formulation",
+    "Requires thorough cleansing to remove completely, which some find inconvenient"
+  ],
+  "specs": {},
+  "shortDescription": "Japan's most beloved affordable sunscreen with PA++++ protection and proven waterproof formula.",
+  "review": "Anessa Perfect UV Milk is the standard-bearer for Japanese sunscreens and for good reason—it's effective, affordable, and ubiquitous in Japan. The formula holds up beautifully in hot, humid conditions and genuinely resists water and sweat. For foreigners, this is an easy recommendation: it's available everywhere, instructions are simple, and the price makes daily use guilt-free. The main trade-off is that it's heavier than modern gel alternatives and can feel slightly chalky on some skin types.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 85,
+    "value": 78,
+    "popularity": 90,
+    "ease": 88,
+    "innovation": 75
+  }
+}

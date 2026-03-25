@@ -1,0 +1,33 @@
+{
+  "name": "SK-II Facial Treatment Clear Lotion",
+  "brand": "SK-II",
+  "image": "/images/products/sk-ii-facial-treatment-clear-lotion.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Essence Lotion",
+  "price": "¥10,450",
+  "score": 78,
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00siy3m.rgrypf63.g00siy3m.rgryqe7d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fsk-ii%2Fftcl_230%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Signature Pitera™ ferment ingredient visibly improves skin texture and clarity",
+    "Lightweight lotion absorbs quickly; feels luxurious without stickiness",
+    "Widely available in Japanese department stores and online—easy to repurchase"
+  ],
+  "cons": [
+    "Premium price (¥10,450) is steep for a toner/essence; luxury tax is significant",
+    "Results take 4+ weeks to show; not an instant gratification product"
+  ],
+  "specs": {},
+  "shortDescription": "Prestige Japanese essence-lotion with fermented ingredients for glowing skin.",
+  "review": "SK-II is Japan's prestige skincare standard, and this Clear Lotion is the cult favorite. The signature Pitera™ blend does improve skin tone and resilience noticeably—but you're paying for the brand heritage, not revolutionary science. For expats willing to invest in Japanese luxury, it's justified. For budget-conscious folks, results don't justify the premium over cheaper alternatives.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 88,
+    "value": 55,
+    "popularity": 85,
+    "ease": 80,
+    "innovation": 82
+  }
+}

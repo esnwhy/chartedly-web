@@ -1,0 +1,434 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CarouselRow from '../../components/CarouselRow.astro';
+import RadarChart from '../../components/RadarChart.astro';
+import ScoreBadge from '../../components/ScoreBadge.astro';
+import { ChevronRight, Check, X, Award, Coins, ExternalLink, ChevronDown } from 'lucide-astro';
+
+// ── Localization helpers ──
+function getName(data: any): string {
+  return data.name_en ?? data.name ?? data.brand ?? 'Untitled';
+}
+function getDescription(data: any): string {
+  return data.description_en ?? data.shortDescription ?? '';
+}
+function getPros(data: any): string[] {
+  return data.pros_en?.length ? data.pros_en : data.pros ?? [];
+}
+function getCons(data: any): string[] {
+  return data.cons_en?.length ? data.cons_en : data.cons ?? [];
+}
+function getReview(data: any): string | undefined {
+  return data.review_en ?? data.review;
+}
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { slug: product.id },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const d = product.data;
+
+const name = getName(d);
+const description = getDescription(d);
+const pros = getPros(d);
+const cons = getCons(d);
+const review = getReview(d);
+const {
+  brand, image, category, subcategory, type, price, score, rank, badge,
+  buyUrl, specs, comparisonSlug, radar, retailers,
+} = d;
+
+const catSlug = category.toLowerCase().replace(/\s+/g, '-');
+const subcatSlug = subcategory.toLowerCase().replace(/\s+/g, '-');
+const typeSlug = type.toLowerCase().replace(/\s+/g, '-');
+
+// Score tier color
+function scoreColor(s: number): string {
+  if (s >= 80) return '#22C55E';
+  if (s >= 60) return '#F59E0B';
+  return '#EF4444';
+}
+function scoreBgHex(s: number): string {
+  if (s >= 80) return '#22C55E';
+  if (s >= 60) return '#F59E0B';
+  return '#EF4444';
+}
+
+const color = scoreColor(score);
+const specEntries = specs ? Object.entries(specs) : [];
+
+// Badge display
+const badgeLabel = badge === 'top-pick' ? 'Top Pick' : badge === 'budget-pick' ? 'Budget Pick' : null;
+const badgeBg = badge === 'top-pick' ? 'rgba(245,158,11,0.15)' : badge === 'budget-pick' ? 'rgba(34,197,94,0.15)' : '';
+const badgeText = badge === 'top-pick' ? '#F59E0B' : badge === 'budget-pick' ? '#22C55E' : '';
+
+// Retailer buttons
+const retailerList: { name: string; url: string; primary: boolean }[] = [];
+if (retailers?.amazon) retailerList.push({ name: 'Amazon', url: retailers.amazon, primary: true });
+if (retailers?.rakuten) retailerList.push({ name: 'Rakuten', url: retailers.rakuten, primary: false });
+if (retailers?.yahoo) retailerList.push({ name: 'Yahoo Shopping', url: retailers.yahoo, primary: false });
+if (retailers?.official) retailerList.push({ name: 'Official Store', url: retailers.official, primary: false });
+// Fallback to legacy buyUrl
+if (retailerList.length === 0 && buyUrl) {
+  const isAmazon = buyUrl.includes('amazon');
+  const isRakuten = buyUrl.includes('rakuten');
+  retailerList.push({
+    name: isAmazon ? 'Amazon' : isRakuten ? 'Rakuten' : 'Buy Now',
+    url: buyUrl,
+    primary: true,
+  });
+}
+
+// Related products (same category, excluding current)
+const allProducts = await getCollection('products', (p) => !p.data.draft && !p.data.discontinued);
+let related = allProducts
+  .filter((p) => p.id !== product.id && p.data.subcategory === subcategory)
+  .sort((a, b) => b.data.score - a.data.score)
+  .slice(0, 10);
+// Fallback: fill from parent category
+if (related.length < 5) {
+  const extra = allProducts
+    .filter((p) => p.id !== product.id && p.data.category === category && !related.some(r => r.id === p.id))
+    .sort((a, b) => b.data.score - a.data.score)
+    .slice(0, 10 - related.length);
+  related = [...related, ...extra];
+}
+
+// Score display (out of 10)
+const scoreOut10 = (score / 10).toFixed(1);
+---
+
+<BaseLayout title={`${name} — Chartedly`} isArticle={true}>
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-8 py-6">
+
+    <!-- ── Breadcrumb ── -->
+    <nav aria-label="Breadcrumb" class="mb-6 overflow-x-auto">
+      <ol class="flex items-center gap-1.5 text-[13px] flex-nowrap whitespace-nowrap" style="color: #6B7280;">
+        <li><a href="/" class="hover:text-[#4F7DF7] transition-colors">Home</a></li>
+        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+        <li><a href={`/category/${catSlug}`} class="hover:text-[#4F7DF7] transition-colors">{category}</a></li>
+        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+        <li><a href={`/category/${catSlug}/${subcatSlug}`} class="hover:text-[#4F7DF7] transition-colors">{subcategory}</a></li>
+        <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+        <li><span class="font-medium" style="color: #9CA3AF;" aria-current="page">{name}</span></li>
+      </ol>
+    </nav>
+
+    <!-- ── Hero: Image + Info (2-col desktop, stacked mobile) ── -->
+    <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 mb-10">
+
+      <!-- Left: Product Image -->
+      <div class="lg:w-[55%] flex-shrink-0">
+        <div class="rounded-xl p-6 flex items-center justify-center aspect-[3/2]" style="background: #16162A; border: 1px solid #2D2D4A;">
+          {image ? (
+            <img
+              src={image}
+              alt={name}
+              class="max-h-full max-w-full object-contain rounded-lg"
+              loading="eager"
+              decoding="async"
+            />
+          ) : (
+            <span class="text-4xl font-bold" style="color: #2D2D4A;">{brand}</span>
+          )}
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="lg:w-[45%] flex flex-col">
+        <!-- Rank -->
+        {rank != null && (
+          <a href={`/category/${catSlug}/${subcatSlug}`} class="text-sm font-semibold mb-2 hover:underline" style="color: #4F7DF7;">
+            #{rank} in {subcategory}
+          </a>
+        )}
+
+        <!-- Title -->
+        <h1 class="text-2xl sm:text-[28px] font-bold leading-tight mb-2" style="color: #FFFFFF;">{name}</h1>
+
+        <!-- Brand -->
+        <p class="text-base mb-3" style="color: #9CA3AF;">by <span class="font-medium">{brand}</span></p>
+
+        <!-- Badges -->
+        {badgeLabel && (
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span
+              class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full"
+              style={`background: ${badgeBg}; color: ${badgeText};`}
+            >
+              {badge === 'top-pick' ? <Award size={14} /> : <Coins size={14} />}
+              {badgeLabel}
+            </span>
+          </div>
+        )}
+
+        <!-- ── Score Circle + Breakdown ── -->
+        <div class="flex items-start gap-6 mb-6">
+          <!-- Large score circle -->
+          <div
+            class="w-24 h-24 rounded-full flex flex-col items-center justify-center flex-shrink-0"
+            style={`border: 4px solid ${color}; background: #16162A; box-shadow: 0 2px 12px rgba(0,0,0,0.3);`}
+          >
+            <span class="text-4xl font-extrabold leading-none" style="color: #FFFFFF;">{scoreOut10}</span>
+            <span class="text-sm" style="color: #6B7280;">/10</span>
+          </div>
+
+          <!-- Score breakdown bars (from radar) -->
+          {radar && (
+            <div class="flex-grow space-y-3 pt-1">
+              {[
+                { label: 'Quality', val: radar.quality },
+                { label: 'Value', val: radar.value },
+                { label: 'Popularity', val: radar.popularity },
+                { label: 'Ease of Use', val: radar.ease },
+                { label: 'Innovation', val: radar.innovation },
+              ].map((item) => (
+                <div>
+                  <div class="flex justify-between text-sm mb-0.5">
+                    <span style="color: #9CA3AF;">{item.label}</span>
+                    <span class="font-semibold" style="color: #FFFFFF;">{(item.val / 10).toFixed(1)}</span>
+                  </div>
+                  <div class="h-2 w-full rounded-full overflow-hidden" style="background: #2D2D4A;">
+                    <div
+                      class="h-full rounded-full"
+                      style={`width: ${item.val}%; background: ${scoreBgHex(item.val)};`}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- Radar chart (collapsible on mobile) -->
+        {radar && (
+          <details class="mb-6 lg:open">
+            <summary class="lg:hidden text-sm font-medium cursor-pointer flex items-center gap-1 mb-2" style="color: #4F7DF7;">
+              Show Chart <ChevronDown size={14} />
+            </summary>
+            <div class="flex justify-center p-4 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+              <RadarChart radar={radar} />
+            </div>
+          </details>
+        )}
+
+        <!-- ── Price + Purchase CTAs ── -->
+        <div class="mb-6">
+          <p class="text-[28px] font-extrabold mb-1" style="color: #FFFFFF;">{price}</p>
+          <p class="text-[13px] mb-4" style="color: #6B7280;">Tax included</p>
+
+          <div class="flex flex-col gap-2">
+            {retailerList.map((r) => (
+              <a
+                href={r.url}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                class="flex items-center justify-between h-12 px-4 rounded-lg font-semibold text-sm transition-colors"
+                style={r.primary
+                  ? 'background: #F7A94F; color: #0A0A0F;'
+                  : 'background: #1E1E38; border: 1px solid #2D2D4A; color: #9CA3AF;'}
+              >
+                <span class="flex items-center gap-2">
+                  <ExternalLink size={16} />
+                  Buy on {r.name}
+                </span>
+                <span>{price}</span>
+              </a>
+            ))}
+          </div>
+
+          <p class="text-xs mt-3" style="color: #6B7280;">
+            <a href="/about#affiliate-disclosure" class="hover:underline">Affiliate disclosure</a>
+          </p>
+        </div>
+
+        <!-- ── Quick Verdict ── -->
+        {description && (
+          <div class="rounded-r-lg p-5 mb-6" style="background: rgba(79,125,247,0.1); border-left: 4px solid #4F7DF7;">
+            <p class="text-[13px] font-semibold uppercase tracking-wide mb-2" style="color: #4F7DF7;">
+              Quick Verdict
+            </p>
+            <p class="text-base italic leading-relaxed" style="color: #9CA3AF;">
+              "{description}"
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <!-- ── Pros / Cons ── -->
+    {(pros.length > 0 || cons.length > 0) && (
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+        {pros.length > 0 && (
+          <div class="rounded-r-lg p-6" style="background: rgba(34,197,94,0.08); border-left: 4px solid #22C55E;">
+            <h2 class="text-lg font-bold mb-4 flex items-center gap-2" style="color: #22C55E;">
+              <Check size={20} /> What we like
+            </h2>
+            <ul class="space-y-3" aria-label={`Pros of ${name}`}>
+              {pros.map((pro) => (
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed" style="color: #9CA3AF;">
+                  <Check size={16} class="shrink-0 mt-0.5" style="color: #22C55E;" aria-hidden="true" />
+                  <span>{pro}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {cons.length > 0 && (
+          <div class="rounded-r-lg p-6" style="background: rgba(239,68,68,0.08); border-left: 4px solid #EF4444;">
+            <h2 class="text-lg font-bold mb-4 flex items-center gap-2" style="color: #EF4444;">
+              <X size={20} /> What we don't
+            </h2>
+            <ul class="space-y-3" aria-label={`Cons of ${name}`}>
+              {cons.map((con) => (
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed" style="color: #9CA3AF;">
+                  <X size={16} class="shrink-0 mt-0.5" style="color: #EF4444;" aria-hidden="true" />
+                  <span>{con}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    )}
+
+    <!-- ── Specs Table (expandable) ── -->
+    {specEntries.length > 0 && (
+      <section class="mb-10">
+        <h2 class="text-xl font-bold mb-1" style="color: #FFFFFF;">Specifications</h2>
+        <p class="text-sm mb-4" style="color: #6B7280;">仕様</p>
+
+        <div class="rounded-lg overflow-hidden" style="border: 1px solid #2D2D4A;" id="specs-table">
+          {specEntries.map(([key, value], idx) => (
+            <div
+              class:list={[
+                'flex',
+                idx >= 8 ? 'specs-hidden hidden' : '',
+              ]}
+              style={idx % 2 === 0 ? 'background: #16162A;' : 'background: #1E1E38;'}
+            >
+              <div class="w-[35%] px-4 py-3 text-sm font-medium" style="color: #9CA3AF; background: rgba(0,0,0,0.15); border-right: 1px solid #2D2D4A;">
+                {key}
+              </div>
+              <div class="w-[65%] px-4 py-3 text-sm" style="color: #FFFFFF;">
+                {value}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {specEntries.length > 8 && (
+          <button
+            class="mt-3 text-sm font-medium flex items-center gap-1 cursor-pointer hover:underline"
+            style="color: #4F7DF7;"
+            id="specs-toggle"
+          >
+            <ChevronDown size={14} />
+            <span>Show all {specEntries.length} specs</span>
+          </button>
+        )}
+      </section>
+    )}
+
+    <!-- ── Full Review ── -->
+    {review && (
+      <section class="mb-10 max-w-[720px] mx-auto">
+        <h2 class="text-xl font-bold mb-1" style="color: #FFFFFF;">Our Review</h2>
+        <p class="text-sm mb-2" style="color: #6B7280;">レビュー</p>
+        <div class="w-10 h-0.5 mb-6" style="background: #4F7DF7;" />
+
+        <div class="space-y-4">
+          {review.split('\n\n').map((paragraph) => (
+            <p class="text-base leading-[1.8]" style="color: #9CA3AF;">{paragraph}</p>
+          ))}
+        </div>
+
+        <div class="pt-4 mt-6" style="border-top: 1px solid #2D2D4A;">
+          <p class="text-sm" style="color: #6B7280;">
+            Published {d.dateAdded instanceof Date ? d.dateAdded.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : d.dateAdded}
+            {d.dateUpdated && (
+              <span> &bull; Last updated {d.dateUpdated instanceof Date ? d.dateUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : d.dateUpdated}</span>
+            )}
+          </p>
+        </div>
+      </section>
+    )}
+
+    <!-- ── How We Test Accordion ── -->
+    <section class="mb-10 max-w-[720px] mx-auto">
+      <details class="rounded-xl overflow-hidden" style="background: #16162A; border: 1px solid #2D2D4A;">
+        <summary class="flex items-center justify-between h-12 px-6 cursor-pointer text-base font-semibold transition-colors" style="color: #FFFFFF;">
+          <span>How We Test <span class="text-sm font-normal ml-2" style="color: #6B7280;">テスト方法</span></span>
+          <ChevronDown size={20} class="summary-chevron transition-transform" style="color: #6B7280;" />
+        </summary>
+        <div class="px-6 pb-6 pt-2 text-sm leading-relaxed space-y-3" style="color: #9CA3AF;">
+          <p>Our testing methodology for {type} products involves comprehensive evaluation across multiple criteria:</p>
+          <ol class="list-decimal list-inside space-y-2 pl-2">
+            <li><strong style="color: #4F7DF7;">Performance Testing</strong> — Real-world use under typical conditions</li>
+            <li><strong style="color: #4F7DF7;">Value Assessment</strong> — Price per unit compared to category average</li>
+            <li><strong style="color: #4F7DF7;">User Experience</strong> — Ease of use, texture, application</li>
+            <li><strong style="color: #4F7DF7;">Ingredient Analysis</strong> — Safety and efficacy of key ingredients</li>
+            <li><strong style="color: #4F7DF7;">Availability</strong> — How easy it is to find in Japan</li>
+          </ol>
+          <p><a href="/about#methodology" class="font-medium hover:underline" style="color: #4F7DF7;">Read our full methodology &rarr;</a></p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ── Related Products ── -->
+    {related.length > 0 && (
+      <section class="mb-10">
+        <CarouselRow
+          title="You Might Also Like"
+          titleJa="こちらもおすすめ"
+          seeAllHref={`/category/${catSlug}/${subcatSlug}`}
+          products={related.map((p) => ({
+            name: getName(p.data),
+            brand: p.data.brand,
+            image: p.data.image,
+            slug: p.id,
+            category: p.data.category,
+            subcategory: p.data.subcategory,
+            type: p.data.type,
+            score: p.data.score,
+            rank: p.data.rank,
+            badge: p.data.badge,
+            price: p.data.price,
+          }))}
+        />
+      </section>
+    )}
+
+  </div>
+</BaseLayout>
+
+<script>
+  // Specs expand/collapse
+  function initSpecs() {
+    const toggle = document.getElementById('specs-toggle');
+    if (!toggle) return;
+    let expanded = false;
+    toggle.addEventListener('click', () => {
+      expanded = !expanded;
+      document.querySelectorAll('.specs-hidden').forEach((el) => {
+        el.classList.toggle('hidden', !expanded);
+      });
+      const span = toggle.querySelector('span');
+      if (span) span.textContent = expanded ? 'Show less' : span.textContent;
+    });
+  }
+  initSpecs();
+  document.addEventListener('astro:page-load', initSpecs);
+</script>
+
+<style>
+  details[open] .summary-chevron {
+    transform: rotate(180deg);
+  }
+</style>

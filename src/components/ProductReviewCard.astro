@@ -1,0 +1,130 @@
+---
+import Button from './Button.astro';
+import { Check, X, Award, Coins } from 'lucide-astro';
+
+interface Props {
+  name: string;
+  image?: string;
+  badge?: 'top-pick' | 'budget-pick';
+  pros: string[];
+  cons: string[];
+  specs?: Record<string, string>;
+  buyUrl: string;
+  review: string; // HTML string for the review text
+}
+
+const { name, image, badge, pros, cons, specs, buyUrl, review } = Astro.props;
+
+const borderClass =
+  badge === 'top-pick'
+    ? 'border-l-[3px] border-l-success'
+    : badge === 'budget-pick'
+      ? 'border-l-[3px] border-l-warning'
+      : '';
+
+const badgeLabel = badge === 'top-pick' ? 'Top Pick' : badge === 'budget-pick' ? 'Budget Pick' : null;
+
+const badgeClasses =
+  badge === 'top-pick'
+    ? 'bg-success-bg text-success'
+    : badge === 'budget-pick'
+      ? 'bg-warning-bg text-warning'
+      : '';
+
+const specEntries = specs ? Object.entries(specs) : [];
+---
+
+<article class:list={['bg-surface-raised rounded-lg p-6 mb-6', borderClass]}>
+  {/* Desktop layout: image left, content right */}
+  <div class="flex flex-col md:flex-row gap-6">
+    {/* Product image */}
+    {image && (
+      <div class="shrink-0">
+        <div class="bg-surface-inset rounded-lg p-2 border border-white/[0.06] md:w-40 md:h-40">
+          <img
+            src={image}
+            alt={name}
+            class="w-full h-full max-h-48 md:max-h-none object-contain rounded-md"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    )}
+
+    {/* Content */}
+    <div class="flex-1 min-w-0">
+      {/* Header: name + badge */}
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        <h3 class="text-lg font-bold text-text-primary">{name}</h3>
+        {badgeLabel && (
+          <span class:list={['inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full', badgeClasses]}>
+            {badge === 'top-pick' ? (
+              <Award size={14} aria-hidden="true" />
+            ) : (
+              <Coins size={14} aria-hidden="true" />
+            )}
+            {badgeLabel}
+          </span>
+        )}
+      </div>
+
+      {/* Pros and Cons */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        {pros.length > 0 && (
+          <div>
+            <ul class="space-y-1.5" aria-label={`Pros of ${name}`}>
+              {pros.map((pro) => (
+                <li class="flex items-start gap-2 text-text-secondary text-sm">
+                  <Check size={16} class="text-success shrink-0 mt-0.5" aria-hidden="true" />
+                  <span>{pro}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {cons.length > 0 && (
+          <div>
+            <ul class="space-y-1.5" aria-label={`Cons of ${name}`}>
+              {cons.map((con) => (
+                <li class="flex items-start gap-2 text-text-secondary text-sm">
+                  <X size={16} class="text-error-icon shrink-0 mt-0.5" aria-hidden="true" />
+                  <span>{con}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Specs grid */}
+      {specEntries.length > 0 && (
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 mb-4 py-3 border-t border-white/[0.06]">
+          {specEntries.map(([key, value]) => (
+            <div>
+              <dt class="text-text-muted text-sm">{key}</dt>
+              <dd class="text-text-primary text-sm">{value}</dd>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Review text */}
+      <div class="text-text-secondary text-sm leading-relaxed mt-4" set:html={review} />
+
+      {/* Buy button */}
+      <div class="mt-4">
+        <Button
+          variant="primary"
+          size="md"
+          href={buyUrl}
+          external
+          class="w-full md:w-auto"
+          aria-label={`Buy ${name} on Amazon Japan (opens in new tab)`}
+        >
+          Buy on Amazon Japan
+        </Button>
+      </div>
+    </div>
+  </div>
+</article>

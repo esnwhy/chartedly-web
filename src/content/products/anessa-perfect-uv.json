@@ -1,0 +1,32 @@
+{
+  "name": "Anessa Perfect UV Sunscreen Milk",
+  "brand": "Shiseido",
+  "image": "/images/products/anessa-perfect-uv.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen",
+  "price": "¥2500",
+  "score": 89,
+  "rank": 2,
+  "buyUrl": "https://www.amazon.co.jp/dp/B09YG2S15Y",
+  "pros": [
+    "Strongest UV protection",
+    "Sweat and water resistant",
+    "Great for outdoor use"
+  ],
+  "cons": [
+    "Higher price point",
+    "Can feel heavy on oily skin"
+  ],
+  "specs": {
+    "SPF": "50+",
+    "PA": "PA++++",
+    "Volume": "60ml",
+    "Key Ingredients": "Auto Booster Technology"
+  },
+  "shortDescription": "The gold standard for outdoor UV protection in Japan.",
+  "review": "Anessa Perfect UV Sunscreen Milk by Shiseido is the go-to choice for anyone spending time outdoors in Japan.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-15",
+  "featured": false
+}

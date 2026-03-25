@@ -1,0 +1,34 @@
+{
+  "name": "ReFa Beautech Hair Dryer S+",
+  "brand": "ReFa",
+  "image": "/images/products/refa-beautech-dryer-s-plus.png",
+  "category": "Electronics",
+  "subcategory": "Home Appliances",
+  "type": "Premium Ionic Hair Dryer",
+  "price": "¥39,600",
+  "score": 81,
+  "badge": "top-pick",
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00r20gm.rgryp89f.g00r20gm.rgryqdfa/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fmtgec-beauty%2F1850320101%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Hydroion technology and sensing program deliver salon-quality results with minimal frizz",
+    "Compact, lightweight design ideal for small Japanese bathrooms and travel",
+    "Exceptional reputation in Japan; widely stocked at drugstores and beauty retailers"
+  ],
+  "cons": [
+    "Premium pricing at ¥39,600 limits budget-conscious shoppers",
+    "Ionic technology effectiveness diminishes if mineral buildup accumulates in filter"
+  ],
+  "specs": {},
+  "shortDescription": "Premium compact hair dryer with ion technology and smart heat-sensing program.",
+  "review": "ReFa's Beautech S+ is Japan's favorite hair dryer for expats seeking luxury with practicality. The Hydroion technology genuinely reduces frizz and drying time, while the compact form factor is perfect for tiny Japanese apartments. At ¥39,600, it's an investment, but the 425+ five-star reviews and widespread retail availability make it a justified splurge for daily use.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 85,
+    "value": 68,
+    "popularity": 84,
+    "ease": 88,
+    "innovation": 82
+  }
+}

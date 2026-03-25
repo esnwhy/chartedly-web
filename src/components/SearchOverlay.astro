@@ -1,0 +1,384 @@
+---
+import { Search, X, ArrowRight } from 'lucide-astro';
+---
+
+<!-- Search overlay — fullscreen on mobile, centered on desktop -->
+<div
+  id="search-overlay"
+  class="search-overlay fixed inset-0 z-[60] hidden"
+  role="dialog"
+  aria-label="Search"
+>
+  <div class="max-w-[560px] mx-auto pt-[120px] px-4 sm:px-0 relative z-10">
+
+    <!-- Search input -->
+    <div class="search-input relative" role="combobox" aria-expanded="false" aria-controls="search-dropdown" aria-haspopup="listbox">
+      <!-- Search icon (left) -->
+      <div class="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#6B7280]">
+        <Search size={18} />
+      </div>
+
+      <input
+        type="text"
+        id="search-input-field"
+        placeholder="Search products, categories..."
+        autocomplete="off"
+        aria-autocomplete="list"
+        class="w-full h-12 pl-12 pr-12 bg-[#1E1E38] border border-[#3D3D5A] rounded-xl text-white text-base placeholder-[#6B7280] outline-none focus:border-[#4F7DF7] focus:shadow-[0_0_0_3px_rgba(79,125,247,0.2)] transition-all duration-150"
+        style="font-family: 'Inter', 'Noto Sans JP', sans-serif;"
+      />
+
+      <!-- ESC badge / clear button (right) -->
+      <span
+        id="search-esc-badge"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-[#6B7280] bg-[#16162A] border border-[#2D2D4A] rounded px-1.5 py-0.5 tracking-wide"
+      >
+        ESC
+      </span>
+      <button
+        id="search-clear-btn"
+        class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[#16162A] border-none text-[#6B7280] flex items-center justify-center cursor-pointer hover:bg-[#2D2D4A] hover:text-white transition-all duration-150 hidden"
+        aria-label="Clear search"
+      >
+        <X size={14} />
+      </button>
+    </div>
+
+    <!-- Dropdown results -->
+    <div
+      id="search-dropdown"
+      class="search-dropdown absolute left-4 right-4 sm:left-0 sm:right-0 mt-2 max-h-[480px] overflow-y-auto bg-[#1E1E38] border border-[#2D2D4A] rounded-xl shadow-2xl z-20 hidden"
+      role="listbox"
+    >
+      <!-- Product results section -->
+      <div id="search-products-section" class="hidden">
+        <div class="text-xs font-semibold tracking-[0.08em] uppercase text-[#6B7280] px-4 pt-3 pb-2" role="presentation">
+          Products
+        </div>
+        <div id="search-product-results"></div>
+      </div>
+
+      <!-- Category suggestions section -->
+      <div id="search-categories-section" class="hidden">
+        <div class="text-xs font-semibold tracking-[0.08em] uppercase text-[#6B7280] px-4 pt-3 pb-2 border-t border-[#2D2D4A]" role="presentation">
+          Categories
+        </div>
+        <div id="search-category-results"></div>
+      </div>
+
+      <!-- Full search link -->
+      <div id="search-full-link" class="hidden border-t border-[#2D2D4A]">
+        <a
+          id="search-full-link-anchor"
+          href="/search"
+          class="flex items-center justify-center gap-1 px-4 py-3 text-sm font-medium text-[#4F7DF7] hover:bg-[#16162A] transition-colors duration-150"
+        >
+          Search for "<span id="search-full-query"></span>"
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Empty state -->
+      <div id="search-empty-state" class="hidden py-8 px-4 text-center">
+        <p class="text-sm text-[#6B7280] mb-1">No products found</p>
+        <p class="text-xs text-[#4B5563]">Try different keywords or browse categories</p>
+      </div>
+    </div>
+
+    <!-- Live region for screen readers -->
+    <div id="search-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <!-- Backdrop click to close -->
+  <div id="search-backdrop" class="absolute inset-0 z-0"></div>
+</div>
+
+<style>
+  /* Overlay background */
+  .search-overlay {
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* Mobile: fullscreen */
+  @media (max-width: 639px) {
+    .search-overlay {
+      background: #0A0A0F;
+      padding-top: 0;
+    }
+    .search-overlay > div:first-child {
+      padding-top: 16px;
+    }
+    .search-dropdown {
+      position: fixed !important;
+      top: 64px;
+      left: 16px !important;
+      right: 16px !important;
+      max-height: 60vh;
+      border-radius: 8px;
+    }
+  }
+
+  /* Result item highlight */
+  .search-result--highlighted {
+    background: rgba(79, 125, 247, 0.1);
+    outline: 2px solid #4F7DF7;
+    outline-offset: -2px;
+  }
+</style>
+
+<script>
+  function initSearchOverlay() {
+    const overlay = document.getElementById('search-overlay');
+    const input = document.getElementById('search-input-field') as HTMLInputElement;
+    const dropdown = document.getElementById('search-dropdown');
+    const escBadge = document.getElementById('search-esc-badge');
+    const clearBtn = document.getElementById('search-clear-btn');
+    const backdrop = document.getElementById('search-backdrop');
+    const productsSection = document.getElementById('search-products-section');
+    const productResults = document.getElementById('search-product-results');
+    const categoriesSection = document.getElementById('search-categories-section');
+    const categoryResults = document.getElementById('search-category-results');
+    const fullLink = document.getElementById('search-full-link');
+    const fullQuery = document.getElementById('search-full-query');
+    const emptyState = document.getElementById('search-empty-state');
+    const liveRegion = document.getElementById('search-live');
+
+    if (!overlay || !input) return;
+
+    // All products loaded from the page (will be set by TopNav or injected)
+    let allProducts: any[] = [];
+    let highlightIndex = -1;
+    let resultElements: HTMLElement[] = [];
+
+    // Try to get search data from window (set by TopNav)
+    function loadSearchData() {
+      // Products will be fetched via a data attribute or global
+      const dataEl = document.getElementById('search-data');
+      if (dataEl) {
+        try {
+          allProducts = JSON.parse(dataEl.textContent || '[]');
+        } catch { /* empty */ }
+      }
+    }
+
+    function openSearch() {
+      overlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      loadSearchData();
+      setTimeout(() => input.focus(), 50);
+    }
+
+    function closeSearch() {
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+      input.value = '';
+      hideDropdown();
+      highlightIndex = -1;
+    }
+
+    function hideDropdown() {
+      dropdown?.classList.add('hidden');
+      productsSection?.classList.add('hidden');
+      categoriesSection?.classList.add('hidden');
+      fullLink?.classList.add('hidden');
+      emptyState?.classList.add('hidden');
+    }
+
+    function showDropdown() {
+      dropdown?.classList.remove('hidden');
+    }
+
+    function getScoreColor(score: number): string {
+      if (score >= 80) return '#22C55E';
+      if (score >= 60) return '#F59E0B';
+      return '#EF4444';
+    }
+
+    function highlightMatch(text: string, query: string): string {
+      const idx = text.toLowerCase().indexOf(query.toLowerCase());
+      if (idx === -1) return text;
+      const before = text.slice(0, idx);
+      const match = text.slice(idx, idx + query.length);
+      const after = text.slice(idx + query.length);
+      return `${before}<mark class="bg-transparent text-[#4F7DF7] font-semibold">${match}</mark>${after}`;
+    }
+
+    function updateHighlight() {
+      resultElements.forEach((el, i) => {
+        if (i === highlightIndex) {
+          el.classList.add('search-result--highlighted');
+          el.setAttribute('aria-selected', 'true');
+          el.scrollIntoView({ block: 'nearest' });
+        } else {
+          el.classList.remove('search-result--highlighted');
+          el.setAttribute('aria-selected', 'false');
+        }
+      });
+    }
+
+    function doSearch() {
+      const query = input.value.trim();
+
+      // Toggle ESC badge / clear button
+      if (query) {
+        escBadge?.classList.add('hidden');
+        clearBtn?.classList.remove('hidden');
+      } else {
+        escBadge?.classList.remove('hidden');
+        clearBtn?.classList.add('hidden');
+        hideDropdown();
+        return;
+      }
+
+      const q = query.toLowerCase();
+
+      // Filter products (max 5)
+      const products = allProducts
+        .filter((p: any) =>
+          p.name?.toLowerCase().includes(q) ||
+          p.brand?.toLowerCase().includes(q) ||
+          p.category?.toLowerCase().includes(q) ||
+          p.type?.toLowerCase().includes(q)
+        )
+        .slice(0, 5);
+
+      // Category suggestions (unique categories matching query, max 3)
+      const categories = [...new Set(
+        allProducts
+          .filter((p: any) =>
+            p.category?.toLowerCase().includes(q) ||
+            p.type?.toLowerCase().includes(q)
+          )
+          .map((p: any) => p.type || p.category)
+      )].slice(0, 3);
+
+      // Count per category
+      const categoryCounts = categories.map((cat: string) => ({
+        name: cat,
+        count: allProducts.filter((p: any) => p.type === cat || p.category === cat).length,
+      }));
+
+      showDropdown();
+      highlightIndex = -1;
+      resultElements = [];
+
+      if (products.length === 0 && categoryCounts.length === 0) {
+        productsSection?.classList.add('hidden');
+        categoriesSection?.classList.add('hidden');
+        fullLink?.classList.add('hidden');
+        emptyState?.classList.remove('hidden');
+        if (liveRegion) liveRegion.textContent = 'No products found';
+        return;
+      }
+
+      emptyState?.classList.add('hidden');
+
+      // Render products
+      if (products.length > 0 && productResults && productsSection) {
+        productsSection.classList.remove('hidden');
+        productResults.innerHTML = products.map((p: any) => `
+          <a
+            href="/product/${p.slug}"
+            class="search-result flex items-center gap-3 px-4 py-2 cursor-pointer transition-colors duration-150 hover:bg-[#16162A]"
+            role="option"
+            aria-selected="false"
+          >
+            <div class="w-12 h-12 rounded bg-[#0A0A0F] shrink-0 overflow-hidden">
+              ${p.image ? `<img src="${p.image}" alt="" class="w-full h-full object-cover" loading="lazy" />` : `<div class="w-full h-full flex items-center justify-center text-[10px] text-[#6B7280]">${p.brand || ''}</div>`}
+            </div>
+            <div class="flex-1 min-w-0 flex flex-col gap-0.5">
+              <span class="text-sm font-medium text-white truncate">${highlightMatch(p.name || '', query)}</span>
+              <span class="text-xs text-[#6B7280] flex items-center gap-2">
+                <span style="color: ${getScoreColor(p.score)}; font-weight: 600;" class="tabular-nums">Score ${p.score}</span>
+                <span>&middot;</span>
+                <span>${p.price || ''}</span>
+              </span>
+            </div>
+          </a>
+        `).join('');
+      } else {
+        productsSection?.classList.add('hidden');
+      }
+
+      // Render categories
+      if (categoryCounts.length > 0 && categoryResults && categoriesSection) {
+        categoriesSection.classList.remove('hidden');
+        categoryResults.innerHTML = categoryCounts.map((c: any) => `
+          <a
+            href="/category/${c.name.toLowerCase().replace(/\s+/g, '-')}"
+            class="search-result flex items-center justify-between px-4 py-2 cursor-pointer transition-colors duration-150 hover:bg-[#16162A]"
+            role="option"
+            aria-selected="false"
+          >
+            <span class="text-sm font-medium text-white">${c.name}</span>
+            <span class="text-xs text-[#6B7280]">${c.count} products</span>
+          </a>
+        `).join('');
+      } else {
+        categoriesSection?.classList.add('hidden');
+      }
+
+      // Full search link
+      if (fullLink && fullQuery) {
+        fullLink.classList.remove('hidden');
+        fullQuery.textContent = query;
+      }
+
+      // Collect all navigable result elements
+      resultElements = [...(dropdown?.querySelectorAll<HTMLElement>('.search-result') || [])];
+
+      // Announce
+      if (liveRegion) {
+        liveRegion.textContent = `${products.length} products found`;
+      }
+    }
+
+    // Event listeners
+    input.addEventListener('input', doSearch);
+
+    clearBtn?.addEventListener('click', () => {
+      input.value = '';
+      input.focus();
+      hideDropdown();
+      escBadge?.classList.remove('hidden');
+      clearBtn?.classList.add('hidden');
+    });
+
+    backdrop?.addEventListener('click', closeSearch);
+
+    // Keyboard navigation
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSearch();
+        return;
+      }
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        highlightIndex = Math.min(highlightIndex + 1, resultElements.length - 1);
+        updateHighlight();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        highlightIndex = Math.max(highlightIndex - 1, -1);
+        updateHighlight();
+      } else if (e.key === 'Enter') {
+        if (highlightIndex >= 0 && resultElements[highlightIndex]) {
+          const link = resultElements[highlightIndex] as HTMLAnchorElement;
+          if (link.href) {
+            window.location.href = link.href;
+          }
+        } else if (input.value.trim()) {
+          window.location.href = `/search?q=${encodeURIComponent(input.value.trim())}`;
+        }
+      }
+    });
+
+    // Expose open/close globally for TopNav integration
+    (window as any).__searchOverlay = { open: openSearch, close: closeSearch };
+  }
+
+  initSearchOverlay();
+  document.addEventListener('astro:page-load', initSearchOverlay);
+</script>

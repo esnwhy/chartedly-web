@@ -1,0 +1,32 @@
+{
+  "name": "Tsubaki Premium Moist Shampoo",
+  "brand": "Shiseido",
+  "image": "/images/products/tsubaki-premium-shampoo.png",
+  "category": "Beauty",
+  "subcategory": "Haircare",
+  "type": "Shampoo",
+  "price": "¥900",
+  "score": 83,
+  "rank": 1,
+  "badge": "top-pick",
+  "buyUrl": "https://www.amazon.co.jp/dp/B0BVMTBLXS",
+  "pros": [
+    "Camellia oil for deep moisture",
+    "Rich lather",
+    "Salon-quality results"
+  ],
+  "cons": [
+    "Can weigh down fine hair",
+    "Strong floral fragrance"
+  ],
+  "specs": {
+    "Volume": "490ml",
+    "Key Ingredients": "Camellia Oil Royal Jelly",
+    "Hair Type": "Dry to Normal"
+  },
+  "shortDescription": "Shiseido premium shampoo with camellia oil for silky moisturized hair.",
+  "review": "Tsubaki Premium Moist delivers the kind of silky smooth results you expect from a Japanese salon. The camellia oil deeply nourishes without making hair greasy.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-13",
+  "featured": false
+}

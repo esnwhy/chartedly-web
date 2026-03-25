@@ -1,0 +1,56 @@
+---
+import { Info } from 'lucide-astro';
+---
+
+<details class="affiliate-disclosure bg-surface-raised rounded-lg px-4 py-3 mb-6 group">
+  <summary class="flex items-center gap-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+    <Info size={16} class="text-frost-blue shrink-0" />
+    <span class="text-text-muted text-sm">This article contains affiliate links</span>
+    <svg
+      class="ml-auto h-4 w-4 text-text-muted transition-transform duration-200 group-open:rotate-180"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m4 6 4 4 4-4" />
+    </svg>
+  </summary>
+
+  <div class="disclosure-content overflow-hidden">
+    <p class="mt-2 text-text-muted text-sm leading-relaxed">
+      When you buy through links on this page, we may earn a small commission at
+      no extra cost to you. This helps us keep creating free comparison content.
+      We only recommend products we genuinely believe in. See our
+      <a href="/about" class="text-frost-blue underline underline-offset-2 hover:text-frost-cyan transition-colors duration-100">About page</a>
+      for our full editorial policy.
+    </p>
+  </div>
+</details>
+
+<style>
+  /* Animate the expanded content */
+  .disclosure-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 200ms ease-out;
+  }
+
+  details[open] > .disclosure-content {
+    grid-template-rows: 1fr;
+  }
+
+  .disclosure-content > p {
+    overflow: hidden;
+  }
+
+  /* Reduced motion: skip animation */
+  @media (prefers-reduced-motion: reduce) {
+    .disclosure-content {
+      transition: none;
+    }
+  }
+</style>

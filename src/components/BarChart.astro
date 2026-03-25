@@ -1,0 +1,95 @@
+---
+interface Props {
+  items: Array<{
+    label: string;
+    value: number;      // 0-100 (percentage)
+    isTopPick?: boolean;
+  }>;
+  title?: string;
+}
+
+const { items, title } = Astro.props;
+---
+
+<div class="bg-surface-raised rounded-lg p-6" role="figure" aria-label={title ?? 'Bar chart'}>
+  {title && (
+    <h3 class="text-lg font-semibold text-text-primary mb-4">{title}</h3>
+  )}
+
+  <div class="space-y-3">
+    {items.map((item) => {
+      const clampedValue = Math.max(0, Math.min(100, item.value));
+
+      return (
+        <div class="flex items-center gap-3" role="group" aria-label={`${item.label}: ${clampedValue}%`}>
+          <span class="w-[140px] sm:w-[180px] text-sm text-text-secondary text-right truncate shrink-0" title={item.label}>
+            {item.label}
+          </span>
+          <div class="flex-1 h-6 bg-surface-inset rounded-sm overflow-hidden">
+            <div
+              class:list={[
+                'bar-fill h-full rounded-sm',
+                item.isTopPick ? 'bg-cta-default' : 'bar-gradient',
+              ]}
+              style={`width: ${clampedValue}%`}
+              role="meter"
+              aria-valuenow={clampedValue}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`${item.label}: ${clampedValue}%`}
+            />
+          </div>
+          <span class="w-[40px] text-sm text-frost-cyan text-right font-medium shrink-0">
+            {clampedValue}
+          </span>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .bar-gradient {
+    background: linear-gradient(to right, var(--color-frost-deep), var(--color-frost-blue));
+  }
+
+  .bar-fill {
+    width: 0%;
+    transition: width 600ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar-fill {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Animate bars to their target width on viewport entry
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const bars = entry.target.querySelectorAll<HTMLElement>('.bar-fill');
+          for (const bar of bars) {
+            // The target width is already in the inline style; the CSS
+            // transition from 0% handles the animation. We force a reflow
+            // so the transition fires from the initial 0% set in CSS.
+            const targetWidth = bar.style.width;
+            bar.style.width = '0%';
+            // Force reflow
+            void bar.offsetWidth;
+            bar.style.width = targetWidth;
+          }
+          observer.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll('[role="figure"]').forEach((el) => {
+    observer.observe(el);
+  });
+</script>

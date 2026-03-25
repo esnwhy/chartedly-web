@@ -1,0 +1,90 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  products: Array<{
+    name: string;
+    image?: string;
+    badge?: 'top-pick' | 'budget-pick';
+    specs: Record<string, string>;
+    buyUrl: string;
+  }>;
+  columns: string[]; // e.g., ["SPF", "Price", "Size", "Type"]
+}
+
+const { products, columns } = Astro.props;
+---
+
+<div class="hidden sm:block overflow-x-auto rounded-lg border border-white/[0.06]">
+  <table class="w-full border-collapse" role="table">
+    <thead>
+      <tr class="bg-surface-raised sticky top-0 z-10">
+        <th
+          class="text-frost-blue text-sm font-semibold px-4 py-3 text-left min-w-[200px]"
+          scope="col"
+        >
+          Product
+        </th>
+        {columns.map((col) => (
+          <th
+            class="text-frost-blue text-sm font-semibold px-4 py-3 text-left"
+            scope="col"
+          >
+            {col}
+          </th>
+        ))}
+        <th class="text-frost-blue text-sm font-semibold px-4 py-3 text-left" scope="col">
+          <span class="sr-only">Actions</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {products.map((product, index) => {
+        const isEven = index % 2 === 0;
+        const rowBg = isEven ? 'bg-surface-base' : 'bg-[#313744]';
+        const borderAccent =
+          product.badge === 'top-pick'
+            ? 'border-l-3 border-l-success'
+            : product.badge === 'budget-pick'
+              ? 'border-l-3 border-l-warning'
+              : '';
+
+        return (
+          <tr class:list={[rowBg, borderAccent]}>
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-3">
+                {product.image && (
+                  <div class="shrink-0 w-10 h-10 rounded bg-surface-inset p-1">
+                    <img
+                      src={product.image}
+                      alt=""
+                      class="w-full h-full object-contain rounded"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <span class="font-medium text-sm text-text-primary">{product.name}</span>
+              </div>
+            </td>
+            {columns.map((col) => (
+              <td class="text-text-secondary text-sm px-4 py-3">
+                {product.specs[col] ?? '—'}
+              </td>
+            ))}
+            <td class="px-4 py-3">
+              <Button
+                variant="primary"
+                size="sm"
+                href={product.buyUrl}
+                external
+                aria-label={`Buy ${product.name} on Amazon Japan (opens in new tab)`}
+              >
+                Buy
+              </Button>
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>

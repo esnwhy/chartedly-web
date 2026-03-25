@@ -1,0 +1,32 @@
+{
+  "name": "Nivea UV Super Water Gel",
+  "brand": "Nivea",
+  "image": "/images/products/nivea-uv-super-water.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen",
+  "price": "¥600",
+  "score": 78,
+  "rank": 6,
+  "buyUrl": "https://www.amazon.co.jp/dp/B0BWLMH9Z9",
+  "pros": [
+    "Extremely affordable",
+    "Light water gel texture",
+    "Large 140g pump bottle"
+  ],
+  "cons": [
+    "Lower protection in intense sun",
+    "Contains alcohol"
+  ],
+  "specs": {
+    "SPF": "50",
+    "PA": "PA+++",
+    "Volume": "140g",
+    "Key Ingredients": "Hyaluronic acid"
+  },
+  "shortDescription": "An ultra-affordable everyday sunscreen in a convenient pump bottle.",
+  "review": "Nivea UV Super Water Gel is the everyday workhorse. The 140g pump bottle sits on your bathroom counter and makes daily application effortless.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-15",
+  "featured": false
+}

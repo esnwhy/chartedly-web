@@ -1,0 +1,49 @@
+---
+import { Home, Clock, Trophy } from 'lucide-astro';
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  { label: 'Home', href: '/', icon: Home },
+  { label: "What's New", href: '/new', icon: Clock },
+  { label: 'Ranking', href: '/ranking', icon: Trophy },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+}
+---
+
+<aside class="hidden lg:flex flex-col fixed inset-y-0 left-0 w-60 bg-surface-base border-r border-border-decorative z-40">
+  <div class="px-6 py-6">
+    <a href="/" class="text-xl font-bold text-text-primary hover:text-text-primary">
+      Chartedly
+    </a>
+  </div>
+
+  <nav aria-label="Main navigation" class="flex-1 mt-2">
+    <ul class="flex flex-col gap-1">
+      {navItems.map(({ label, href, icon: Icon }) => {
+        const active = isActive(href);
+        return (
+          <li>
+            <a
+              href={href}
+              class:list={[
+                'flex items-center gap-3 px-6 py-3 text-sm font-medium transition-colors duration-100',
+                active
+                  ? 'border-l-3 border-cta-default text-nav-active bg-nav-active-bg'
+                  : 'border-l-3 border-transparent text-nav-default hover:bg-surface-overlay hover:text-nav-hover',
+              ]}
+              aria-current={active ? 'page' : undefined}
+            >
+              <Icon size={20} />
+              <span>{label}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+</aside>

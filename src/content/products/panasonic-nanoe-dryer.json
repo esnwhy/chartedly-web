@@ -1,0 +1,33 @@
+{
+  "name": "Panasonic Nanoe Hair Dryer EH-NA0J",
+  "brand": "Panasonic",
+  "image": "/images/products/panasonic-nanoe-dryer.png",
+  "category": "Electronics",
+  "subcategory": "Personal Care",
+  "type": "Hair Dryer",
+  "price": "¥25000",
+  "score": 91,
+  "rank": 1,
+  "badge": "top-pick",
+  "buyUrl": "https://www.amazon.co.jp/dp/B0B5FCSJ5L",
+  "pros": [
+    "High-penetration nanoe technology",
+    "Reduces hair damage",
+    "Compact and lightweight"
+  ],
+  "cons": [
+    "Premium price",
+    "220V model needs transformer abroad"
+  ],
+  "specs": {
+    "Power": "1200W",
+    "Weight": "550g",
+    "Technology": "High-penetration Nanoe",
+    "Voltage": "AC100V"
+  },
+  "shortDescription": "Panasonic flagship hair dryer with nanoe ions that penetrate deep into hair.",
+  "review": "The Panasonic EH-NA0J represents the cutting edge of Japanese hair dryer technology. The nanoe ions are 18x more water content than standard negative ions.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-13",
+  "featured": true
+}

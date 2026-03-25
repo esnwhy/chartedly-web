@@ -1,0 +1,33 @@
+{
+  "name": "Biore UV Aqua Rich Watery Essence",
+  "brand": "Kao",
+  "image": "/images/products/biore-uv-aqua-rich.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen",
+  "price": "¥800",
+  "score": 92,
+  "rank": 1,
+  "badge": "top-pick",
+  "buyUrl": "https://www.amazon.co.jp/dp/B07ND6JTB6",
+  "pros": [
+    "Lightweight watery texture",
+    "No white cast",
+    "Doubles as makeup primer"
+  ],
+  "cons": [
+    "Needs reapplication every 2 hours",
+    "Contains alcohol (drying for some)"
+  ],
+  "specs": {
+    "SPF": "50+",
+    "PA": "PA++++",
+    "Volume": "50g",
+    "Key Ingredients": "Hyaluronic acid royal jelly extract"
+  },
+  "shortDescription": "A bestselling watery essence sunscreen loved for its lightweight invisible finish.",
+  "review": "Biore UV Aqua Rich Watery Essence is the gold standard for daily-wear Japanese sunscreens. Its water-light texture disappears into the skin with zero white cast making it perfect under makeup.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-15",
+  "featured": true
+}

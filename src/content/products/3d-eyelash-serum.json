@@ -1,0 +1,33 @@
+{
+  "name": "3D Eyelash Serum",
+  "brand": "CR Lab",
+  "image": "/images/products/3d-eyelash-serum.png",
+  "category": "Beauty",
+  "subcategory": "Cosmetics",
+  "type": "Eyelash Growth Serum",
+  "price": "¥3,280",
+  "score": 73,
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00tnpwm.rgryp7c5.g00tnpwm.rgryq0c2/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fcr-lab%2F3deyelashserum%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Trending on SNS with 4.55★ rating from 657 reviews—strong social proof",
+    "Affordable at ¥3,280; accessible for regular use or testing",
+    "Works for both natural lashes and extensions, offering versatility"
+  ],
+  "cons": [
+    "High SNS hype doesn't always translate to dramatic real-world results",
+    "Limited brand heritage; newer entrant with minimal international recognition"
+  ],
+  "specs": {},
+  "shortDescription": "Trending eyelash serum with solid reviews; affordable entry point for lash care.",
+  "review": "This 3D Eyelash Serum has captured attention on Japanese social media and maintains respectable 4.55-star reviews. At ¥3,280, it's an accessible option for anyone curious about lash serums without breaking the bank. That said, it's riding a hype wave more than offering proven innovation—results vary, and the brand is relatively new to the market.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 72,
+    "value": 75,
+    "popularity": 78,
+    "ease": 82,
+    "innovation": 70
+  }
+}

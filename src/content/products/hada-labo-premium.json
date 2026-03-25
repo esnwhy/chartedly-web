@@ -1,0 +1,33 @@
+{
+  "name": "Hada Labo Gokujyun Premium Lotion",
+  "brand": "Rohto",
+  "image": "/images/products/hada-labo-premium.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Moisturizer",
+  "price": "¥900",
+  "score": 90,
+  "rank": 1,
+  "badge": "top-pick",
+  "buyUrl": "https://www.amazon.co.jp/dp/B0BS7KB834",
+  "pros": [
+    "7 types of hyaluronic acid",
+    "Incredible hydration",
+    "Fragrance-free"
+  ],
+  "cons": [
+    "Thick sticky texture",
+    "Takes time to absorb",
+    "Not a standalone moisturizer in winter"
+  ],
+  "specs": {
+    "Volume": "170ml",
+    "Key Ingredients": "7 types of Hyaluronic Acid",
+    "pH": "5.0"
+  },
+  "shortDescription": "The legendary hydrating lotion with 7 types of hyaluronic acid.",
+  "review": "Hada Labo Gokujyun Premium is arguably the most famous J-beauty product worldwide. Layer it on damp skin and watch it plump your face with moisture.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-14",
+  "featured": true
+}

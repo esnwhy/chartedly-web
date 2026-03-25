@@ -1,0 +1,33 @@
+{
+  "name": "ReFa Aile Brush Hair Brush",
+  "brand": "ReFa",
+  "image": "/images/products/refa-aile-brush.png",
+  "category": "Beauty",
+  "subcategory": "Haircare",
+  "type": "Paddle Hair Brush",
+  "price": "¥3,800",
+  "score": 75,
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00r20gm.rgryp89f.g00r20gm.rgryqdfa/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fmtgec-beauty%2F1201310101%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Innovative design combines paddling and detangling in one brush",
+    "Extremely popular in Japan with strong community following",
+    "Smooth bristles reduce hair breakage during styling"
+  ],
+  "cons": [
+    "High price point (¥3,800) for a brush with limited functional advantage over standard models",
+    "Bristles may require frequent cleaning due to dense design"
+  ],
+  "specs": {},
+  "shortDescription": "Premium Japanese styling brush with innovative design for effortless hair arranging.",
+  "review": "ReFa Aile is a status symbol in Japan's beauty market, and the hype is partially justified—the brush design is thoughtful and bristles are quality. However, at nearly 4,000 yen, you're paying significantly for the brand name. Works well for styling, but isn't transformative enough to justify the premium for most foreigners on a budget.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 78,
+    "value": 65,
+    "popularity": 92,
+    "ease": 85,
+    "innovation": 80
+  }
+}

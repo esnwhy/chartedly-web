@@ -1,0 +1,33 @@
+{
+  "name": "Skin Aqua Super Moisture Gel",
+  "brand": "Rohto",
+  "image": "/images/products/skin-aqua-moisture-gel.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Sunscreen",
+  "price": "¥700",
+  "score": 84,
+  "rank": 3,
+  "badge": "budget-pick",
+  "buyUrl": "https://www.amazon.co.jp/dp/B084BFB2MY",
+  "pros": [
+    "Very affordable",
+    "Lightweight gel texture",
+    "No white cast"
+  ],
+  "cons": [
+    "Lower water resistance",
+    "Needs frequent reapplication"
+  ],
+  "specs": {
+    "SPF": "50+",
+    "PA": "PA++++",
+    "Volume": "110g",
+    "Key Ingredients": "Hyaluronic acid collagen"
+  },
+  "shortDescription": "The best budget sunscreen in Japan with a massive 110g bottle.",
+  "review": "Skin Aqua Super Moisture Gel is the budget king. At under ¥700 for 110g you get incredible value with solid SPF50+ protection.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-15",
+  "featured": true
+}

@@ -1,0 +1,265 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import CarouselRow from '../components/CarouselRow.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+// ── Helper: get localized field with fallback ──
+function getName(data: any): string {
+  return data.name_en ?? data.name ?? data.brand ?? 'Untitled';
+}
+function getDescription(data: any): string {
+  return data.description_en ?? data.shortDescription ?? '';
+}
+
+const allProducts = await getCollection('products', (p) => !p.data.draft && !p.data.discontinued);
+
+// ── Featured products for Hero (top 5 by score, prefer featured flag) ──
+const featuredProducts = [...allProducts]
+  .sort((a, b) => {
+    if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+    return b.data.score - a.data.score;
+  })
+  .slice(0, 5)
+  .map((p) => ({
+    name: getName(p.data),
+    brand: p.data.brand,
+    category: p.data.category,
+    subcategory: p.data.subcategory,
+    type: p.data.type,
+    slug: p.id,
+    image: p.data.image,
+    shortDescription: getDescription(p.data),
+    score: p.data.score,
+    badge: p.data.badge,
+  }));
+
+// ── Top Picks: #1 product per category (highest score per unique category) ──
+const categoryBest = new Map<string, typeof allProducts[0]>();
+for (const p of allProducts) {
+  const cat = p.data.category;
+  if (!categoryBest.has(cat) || p.data.score > categoryBest.get(cat)!.data.score) {
+    categoryBest.set(cat, p);
+  }
+}
+const topPicks = [...categoryBest.values()].sort((a, b) => b.data.score - a.data.score);
+
+// ── Categories for quick-nav strip ──
+const categoryIcons: Record<string, string> = {
+  'Beauty': 'sparkles',
+  'Electronics': 'smartphone',
+  'Kitchen': 'chef-hat',
+  'Health': 'heart-pulse',
+  'Outdoor': 'mountain',
+  'Living': 'lamp',
+  'Baby': 'baby',
+  'Books': 'book-open',
+  'Tech': 'cpu',
+  'Home': 'home',
+};
+
+// Lucide icon SVGs (inline for performance)
+const categoryIconSvgs: Record<string, string> = {
+  'Beauty': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>',
+  'Electronics': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>',
+  'Kitchen': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h6.9c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V3.6c0-.4-.2-.8-.5-1.1-.3-.3-.7-.5-1.1-.5z"/><path d="M12 18v4"/><path d="M8 22h8"/></svg>',
+  'Health': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>',
+  'Outdoor': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>',
+  'Living': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l4 10H4L8 2Z"/><path d="M12 12v6"/><path d="M8 22v-2c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v2H8Z"/></svg>',
+  'Baby': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12h.01"/><path d="M15 12h.01"/><path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/></svg>',
+  'Books': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>',
+  'Tech': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>',
+  'Home': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+};
+
+const categoryMap = new Map<string, { name: string; slug: string; count: number }>();
+for (const p of allProducts) {
+  const cat = p.data.category;
+  const slug = cat.toLowerCase().replace(/\s+/g, '-');
+  if (!categoryMap.has(cat)) {
+    categoryMap.set(cat, { name: cat, slug, count: 0 });
+  }
+  categoryMap.get(cat)!.count++;
+}
+const categories = [...categoryMap.values()];
+
+// ── Trending in Beauty ──
+const beautyProducts = allProducts
+  .filter((p) => p.data.category === 'Beauty')
+  .sort((a, b) => b.data.score - a.data.score)
+  .slice(0, 15);
+
+// ── Best Under ¥1,000 ──
+function extractPrice(priceStr: string): number | null {
+  const match = priceStr.replace(/[,，]/g, '').match(/(\d+)/);
+  return match ? parseInt(match[1], 10) : null;
+}
+
+const budgetProducts = allProducts
+  .filter((p) => {
+    const numericPrice = p.data.price_value ?? extractPrice(p.data.price);
+    return numericPrice !== null && numericPrice <= 1000;
+  })
+  .sort((a, b) => b.data.score - a.data.score)
+  .slice(0, 15);
+
+// ── New Reviews: latest by dateAdded ──
+const newProducts = [...allProducts]
+  .sort((a, b) => new Date(b.data.dateAdded).getTime() - new Date(a.data.dateAdded).getTime())
+  .slice(0, 15);
+
+// ── Helper to map product to card props ──
+function toCardProps(p: typeof allProducts[0]) {
+  return {
+    name: getName(p.data),
+    brand: p.data.brand,
+    image: p.data.image,
+    slug: p.id,
+    category: p.data.category,
+    subcategory: p.data.subcategory,
+    type: p.data.type,
+    score: p.data.score,
+    rank: p.data.rank,
+    badge: p.data.badge,
+    price: p.data.price,
+  };
+}
+---
+
+<BaseLayout title="Chartedly — Clear Comparisons for Life in Japan">
+
+  <!-- ── Hero Section ── -->
+  {featuredProducts.length > 0 && (
+    <HeroSection products={featuredProducts} />
+  )}
+
+  <!-- ── Category Quick-Nav Strip ── -->
+  {categories.length > 0 && (
+    <section class="relative py-6" style="background: #0A0A0F;">
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-8">
+        <div class="flex overflow-x-auto gap-4 sm:gap-6 pb-2 scrollbar-hide sm:justify-center">
+          {categories.slice(0, 10).map((cat) => {
+            const svg = categoryIconSvgs[cat.name] || categoryIconSvgs['Home'];
+            return (
+              <a
+                href={`/category/${cat.slug}`}
+                class="category-item flex-shrink-0 flex flex-col items-center gap-2 w-16 sm:w-20 group"
+              >
+                <span
+                  class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-colors"
+                  style="background: #16162A; color: #6B7280;"
+                >
+                  <span class="[&>svg]:w-5 [&>svg]:h-5 sm:[&>svg]:w-6 sm:[&>svg]:h-6 group-hover:text-[#4F7DF7] transition-colors" set:html={svg} />
+                </span>
+                <span class="text-xs font-medium text-center leading-tight transition-colors" style="color: #9CA3AF;">
+                  {cat.name}
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+      <!-- Fade edges on mobile -->
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-8 sm:hidden" style="background: linear-gradient(to right, #0A0A0F, transparent);" />
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-8 sm:hidden" style="background: linear-gradient(to left, #0A0A0F, transparent);" />
+    </section>
+  )}
+
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-8 py-6 lg:py-10 space-y-10 lg:space-y-14">
+
+    <!-- ── Top Picks This Week ── -->
+    {topPicks.length > 0 && (
+      <CarouselRow
+        title="Top Picks This Week"
+        titleJa="今週のおすすめ"
+        seeAllHref="/ranking"
+        products={topPicks.map(toCardProps)}
+      />
+    )}
+
+    <!-- ── Trending in Beauty ── -->
+    {beautyProducts.length > 0 && (
+      <section>
+        <CarouselRow
+          title="Trending in Beauty"
+          titleJa="ビューティートレンド"
+          seeAllHref="/category/beauty"
+          accentColor="rose"
+          products={beautyProducts.map(toCardProps)}
+        />
+      </section>
+    )}
+
+    <!-- ── Best Under ¥1,000 ── -->
+    {budgetProducts.length > 0 && (
+      <section>
+        <CarouselRow
+          title="Best Under ¥1,000"
+          titleJa="¥1,000以下のベスト"
+          seeAllHref="/ranking"
+          accentColor="green"
+          products={budgetProducts.map(toCardProps)}
+        />
+      </section>
+    )}
+
+    <!-- ── Recently Added ── -->
+    {newProducts.length > 0 && (
+      <section>
+        <CarouselRow
+          title="New Reviews"
+          titleJa="新着レビュー"
+          subtitle="Published this week"
+          subtitleJa="今週公開"
+          seeAllHref="/new"
+          accentColor="blue"
+          products={newProducts.map(toCardProps)}
+        />
+      </section>
+    )}
+
+    <!-- ── Newsletter CTA ── -->
+    <section class="rounded-2xl py-16 -mx-4 sm:-mx-8 px-4 sm:px-8" style="background: #16162A;">
+      <div class="max-w-[640px] mx-auto rounded-2xl p-8 sm:p-12 text-center" style="background: #1E1E38; box-shadow: 0 4px 24px rgba(0,0,0,0.3);">
+        <h2 class="text-2xl sm:text-[28px] font-bold mb-1" style="color: #FFFFFF;">Stay in the Loop</h2>
+        <p class="text-base mb-4" style="color: #9CA3AF;">最新情報をお届け</p>
+        <p class="text-base leading-relaxed mb-6" style="color: #9CA3AF;">
+          Weekly product picks, new reviews, and Japan living tips. No spam.
+        </p>
+
+        <form class="flex flex-col sm:flex-row gap-3 mb-4" data-newsletter-form>
+          <input
+            type="email"
+            placeholder="email@example.com"
+            required
+            class="flex-grow h-12 px-4 rounded-lg sm:rounded-l-lg sm:rounded-r-none text-sm focus:outline-none focus:ring-2 focus:ring-[#4F7DF7]"
+            style="background: #0A0A0F; border: 1px solid #2D2D4A; color: #FFFFFF;"
+          />
+          <button
+            type="submit"
+            class="h-12 px-6 font-semibold rounded-lg sm:rounded-l-none sm:rounded-r-lg transition-colors cursor-pointer"
+            style="background: #4F7DF7; color: #FFFFFF;"
+          >
+            Subscribe
+          </button>
+        </form>
+
+        <p class="text-sm" style="color: #6B7280;">
+          1,200+ readers &nbsp;&bull;&nbsp; Weekly &nbsp;&bull;&nbsp; Free
+        </p>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

@@ -1,0 +1,272 @@
+---
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-astro';
+import ProductCard from './ProductCard.astro';
+
+interface Product {
+  name: string;
+  brand: string;
+  image?: string;
+  slug: string;
+  category: string;
+  subcategory: string;
+  type: string;
+  score: number;
+  rank?: number;
+  badge?: 'top-pick' | 'budget-pick';
+  price: string;
+  description?: string;
+  rating?: number;
+  reviewCount?: number;
+}
+
+interface Props {
+  title: string;
+  titleJa?: string;
+  subtitle?: string;
+  subtitleJa?: string;
+  seeAllLink?: string;
+  seeAllHref?: string;
+  accentColor?: string;
+  products: Product[];
+}
+
+const { title, titleJa, subtitle, subtitleJa, seeAllLink, seeAllHref, accentColor, products } = Astro.props;
+const seeAllUrl = seeAllHref || seeAllLink;
+const carouselId = `carousel-${title.replace(/\s+/g, '-').toLowerCase()}-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section
+  class="carousel-section pt-12 first:pt-8"
+  role="region"
+  aria-label={title}
+  data-carousel-id={carouselId}
+>
+  <!-- Section header -->
+  <div class="flex items-baseline justify-between mb-4 px-6 max-w-[1440px] mx-auto">
+    <div>
+      <h2 class="text-2xl font-semibold text-white tracking-tight" style="font-family: 'Inter', sans-serif; letter-spacing: -0.01em;">
+        {title}
+      </h2>
+      {titleJa && (
+        <p class="text-sm mt-0.5" style="color: #6B7280;">{titleJa}</p>
+      )}
+    </div>
+    {seeAllUrl && (
+      <a
+        href={seeAllUrl}
+        class="inline-flex items-center gap-1 text-sm font-medium text-[#4F7DF7] hover:text-[#6890F9] transition-colors duration-150"
+      >
+        See All
+        <ArrowRight size={14} class="transition-transform duration-150 group-hover:translate-x-0.5" />
+      </a>
+    )}
+  </div>
+
+  <!-- Carousel wrapper -->
+  <div class="carousel__wrapper relative group" data-wrapper>
+    <!-- Edge fade: left -->
+    <div class="carousel__fade-left absolute left-0 top-0 bottom-0 w-12 z-10 pointer-events-none opacity-0 transition-opacity duration-200" />
+    <!-- Edge fade: right -->
+    <div class="carousel__fade-right absolute right-0 top-0 bottom-0 w-12 z-10 pointer-events-none transition-opacity duration-200" />
+
+    <!-- Scrollable track -->
+    <div
+      class="carousel__track flex gap-4 overflow-x-auto scroll-smooth px-6 pb-2"
+      role="list"
+      data-track
+    >
+      {products.map((product) => (
+        <div class="carousel__item flex-shrink-0 snap-start" role="listitem">
+          <ProductCard {...product} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Left arrow -->
+    {products.length > 3 && (
+      <button
+        class="carousel__arrow carousel__arrow--left absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#16162A]/85 backdrop-blur-sm border border-[#2D2D4A] flex items-center justify-center text-white/80 hover:bg-[#1E1E38]/95 hover:text-white hover:border-[#3D3D5A] transition-all duration-200 cursor-pointer"
+        aria-label={`Scroll ${title} left`}
+        data-arrow="left"
+      >
+        <ChevronLeft size={20} />
+      </button>
+    )}
+
+    <!-- Right arrow -->
+    {products.length > 3 && (
+      <button
+        class="carousel__arrow carousel__arrow--right absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#16162A]/85 backdrop-blur-sm border border-[#2D2D4A] flex items-center justify-center text-white/80 hover:bg-[#1E1E38]/95 hover:text-white hover:border-[#3D3D5A] transition-all duration-200 cursor-pointer"
+        aria-label={`Scroll ${title} right`}
+        data-arrow="right"
+      >
+        <ChevronRight size={20} />
+      </button>
+    )}
+  </div>
+</section>
+
+<style>
+  /* Track */
+  .carousel__track {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Fixed card width in carousel context */
+  .carousel__item {
+    scroll-snap-align: start;
+    min-width: 280px;
+    max-width: 280px;
+  }
+
+  /* Edge fade gradients */
+  .carousel__fade-left {
+    background: linear-gradient(to right, #0A0A0F 0%, transparent 100%);
+  }
+  .carousel__fade-right {
+    background: linear-gradient(to left, #0A0A0F 0%, transparent 100%);
+  }
+
+  /* Show fades based on scroll position */
+  .carousel__wrapper[data-scroll-left="true"] .carousel__fade-left {
+    opacity: 1;
+  }
+  .carousel__wrapper[data-scroll-right="true"] .carousel__fade-right {
+    opacity: 1;
+  }
+
+  /* Arrow visibility — hidden by default, appear on hover */
+  .carousel__arrow {
+    opacity: 0;
+    transition: opacity 200ms ease, background-color 200ms ease, transform 200ms ease;
+  }
+  .carousel__wrapper:hover .carousel__arrow {
+    opacity: 1;
+  }
+  .carousel__arrow:hover {
+    transform: translateY(-50%) scale(1.05);
+  }
+  .carousel__arrow:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  /* Hide arrows when at boundary */
+  .carousel__wrapper[data-scroll-left="false"] .carousel__arrow--left {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+  .carousel__wrapper[data-scroll-right="false"] .carousel__arrow--right {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  /* Hide arrows on mobile/tablet — touch scroll only */
+  @media (max-width: 1023px) {
+    .carousel__arrow {
+      display: none;
+    }
+  }
+
+  /* Responsive card widths */
+  @media (max-width: 639px) {
+    .carousel__track {
+      padding-left: 16px;
+      padding-right: 16px;
+      gap: 12px;
+    }
+    .carousel__item {
+      min-width: calc(75vw);
+      max-width: calc(75vw);
+    }
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .carousel__item {
+      min-width: 260px;
+      max-width: 260px;
+    }
+  }
+</style>
+
+<script>
+  function initCarouselRows() {
+    document.querySelectorAll<HTMLElement>('.carousel-section').forEach((section) => {
+      const wrapper = section.querySelector<HTMLElement>('[data-wrapper]');
+      const track = section.querySelector<HTMLElement>('[data-track]');
+      const leftBtn = section.querySelector<HTMLElement>('[data-arrow="left"]');
+      const rightBtn = section.querySelector<HTMLElement>('[data-arrow="right"]');
+
+      if (!wrapper || !track) return;
+
+      // Scroll amount: ~80% viewport or 3 cards worth
+      const SCROLL_AMOUNT = Math.min(window.innerWidth * 0.8, 888);
+
+      function updateScrollState() {
+        if (!track || !wrapper) return;
+        const { scrollLeft, scrollWidth, clientWidth } = track;
+        const canScrollLeft = scrollLeft > 5;
+        const canScrollRight = scrollLeft + clientWidth < scrollWidth - 5;
+
+        wrapper.dataset.scrollLeft = String(canScrollLeft);
+        wrapper.dataset.scrollRight = String(canScrollRight);
+      }
+
+      // Arrow click handlers
+      leftBtn?.addEventListener('click', () => {
+        track.scrollBy({ left: -SCROLL_AMOUNT, behavior: 'smooth' });
+      });
+      rightBtn?.addEventListener('click', () => {
+        track.scrollBy({ left: SCROLL_AMOUNT, behavior: 'smooth' });
+      });
+
+      // Update on scroll
+      track.addEventListener('scroll', updateScrollState, { passive: true });
+
+      // Keyboard navigation within carousel
+      track.addEventListener('keydown', (e) => {
+        const cards = [...track.querySelectorAll<HTMLElement>('a')];
+        const currentIdx = cards.indexOf(document.activeElement as HTMLElement);
+        if (currentIdx === -1) return;
+
+        let nextIdx = currentIdx;
+        switch (e.key) {
+          case 'ArrowRight':
+            e.preventDefault();
+            nextIdx = Math.min(currentIdx + 1, cards.length - 1);
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            nextIdx = Math.max(currentIdx - 1, 0);
+            break;
+          case 'Home':
+            e.preventDefault();
+            nextIdx = 0;
+            break;
+          case 'End':
+            e.preventDefault();
+            nextIdx = cards.length - 1;
+            break;
+          default:
+            return;
+        }
+        cards[nextIdx]?.focus();
+        cards[nextIdx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      });
+
+      // Initial state
+      updateScrollState();
+
+      // Re-check on resize
+      const ro = new ResizeObserver(() => updateScrollState());
+      ro.observe(track);
+    });
+  }
+
+  initCarouselRows();
+  document.addEventListener('astro:page-load', initCarouselRows);
+</script>

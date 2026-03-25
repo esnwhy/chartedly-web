@@ -1,0 +1,61 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  category: string;
+  productsCompared: number;
+  image?: string;
+}
+
+const { title, slug, category, productsCompared, image } = Astro.props;
+---
+
+<a
+  href={`/${slug}`}
+  class="article-card card-focusable group block relative aspect-[3/4] rounded-xl overflow-hidden border border-white/[0.06] transition-all duration-150 ease-out hover:scale-[1.04] hover:shadow-glow-card hover:border-frost-blue focus-visible:scale-[1.04]"
+>
+  {image ? (
+    <img
+      src={image}
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+  ) : (
+    <div class="absolute inset-0 bg-gradient-to-br from-[#3a3a3c] to-[#2a2a2c] flex items-center justify-center">
+      <span class="text-lg font-semibold text-text-faint select-none">{category}</span>
+    </div>
+  )}
+
+  {/* Gradient overlay */}
+  <div class="article-card-overlay absolute inset-0 pointer-events-none"></div>
+
+  {/* Text overlay */}
+  <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
+    <span class="inline-block text-xs font-medium text-frost-cyan bg-surface-overlay/80 px-2 py-0.5 rounded-full mb-2">
+      {category}
+    </span>
+    <h3 class="text-base font-semibold text-text-primary line-clamp-2">{title}</h3>
+    <p class="text-xs text-text-muted mt-1">{productsCompared} products compared</p>
+  </div>
+</a>
+
+<style>
+  .article-card-overlay {
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(28, 28, 30, 0.5) 65%,
+      rgba(28, 28, 30, 0.85) 85%,
+      rgba(28, 28, 30, 0.95) 100%
+    );
+  }
+
+  /* Disable scale on touch devices */
+  @media (hover: none) {
+    .article-card:hover {
+      transform: none;
+    }
+  }
+</style>

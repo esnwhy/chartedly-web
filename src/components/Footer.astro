@@ -1,0 +1,177 @@
+---
+const currentYear = new Date().getFullYear();
+
+const linkGroups = [
+  {
+    title: 'Categories',
+    links: [
+      { label: 'Beauty', href: '/category/beauty' },
+      { label: 'Tech', href: '/category/tech' },
+      { label: 'Kitchen', href: '/category/kitchen' },
+      { label: 'Health', href: '/category/health' },
+      { label: 'Outdoor', href: '/category/outdoor' },
+      { label: 'Living', href: '/category/living' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', href: '/about' },
+      { label: 'Methodology', href: '/about#methodology' },
+      { label: 'Press', href: '/press' },
+      { label: 'Contact', href: '/contact' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Use', href: '/terms' },
+      { label: 'Tokushoho', href: '/tokushoho' },
+      { label: 'Cookie Policy', href: '/cookies' },
+    ],
+  },
+  {
+    title: 'Connect',
+    links: [
+      { label: 'X (Twitter)', href: 'https://x.com/chartedly' },
+      { label: 'Instagram', href: 'https://instagram.com/chartedly' },
+      { label: 'YouTube', href: 'https://youtube.com/@chartedly' },
+    ],
+  },
+];
+
+const legalLinks = [
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Terms', href: '/terms' },
+  { label: 'Tokushoho', href: '/tokushoho' },
+  { label: 'Affiliate Disclosure', href: '/about#affiliate-disclosure' },
+];
+---
+
+<footer class="bg-[#0D0D18] border-t border-[#2D2D4A]" role="contentinfo">
+  <div class="max-w-[1440px] mx-auto px-6 pt-16 pb-8">
+
+    <!-- Top section: Logo/tagline + Newsletter -->
+    <div class="flex flex-col md:flex-row justify-between items-start gap-10 mb-12">
+
+      <!-- Brand -->
+      <div class="max-w-[280px]">
+        <a href="/" class="inline-block mb-3">
+          <span class="text-xl font-semibold text-white tracking-tight" style="font-family: 'Inter', sans-serif;">
+            Chartedly
+          </span>
+          <span class="text-[#4F7DF7] text-sm ml-1" aria-hidden="true">&#10022;</span>
+        </a>
+        <p class="text-sm text-[#6B7280] leading-relaxed">
+          Your guide to the best products for life in Japan.
+        </p>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="w-full max-w-[400px]">
+        <p class="text-sm font-semibold text-white mb-3">Newsletter</p>
+        <form class="flex" aria-label="Newsletter signup">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            aria-label="Email address"
+            class="flex-1 h-11 px-4 bg-[#16162A] border border-[#2D2D4A] border-r-0 rounded-l-lg text-white text-sm placeholder-[#6B7280] outline-none focus:border-[#4F7DF7] transition-colors duration-150"
+          />
+          <button
+            type="submit"
+            class="h-11 px-5 bg-[#4F7DF7] text-white text-sm font-semibold rounded-r-lg border-none cursor-pointer hover:bg-[#6890F9] transition-colors duration-150 whitespace-nowrap"
+          >
+            Join
+          </button>
+        </form>
+        <p class="text-xs text-[#6B7280] mt-2">Get weekly picks. No spam.</p>
+      </div>
+    </div>
+
+    <!-- Link columns -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
+      {linkGroups.map((group) => (
+        <nav aria-label={`${group.title} links`}>
+          <h3 class="text-sm font-semibold text-white mb-3">{group.title}</h3>
+          <ul class="list-none p-0 m-0 flex flex-col gap-2">
+            {group.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm text-[#6B7280] hover:text-[#9CA3AF] transition-colors duration-150 block py-0.5"
+                  {...(link.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    <!-- Divider -->
+    <hr class="border-0 border-t border-[#2D2D4A] mb-8" />
+
+    <!-- Trust badges + Social -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
+      <!-- Trust badges -->
+      <div class="flex flex-wrap gap-3">
+        <div class="flex items-center gap-1.5 h-9 px-3 bg-[#16162A] border border-[#2D2D4A] rounded text-[10px] font-medium text-[#6B7280] tracking-wide">
+          <svg class="w-4 h-4 text-[#22C55E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          Independent
+        </div>
+        <div class="flex items-center gap-1.5 h-9 px-3 bg-[#16162A] border border-[#2D2D4A] rounded text-[10px] font-medium text-[#6B7280] tracking-wide">
+          <svg class="w-4 h-4 text-[#4F7DF7]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+          </svg>
+          AI-Powered
+        </div>
+        <div class="flex items-center gap-1.5 h-9 px-3 bg-[#16162A] border border-[#2D2D4A] rounded text-[10px] font-medium text-[#6B7280] tracking-wide">
+          <svg class="w-4 h-4 text-[#F7A94F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          No Sponsored Rankings
+        </div>
+      </div>
+
+      <!-- Social icons -->
+      <div class="flex gap-3">
+        <a href="https://x.com/chartedly" class="w-9 h-9 rounded-full bg-[#16162A] border border-[#2D2D4A] flex items-center justify-center text-[#6B7280] hover:bg-[#1E1E38] hover:text-white hover:border-[#3D3D5A] transition-all duration-150" aria-label="Chartedly on X (Twitter)" target="_blank" rel="noopener noreferrer">
+          <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://instagram.com/chartedly" class="w-9 h-9 rounded-full bg-[#16162A] border border-[#2D2D4A] flex items-center justify-center text-[#6B7280] hover:bg-[#1E1E38] hover:text-white hover:border-[#3D3D5A] transition-all duration-150" aria-label="Chartedly on Instagram" target="_blank" rel="noopener noreferrer">
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://youtube.com/@chartedly" class="w-9 h-9 rounded-full bg-[#16162A] border border-[#2D2D4A] flex items-center justify-center text-[#6B7280] hover:bg-[#1E1E38] hover:text-white hover:border-[#3D3D5A] transition-all duration-150" aria-label="Chartedly on YouTube" target="_blank" rel="noopener noreferrer">
+          <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom legal row -->
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <p class="text-xs text-[#4B5563]">
+        &copy; {currentYear} Chartedly. All rights reserved. A LAIRIA Holdings property.
+      </p>
+      <nav class="flex flex-wrap items-center gap-4" aria-label="Legal links">
+        {legalLinks.map((link, i) => (
+          <>
+            <a
+              href={link.href}
+              class="text-xs text-[#4B5563] hover:text-[#6B7280] transition-colors duration-150"
+            >
+              {link.label}
+            </a>
+            {i < legalLinks.length - 1 && (
+              <span class="text-[#4B5563]" aria-hidden="true">&middot;</span>
+            )}
+          </>
+        ))}
+      </nav>
+    </div>
+  </div>
+</footer>

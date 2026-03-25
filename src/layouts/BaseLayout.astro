@@ -1,0 +1,121 @@
+---
+import '../styles/global.css';
+import TopNav from '../components/TopNav.astro';
+import BottomTabBar from '../components/BottomTabBar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  titleKey?: string;
+  description?: string;
+  ogImage?: string;
+  isArticle?: boolean;
+  lang?: 'en' | 'ja';
+}
+
+const {
+  title,
+  titleKey,
+  description = 'Chartedly — Clear comparisons for life in Japan.',
+  ogImage = '/og-default.png',
+  isArticle = false,
+  lang = 'en',
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://chartedly.com');
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0A0A0F" />
+    <meta name="description" content={description} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl.href} />
+
+    <!-- OG Tags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:type" content={isArticle ? 'article' : 'website'} />
+    <meta property="og:site_name" content="Chartedly" />
+    <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'en_US'} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Google Fonts: Inter (300–700) + Noto Sans JP (400,500,700) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    {titleKey && <meta data-i18n-title={titleKey} />}
+
+    <!-- Prevent flash: apply saved language before render -->
+    <script is:inline>
+      (function() {
+        var lang = localStorage.getItem('chartedly-lang');
+        if (!lang) {
+          lang = navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en';
+        }
+        document.documentElement.lang = lang;
+      })();
+    </script>
+  </head>
+  <body
+    class="min-h-screen bg-bg-base text-text-primary font-sans"
+    style="background: linear-gradient(180deg, #0A0A0F 0%, #1A1A2E 100%); background-attachment: fixed;"
+  >
+    <!-- Skip link -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md focus:text-sm focus:font-medium"
+    >
+      Skip to main content
+    </a>
+
+    <TopNav />
+
+    <!-- Page shell -->
+    <div class="min-h-screen" style="padding-top: var(--nav-height);">
+      <!-- Main content -->
+      <main id="main-content" class="flex-1 pb-20 sm:pb-0">
+        <slot />
+      </main>
+
+      <Footer />
+    </div>
+
+    <!-- Mobile bottom tab bar -->
+    <BottomTabBar />
+
+    <!-- i18n initialization -->
+    <script>
+      import { initI18n, toggleLang } from '../i18n/client';
+
+      function setup() {
+        initI18n();
+        const btn = document.getElementById('lang-toggle');
+        btn?.addEventListener('click', () => toggleLang());
+      }
+
+      setup();
+      document.addEventListener('astro:page-load', setup);
+    </script>
+  </body>
+</html>

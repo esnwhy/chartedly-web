@@ -1,0 +1,34 @@
+{
+  "name": "SK-II New Life Sakura Trial Kit Cream",
+  "brand": "SK-II",
+  "image": "/images/products/sk-ii-sakura-trial-kit-cream.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Luxury Moisturizer Trial Kit",
+  "price": "¥13,970",
+  "score": 78,
+  "badge": "top-pick",
+  "buyUrl": "https://hb.afl.rakuten.co.jp/hgc/g00siy3m.rgrypf63.g00siy3m.rgryqe7d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fsk-ii%2Fnltk_2026%2F&rafcid=wsc_i_ra_c6fa6ed2-114f-4025-bf99-3ac4a17d44d0",
+  "pros": [
+    "Iconic Pitera fermentation technology proven effective for skin brightening",
+    "Trial kit format lets you test luxury skincare at lower commitment",
+    "Iconic Japanese brand with excellent reputation and easy availability in Japan"
+  ],
+  "cons": [
+    "Premium pricing makes it a luxury purchase, not budget-friendly",
+    "Seasonal packaging may sell out quickly; limited stock for trial kits"
+  ],
+  "specs": {},
+  "shortDescription": "Luxury trial kit featuring SK-II's signature Pitera ingredient and airy cream formula.",
+  "review": "SK-II is Japan's most celebrated skincare brand, and this trial kit is an intelligent entry point to their Pitera fermentation technology. The airy cream texture is pleasant and absorbs quickly. For foreigners, the brand is extremely accessible across Japan—found in every major department store and convenience chain. However, at ¥13,970 for a trial size, it's positioned as a luxury indulgence rather than a practical daily purchase. Best suited for those wanting to test the hype before committing to full-size products.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-19",
+  "featured": false,
+  "radar": {
+    "quality": 88,
+    "value": 62,
+    "popularity": 92,
+    "ease": 85,
+    "innovation": 75
+  }
+}

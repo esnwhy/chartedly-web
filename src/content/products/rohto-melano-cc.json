@@ -1,0 +1,33 @@
+{
+  "name": "Rohto Melano CC Vitamin C Essence",
+  "brand": "Rohto",
+  "image": "/images/products/rohto-melano-cc.png",
+  "category": "Beauty",
+  "subcategory": "Skincare",
+  "type": "Serum",
+  "price": "¥1200",
+  "score": 88,
+  "rank": 1,
+  "badge": "top-pick",
+  "buyUrl": "https://www.amazon.co.jp/dp/B01BLJNK9Q",
+  "pros": [
+    "Brightens dark spots effectively",
+    "Very affordable for vitamin C",
+    "Stable formula"
+  ],
+  "cons": [
+    "Strong citrus scent",
+    "Small 20ml tube",
+    "Can sting sensitive skin"
+  ],
+  "specs": {
+    "Volume": "20ml",
+    "Key Ingredients": "Active Vitamin C Vitamin E",
+    "Type": "Spot treatment"
+  },
+  "shortDescription": "Japan most popular vitamin C serum for brightening dark spots and acne scars.",
+  "review": "Rohto Melano CC is the undisputed champion of affordable vitamin C in Japan. The active vitamin C penetrates directly into dark spots and the results are visible within weeks.",
+  "comparisonSlug": "",
+  "dateAdded": "2026-03-14",
+  "featured": true
+}

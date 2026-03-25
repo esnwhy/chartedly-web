@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#1c1c1e"/>
+  <!-- C letter -->
+  <path d="M32 12C20.954 12 12 20.954 12 32s8.954 20 20 20c5.523 0 10.523-2.239 14.142-5.858" stroke="#F5F5F7" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  <!-- Bar chart inside C -->
+  <rect x="28" y="34" width="5" height="14" rx="1.5" fill="#81A1C1"/>
+  <rect x="36" y="28" width="5" height="20" rx="1.5" fill="#88C0D0"/>
+  <rect x="44" y="22" width="5" height="26" rx="1.5" fill="#8FBCBB"/>
+  <!-- Sparkle -->
+  <path d="M50 10l1.2 3.8L55 15l-3.8 1.2L50 20l-1.2-3.8L45 15l3.8-1.2z" fill="#F5F5F7" opacity="0.6"/>
+</svg>

@@ -1,0 +1,352 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CarouselRow from '../../components/CarouselRow.astro';
+import { ChevronRight, ArrowUpDown } from 'lucide-astro';
+
+function getName(data: any): string {
+  return data.name_en ?? data.name ?? data.brand ?? 'Untitled';
+}
+function getDescription(data: any): string {
+  return data.description_en ?? data.shortDescription ?? '';
+}
+
+interface Props {
+  level: number;
+  category: string;
+  subcategory?: string;
+  type?: string;
+  products: Awaited<ReturnType<typeof getCollection<'products'>>>;
+}
+
+export async function getStaticPaths() {
+  const products = await getCollection('products', (p) => !p.data.draft && !p.data.discontinued);
+
+  const paths: {
+    params: { slug: string };
+    props: Props;
+  }[] = [];
+
+  const categories = [...new Set(products.map((p) => p.data.category))];
+  for (const cat of categories) {
+    const catSlug = cat.toLowerCase().replace(/\s+/g, '-');
+    const catProducts = products.filter((p) => p.data.category === cat);
+
+    // Level 1: category
+    paths.push({
+      params: { slug: catSlug },
+      props: { level: 1, category: cat, products: catProducts },
+    });
+
+    const subcats = [...new Set(catProducts.map((p) => p.data.subcategory))];
+    for (const subcat of subcats) {
+      const subcatSlug = subcat.toLowerCase().replace(/\s+/g, '-');
+      const subcatProducts = catProducts.filter((p) => p.data.subcategory === subcat);
+
+      // Level 2: subcategory
+      paths.push({
+        params: { slug: `${catSlug}/${subcatSlug}` },
+        props: { level: 2, category: cat, subcategory: subcat, products: subcatProducts },
+      });
+
+      const types = [...new Set(subcatProducts.map((p) => p.data.type))];
+      for (const type of types) {
+        const typeSlug = type.toLowerCase().replace(/\s+/g, '-');
+        const typeProducts = subcatProducts.filter((p) => p.data.type === type);
+
+        // Level 3: type
+        paths.push({
+          params: { slug: `${catSlug}/${subcatSlug}/${typeSlug}` },
+          props: { level: 3, category: cat, subcategory: subcat, type, products: typeProducts },
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+const { level, category, subcategory, type, products } = Astro.props;
+
+const catSlug = category.toLowerCase().replace(/\s+/g, '-');
+const subcatSlug = subcategory?.toLowerCase().replace(/\s+/g, '-');
+
+// Sort: ranked first (ascending), then by score descending
+const sortedProducts = [...products].sort((a, b) => {
+  if (a.data.rank != null && b.data.rank != null) return a.data.rank - b.data.rank;
+  if (a.data.rank != null) return -1;
+  if (b.data.rank != null) return 1;
+  return b.data.score - a.data.score;
+});
+
+// Featured: top 10 products by score (for Level 1 category pages)
+const featuredProducts = level === 1
+  ? [...products].sort((a, b) => b.data.score - a.data.score).slice(0, 10)
+  : [];
+
+// Subcategories for Level 1
+const subcategories = level === 1
+  ? [...new Set(products.map((p) => p.data.subcategory))].map((s) => ({
+      name: s,
+      slug: s.toLowerCase().replace(/\s+/g, '-'),
+      count: products.filter((p) => p.data.subcategory === s).length,
+    }))
+  : [];
+
+// Types for Level 2
+const types = level === 2
+  ? [...new Set(products.map((p) => p.data.type))].map((t) => ({
+      name: t,
+      slug: t.toLowerCase().replace(/\s+/g, '-'),
+      count: products.filter((p) => p.data.type === t).length,
+    }))
+  : [];
+
+// Page metadata
+const heading = level === 3 ? type! : level === 2 ? subcategory! : category;
+const pageTitle = `${heading} — Chartedly`;
+const productCount = products.length;
+
+// Category-specific gradient colors
+const categoryGradients: Record<string, string> = {
+  'Beauty': 'linear-gradient(135deg, rgba(244,114,182,0.15) 0%, rgba(79,125,247,0.05) 100%)',
+  'Electronics': 'linear-gradient(135deg, rgba(79,125,247,0.15) 0%, rgba(99,102,241,0.05) 100%)',
+  'Kitchen': 'linear-gradient(135deg, rgba(247,169,79,0.15) 0%, rgba(234,179,8,0.05) 100%)',
+  'Health': 'linear-gradient(135deg, rgba(34,197,94,0.15) 0%, rgba(16,185,129,0.05) 100%)',
+  'Outdoor': 'linear-gradient(135deg, rgba(20,184,166,0.15) 0%, rgba(6,182,212,0.05) 100%)',
+  'Living': 'linear-gradient(135deg, rgba(156,163,175,0.15) 0%, rgba(107,114,128,0.05) 100%)',
+  'Baby': 'linear-gradient(135deg, rgba(167,139,250,0.15) 0%, rgba(139,92,246,0.05) 100%)',
+  'Books': 'linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(79,70,229,0.05) 100%)',
+};
+
+// Category descriptions
+const categoryDescriptions: Record<string, string> = {
+  'Beauty': 'Discover the best beauty products available in Japan. From sunscreen to skincare essentials.',
+  'Electronics': 'Top-rated electronics and gadgets available in Japan, tested and reviewed.',
+  'Kitchen': 'Essential kitchen appliances and tools for life in Japan.',
+  'Health': 'Health supplements and wellness products reviewed for the Japan market.',
+  'Living': 'Home and living essentials to make your Japan apartment comfortable.',
+  'Home': 'Everything you need for comfortable living in Japan.',
+};
+const heroDescription = categoryDescriptions[category] || `Browse our curated selection of ${heading.toLowerCase()} products.`;
+const heroGradient = categoryGradients[category] || categoryGradients['Living'];
+---
+
+<BaseLayout title={pageTitle}>
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-8 py-6">
+
+    <!-- ── Breadcrumb ── -->
+    <nav aria-label="Breadcrumb" class="mb-6">
+      <ol class="flex items-center gap-1.5 text-[13px] flex-wrap" style="color: #6B7280;">
+        <li><a href="/" class="hover:text-[#4F7DF7] transition-colors">Home</a></li>
+        {level >= 1 && (
+          <>
+            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+            <li>
+              {level === 1 ? (
+                <span class="font-medium" style="color: #9CA3AF;" aria-current="page">{category}</span>
+              ) : (
+                <a href={`/category/${catSlug}`} class="hover:text-[#4F7DF7] transition-colors">{category}</a>
+              )}
+            </li>
+          </>
+        )}
+        {level >= 2 && subcategory && (
+          <>
+            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+            <li>
+              {level === 2 ? (
+                <span class="font-medium" style="color: #9CA3AF;" aria-current="page">{subcategory}</span>
+              ) : (
+                <a href={`/category/${catSlug}/${subcatSlug}`} class="hover:text-[#4F7DF7] transition-colors">{subcategory}</a>
+              )}
+            </li>
+          </>
+        )}
+        {level >= 3 && type && (
+          <>
+            <li class="flex items-center" aria-hidden="true"><ChevronRight size={12} style="color: #2D2D4A;" /></li>
+            <li><span class="font-medium" style="color: #9CA3AF;" aria-current="page">{type}</span></li>
+          </>
+        )}
+      </ol>
+    </nav>
+
+    <!-- ── Category Hero Header ── -->
+    <header
+      class="mb-8 rounded-xl p-8 sm:p-10"
+      style={`background: ${heroGradient}; border: 1px solid #2D2D4A;`}
+    >
+      <h1 class="text-3xl sm:text-4xl font-extrabold mb-2" style="color: #FFFFFF;">{heading}</h1>
+      {level === 1 && (
+        <p class="text-base max-w-[600px] leading-relaxed" style="color: #9CA3AF;">{heroDescription}</p>
+      )}
+      <p class="text-sm mt-2" style="color: #6B7280;">
+        {productCount} {productCount === 1 ? 'product' : 'products'}
+        {level === 1 && subcategories.length > 0 && ` \u2022 ${subcategories.length} subcategories`}
+      </p>
+    </header>
+
+    <!-- ── Subcategory Cards (Level 1) ── -->
+    {level === 1 && subcategories.length > 0 && (
+      <section class="mb-10">
+        <h2 class="text-xl font-semibold mb-4" style="color: #FFFFFF;">Browse Subcategories</h2>
+        <p class="text-sm mb-4" style="color: #6B7280;">サブカテゴリ</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {subcategories.map((sub) => (
+            <a
+              href={`/category/${catSlug}/${sub.slug}`}
+              class="group block rounded-xl p-6 transition-all hover:-translate-y-0.5"
+              style="background: #16162A; border: 1px solid #2D2D4A;"
+            >
+              <span class="text-lg font-bold transition-colors group-hover:text-[#4F7DF7]" style="color: #FFFFFF;">{sub.name}</span>
+              <span class="block text-sm mt-1" style="color: #6B7280;">
+                {sub.count} {sub.count === 1 ? 'product' : 'products'}
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- ── Featured Products Carousel (Level 1) ── -->
+    {level === 1 && featuredProducts.length > 0 && (
+      <section class="mb-10">
+        <CarouselRow
+          title={`Top Rated in ${category}`}
+          titleJa={`${category}トップ評価`}
+          seeAllHref={`/ranking`}
+          products={featuredProducts.map((p) => ({
+            name: getName(p.data),
+            brand: p.data.brand,
+            image: p.data.image,
+            slug: p.id,
+            category: p.data.category,
+            subcategory: p.data.subcategory,
+            type: p.data.type,
+            score: p.data.score,
+            rank: p.data.rank,
+            badge: p.data.badge,
+            price: p.data.price,
+          }))}
+        />
+      </section>
+    )}
+
+    <!-- ── Type Cards (Level 2) ── -->
+    {level === 2 && types.length > 1 && (
+      <section class="mb-10">
+        <h2 class="text-xl font-semibold mb-4" style="color: #FFFFFF;">Product Types</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {types.map((t) => (
+            <a
+              href={`/category/${catSlug}/${subcatSlug}/${t.slug}`}
+              class="group block rounded-xl p-6 transition-all hover:-translate-y-0.5"
+              style="background: #16162A; border: 1px solid #2D2D4A;"
+            >
+              <span class="text-lg font-bold transition-colors group-hover:text-[#4F7DF7]" style="color: #FFFFFF;">{t.name}</span>
+              <span class="block text-sm mt-1" style="color: #6B7280;">
+                {t.count} {t.count === 1 ? 'product' : 'products'}
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- ── Filter / Sort Bar ── -->
+    {sortedProducts.length > 0 && (
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold" style="color: #FFFFFF;">
+          {level === 1 ? `All ${category} Products` : level === 2 ? `All ${subcategory} Products` : `All ${type} Products`}
+        </h2>
+        <div class="flex items-center gap-2">
+          <ArrowUpDown size={14} style="color: #6B7280;" />
+          <select
+            class="appearance-none rounded-lg px-3 py-1.5 pr-7 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#4F7DF7]"
+            style="background: #16162A; border: 1px solid #2D2D4A; color: #9CA3AF;"
+            id="category-sort"
+          >
+            <option value="score">Score</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
+      </div>
+    )}
+
+    <!-- ── Product Grid ── -->
+    {sortedProducts.length > 0 ? (
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" id="category-grid">
+        {sortedProducts.map((product) => (
+          <div
+            class="product-item"
+            data-score={product.data.score}
+            data-price={product.data.price}
+            data-date={product.data.dateAdded instanceof Date ? product.data.dateAdded.toISOString() : product.data.dateAdded}
+          >
+            <ProductCard
+              name={getName(product.data)}
+              brand={product.data.brand}
+              image={product.data.image}
+              slug={product.id}
+              category={product.data.category}
+              subcategory={product.data.subcategory}
+              type={product.data.type}
+              score={product.data.score}
+              rank={product.data.rank}
+              badge={product.data.badge}
+              price={product.data.price}
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-20">
+        <p class="text-lg mb-2" style="color: #6B7280;">No products found in this category yet.</p>
+        <p class="text-sm mb-4" style="color: #6B7280;">このカテゴリにはまだ製品がありません</p>
+        <a href="/" class="text-sm font-medium hover:underline" style="color: #4F7DF7;">Back to homepage</a>
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<script>
+  function initCategorySort() {
+    const grid = document.getElementById('category-grid');
+    const sortSelect = document.getElementById('category-sort') as HTMLSelectElement | null;
+    if (!grid || !sortSelect) return;
+
+    sortSelect.addEventListener('change', () => {
+      const items = Array.from(grid.querySelectorAll('.product-item')) as HTMLElement[];
+      const sortBy = sortSelect.value;
+
+      items.sort((a, b) => {
+        if (sortBy === 'score') {
+          return parseFloat(b.getAttribute('data-score') || '0') - parseFloat(a.getAttribute('data-score') || '0');
+        }
+        if (sortBy === 'price-low') {
+          const pA = parseInt((a.getAttribute('data-price') || '0').replace(/[^\d]/g, ''), 10);
+          const pB = parseInt((b.getAttribute('data-price') || '0').replace(/[^\d]/g, ''), 10);
+          return pA - pB;
+        }
+        if (sortBy === 'price-high') {
+          const pA = parseInt((a.getAttribute('data-price') || '0').replace(/[^\d]/g, ''), 10);
+          const pB = parseInt((b.getAttribute('data-price') || '0').replace(/[^\d]/g, ''), 10);
+          return pB - pA;
+        }
+        if (sortBy === 'newest') {
+          return new Date(b.getAttribute('data-date') || 0).getTime() - new Date(a.getAttribute('data-date') || 0).getTime();
+        }
+        return 0;
+      });
+
+      items.forEach((item) => grid.appendChild(item));
+    });
+  }
+
+  initCategorySort();
+  document.addEventListener('astro:page-load', initCategorySort);
+</script>

@@ -1,0 +1,270 @@
+---
+import { Search, Globe, Menu, X } from 'lucide-astro';
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Explore', href: '/explore' },
+  { label: 'Rankings', href: '/ranking' },
+  { label: "What's New", href: '/new' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+}
+---
+
+<!-- Skip to content link -->
+<a
+  href="#main-content"
+  class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:bg-[#4F7DF7] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium"
+>
+  Skip to content
+</a>
+
+<nav
+  class="nav fixed top-0 inset-x-0 z-50 h-16 border-b border-[#2D2D4A]"
+  role="navigation"
+  aria-label="Main navigation"
+>
+  <div class="max-w-[1440px] mx-auto h-full px-6 flex items-center justify-between">
+
+    <!-- Left: Logo -->
+    <a href="/" class="shrink-0 flex items-center gap-1.5 group">
+      <span class="text-xl font-semibold text-white tracking-tight" style="font-family: 'Inter', sans-serif;">
+        Chartedly
+      </span>
+      <span class="text-[#4F7DF7] text-sm" aria-hidden="true">&#10022;</span>
+    </a>
+
+    <!-- Center: Nav links (desktop) -->
+    <ul class="nav__links hidden md:flex items-center gap-8 list-none m-0 p-0 absolute left-1/2 -translate-x-1/2">
+      {navItems.map(({ label, href }) => {
+        const active = isActive(href);
+        return (
+          <li>
+            <a
+              href={href}
+              class:list={[
+                'nav__link relative text-sm font-medium py-1 transition-colors duration-150',
+                active ? 'nav__link--active text-white' : 'text-[#9CA3AF] hover:text-white',
+              ]}
+              aria-current={active ? 'page' : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+
+    <!-- Right: Search + Language + Mobile hamburger -->
+    <div class="flex items-center gap-4">
+      <!-- Search button -->
+      <button
+        id="nav-search-trigger"
+        class="nav__search-btn w-9 h-9 rounded-full bg-transparent border border-[#2D2D4A] text-[#9CA3AF] flex items-center justify-center hover:bg-[#16162A] hover:text-white hover:border-[#3D3D5A] transition-all duration-150 cursor-pointer"
+        aria-label="Search (Ctrl+K)"
+      >
+        <Search size={18} />
+      </button>
+
+      <!-- Language toggle -->
+      <div
+        class="nav__lang-toggle hidden sm:flex items-center bg-[#16162A] rounded-full border border-[#2D2D4A] p-0.5 h-8"
+        role="radiogroup"
+        aria-label="Language"
+      >
+        <button
+          class="nav__lang-option nav__lang-option--active px-3 py-1 text-xs font-semibold tracking-wide rounded-full border-none cursor-pointer transition-all duration-150"
+          role="radio"
+          aria-checked="true"
+          data-lang="en"
+        >
+          EN
+        </button>
+        <button
+          class="nav__lang-option px-3 py-1 text-xs font-semibold tracking-wide rounded-full border-none cursor-pointer transition-all duration-150"
+          role="radio"
+          aria-checked="false"
+          data-lang="ja"
+        >
+          JP
+        </button>
+      </div>
+
+      <!-- Mobile: Globe shortcut for language (visible on small screens only) -->
+      <button
+        class="sm:hidden w-9 h-9 rounded-full bg-transparent text-[#9CA3AF] flex items-center justify-center hover:text-white transition-colors duration-150 cursor-pointer"
+        aria-label="Switch language"
+        id="mobile-lang-btn"
+      >
+        <Globe size={18} />
+      </button>
+
+      <!-- Mobile hamburger -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden w-9 h-9 rounded-full bg-transparent text-[#9CA3AF] flex items-center justify-center hover:text-white transition-colors duration-150 cursor-pointer"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <Menu size={20} id="menu-icon-open" />
+        <X size={20} id="menu-icon-close" class="hidden" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu panel -->
+  <div
+    id="mobile-menu-panel"
+    class="md:hidden hidden border-t border-[#2D2D4A] bg-[#0A0A0F]/95 backdrop-blur-xl"
+  >
+    <div class="px-4 py-3 flex flex-col gap-1">
+      {navItems.map(({ label, href }) => {
+        const active = isActive(href);
+        return (
+          <a
+            href={href}
+            class:list={[
+              'px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150',
+              active
+                ? 'text-[#4F7DF7] bg-[#4F7DF7]/10'
+                : 'text-[#9CA3AF] hover:text-white hover:bg-white/[0.06]',
+            ]}
+            aria-current={active ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Sticky nav background */
+  .nav {
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    transition: background 200ms ease;
+  }
+
+  /* Scrolled: more opaque */
+  .nav--scrolled {
+    background: rgba(10, 10, 15, 0.95);
+  }
+
+  /* Active link underline — aligned with nav bottom border */
+  .nav__link--active::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #4F7DF7;
+    border-radius: 1px;
+  }
+
+  /* Language toggle */
+  .nav__lang-option {
+    background: transparent;
+    color: #6B7280;
+  }
+  .nav__lang-option--active {
+    background: #4F7DF7;
+    color: #FFFFFF;
+  }
+  .nav__lang-option:hover:not(.nav__lang-option--active) {
+    color: #9CA3AF;
+  }
+
+  /* Mobile: simplified nav */
+  @media (max-width: 767px) {
+    .nav {
+      height: 56px;
+    }
+  }
+</style>
+
+<script>
+  function initTopNav() {
+    const nav = document.querySelector<HTMLElement>('.nav');
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const menuPanel = document.getElementById('mobile-menu-panel');
+    const iconOpen = document.getElementById('menu-icon-open');
+    const iconClose = document.getElementById('menu-icon-close');
+    const searchTrigger = document.getElementById('nav-search-trigger');
+
+    // Scroll: toggle opaque state
+    if (nav) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+          nav.classList.add('nav--scrolled');
+        } else {
+          nav.classList.remove('nav--scrolled');
+        }
+      }, { passive: true });
+    }
+
+    // Mobile menu toggle
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = menuPanel && !menuPanel.classList.contains('hidden');
+      menuPanel?.classList.toggle('hidden');
+      iconOpen?.classList.toggle('hidden');
+      iconClose?.classList.toggle('hidden');
+      menuBtn.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Search trigger — opens SearchOverlay
+    searchTrigger?.addEventListener('click', () => {
+      const overlay = document.getElementById('search-overlay');
+      if (overlay) {
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        const input = overlay.querySelector<HTMLInputElement>('input');
+        setTimeout(() => input?.focus(), 100);
+      }
+    });
+
+    // Cmd/Ctrl+K to open search
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const overlay = document.getElementById('search-overlay');
+        if (overlay) {
+          const isHidden = overlay.classList.contains('hidden');
+          if (isHidden) {
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            const input = overlay.querySelector<HTMLInputElement>('input');
+            setTimeout(() => input?.focus(), 100);
+          } else {
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+        }
+      }
+    });
+
+    // Language toggle
+    const langOptions = document.querySelectorAll<HTMLElement>('.nav__lang-option');
+    langOptions.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        langOptions.forEach((b) => {
+          b.classList.remove('nav__lang-option--active');
+          b.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('nav__lang-option--active');
+        btn.setAttribute('aria-checked', 'true');
+      });
+    });
+  }
+
+  initTopNav();
+  document.addEventListener('astro:page-load', initTopNav);
+</script>

@@ -1,0 +1,211 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About Chartedly" isArticle={true}>
+  <div class="max-w-[768px] mx-auto px-4 sm:px-8 py-8">
+
+    <h1 class="text-3xl font-extrabold mb-2" style="color: #FFFFFF;">About Chartedly</h1>
+    <p class="text-lg mb-8" style="color: #6B7280;">Charted lyについて</p>
+
+    <!-- Section 1: Who We Are -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">Who We Are</h2>
+      <div class="w-10 h-0.5 mb-4" style="background: #4F7DF7;" />
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Chartedly is an independent product comparison site for anyone living in or visiting Japan. We compare Japanese products -- from sunscreens to rice cookers -- using clear charts, honest scores, and straightforward recommendations.
+      </p>
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        We are not sponsored by any brand. We buy every product we review with our own money. Our rankings are based on documented criteria, not commission rates.
+      </p>
+    </section>
+
+    <!-- Section 2: Why We Built This -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">Why We Built This</h2>
+      <div class="w-10 h-0.5 mb-4" style="background: #4F7DF7;" />
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Shopping in Japan as a foreigner is disorienting. The drugstore has 47 sunscreens, all in Japanese, with no way to know which one is the &yen;800 winner and which is the overpriced dud. Online, information is scattered across Reddit threads, outdated blog posts, and Japanese review sites you cannot read.
+      </p>
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Chartedly exists to fix that. One site. Clear comparisons. In English.
+      </p>
+    </section>
+
+    <!-- Section 3: How We Choose Products -->
+    <section class="mb-10" id="methodology">
+      <h2 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">How We Choose Products</h2>
+      <div class="w-10 h-0.5 mb-4" style="background: #4F7DF7;" />
+
+      <ol class="space-y-4">
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style="background: #4F7DF7; color: #FFFFFF;">1</span>
+          <div>
+            <p class="font-semibold mb-1" style="color: #FFFFFF;">Research</p>
+            <p class="text-sm leading-relaxed" style="color: #9CA3AF;">
+              We analyze Japanese review sites (@cosme rankings, Amazon JP bestsellers), English-language discussions (Reddit, beauty forums), and in-store availability at major drugstores like Matsumoto Kiyoshi and Don Quijote.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style="background: #4F7DF7; color: #FFFFFF;">2</span>
+          <div>
+            <p class="font-semibold mb-1" style="color: #FFFFFF;">Selection</p>
+            <p class="text-sm leading-relaxed" style="color: #9CA3AF;">
+              We narrow to 5-8 products per category based on popularity, availability, and relevance to foreigners in Japan.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style="background: #4F7DF7; color: #FFFFFF;">3</span>
+          <div>
+            <p class="font-semibold mb-1" style="color: #FFFFFF;">Evaluation</p>
+            <p class="text-sm leading-relaxed" style="color: #9CA3AF;">
+              Every product is scored on consistent criteria -- performance, price, availability, and foreigner-friendliness. Weights are disclosed on every comparison page.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style="background: #4F7DF7; color: #FFFFFF;">4</span>
+          <div>
+            <p class="font-semibold mb-1" style="color: #FFFFFF;">Ranking</p>
+            <p class="text-sm leading-relaxed" style="color: #9CA3AF;">
+              We name a Top Pick (best for most people), a Budget Pick (best value), and highlight any standouts for specific needs.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Section 4: Our Scoring System -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">Our Scoring System</h2>
+      <div class="w-10 h-0.5 mb-4" style="background: #4F7DF7;" />
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Every product receives a score from 0 to 100, calculated from five weighted dimensions. Here is what the numbers mean:
+      </p>
+
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 p-3 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-16 text-sm font-bold text-center" style="color: #22C55E;">90-100</span>
+          <div>
+            <span class="font-semibold" style="color: #FFFFFF;">Exceptional.</span>
+            <span style="color: #9CA3AF;"> Best in class, no meaningful flaws.</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-16 text-sm font-bold text-center" style="color: #22C55E;">80-89</span>
+          <div>
+            <span class="font-semibold" style="color: #FFFFFF;">Very good.</span>
+            <span style="color: #9CA3AF;"> Strong recommendation with minor trade-offs.</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-16 text-sm font-bold text-center" style="color: #F59E0B;">60-79</span>
+          <div>
+            <span class="font-semibold" style="color: #FFFFFF;">Good.</span>
+            <span style="color: #9CA3AF;"> Solid product with notable compromises.</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-16 text-sm font-bold text-center" style="color: #EF4444;">40-59</span>
+          <div>
+            <span class="font-semibold" style="color: #FFFFFF;">Below average.</span>
+            <span style="color: #9CA3AF;"> Significant drawbacks.</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-16 text-sm font-bold text-center" style="color: #EF4444;">0-39</span>
+          <div>
+            <span class="font-semibold" style="color: #FFFFFF;">Poor.</span>
+            <span style="color: #9CA3AF;"> Not recommended.</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="text-lg font-bold mt-8 mb-3" style="color: #FFFFFF;">Five Scoring Dimensions</h3>
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Each product is evaluated on a radar chart across five axes. The overall score is a weighted average:
+      </p>
+      <div class="space-y-2">
+        <div class="flex items-center gap-3 p-2.5 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-24 text-sm font-semibold" style="color: #4F7DF7;">Quality (30%)</span>
+          <span class="text-sm" style="color: #9CA3AF;">Materials, build, ingredients, durability, and finish</span>
+        </div>
+        <div class="flex items-center gap-3 p-2.5 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-24 text-sm font-semibold" style="color: #4F7DF7;">Value (25%)</span>
+          <span class="text-sm" style="color: #9CA3AF;">Price vs. performance, cost per use, competitor pricing</span>
+        </div>
+        <div class="flex items-center gap-3 p-2.5 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-24 text-sm font-semibold" style="color: #4F7DF7;">Popularity (20%)</span>
+          <span class="text-sm" style="color: #9CA3AF;">Rakuten/Amazon reviews, user ratings, community reputation</span>
+        </div>
+        <div class="flex items-center gap-3 p-2.5 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-24 text-sm font-semibold" style="color: #4F7DF7;">Ease (15%)</span>
+          <span class="text-sm" style="color: #9CA3AF;">Usability, foreigner-friendliness, English instructions, availability</span>
+        </div>
+        <div class="flex items-center gap-3 p-2.5 rounded-lg" style="background: #16162A; border: 1px solid #2D2D4A;">
+          <span class="flex-shrink-0 w-24 text-sm font-semibold" style="color: #4F7DF7;">Innovation (10%)</span>
+          <span class="text-sm" style="color: #9CA3AF;">Unique features, technology, design differentiation</span>
+        </div>
+      </div>
+
+      <h3 class="text-lg font-bold mt-8 mb-3" style="color: #FFFFFF;">How Often We Update</h3>
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Rankings are refreshed <strong style="color: #FFFFFF;">weekly</strong>. Every Monday our system pulls the latest data from Rakuten and Amazon JP, re-evaluates scores, and publishes updated rankings. New products are added as they trend on Japanese marketplaces.
+      </p>
+
+      <p class="text-sm leading-relaxed mt-4" style="color: #6B7280;">
+        Scores are not absolute -- they reflect how well a product serves the specific audience of foreigners in Japan.
+      </p>
+    </section>
+
+    <!-- Section 5: How We Make Money -->
+    <section class="mb-10" id="affiliate-disclosure">
+      <h2 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">How We Make Money</h2>
+      <div class="w-10 h-0.5 mb-4" style="background: #4F7DF7;" />
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Chartedly earns commissions when you buy products through our affiliate links (primarily Amazon JP Associates). This is how we keep the site running without ads cluttering your reading experience.
+      </p>
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Our editorial picks are made before affiliate links are added. If our top pick has no affiliate program, we still recommend it and link to a non-affiliate purchase option. We will never recommend a worse product because it pays a higher commission.
+      </p>
+
+      <!-- Trust banner -->
+      <div class="rounded-lg p-4 mt-4" style="background: rgba(79,125,247,0.1); border: 1px solid rgba(79,125,247,0.2);">
+        <p class="text-sm font-medium" style="color: #4F7DF7;">
+          Independent reviews. No brand sponsorships. We buy everything ourselves.
+        </p>
+        <p class="text-sm mt-1" style="color: #6B7280;">
+          独立したレビュー。企業スポンサーなし。すべて自費購入。
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 6: Privacy -->
+    <section class="mb-10" id="privacy">
+      <h2 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">Privacy</h2>
+      <div class="w-10 h-0.5 mb-4" style="background: #4F7DF7;" />
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Chartedly uses Google Analytics (GA4) to understand how visitors use the site. This helps us improve our content and identify which comparisons are most helpful.
+      </p>
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        We do not collect personal information, sell data, or use advertising trackers. We do not require user accounts or login.
+      </p>
+    </section>
+
+    <!-- Section 7: Contact -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-bold mb-4" style="color: #FFFFFF;">Contact</h2>
+      <div class="w-10 h-0.5 mb-4" style="background: #4F7DF7;" />
+      <p class="leading-relaxed mb-4" style="color: #9CA3AF;">
+        Have a question, suggestion, or correction? Email us at
+        <a href="mailto:hello@chartedly.com" class="hover:underline" style="color: #4F7DF7;">hello@chartedly.com</a>.
+      </p>
+      <p class="leading-relaxed" style="color: #9CA3AF;">
+        Want us to compare a product category? Tell us what you are struggling to find in Japan. We prioritize comparisons based on what our readers actually need.
+      </p>
+    </section>
+
+  </div>
+</BaseLayout>
