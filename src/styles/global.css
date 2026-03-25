@@ -13,18 +13,18 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1440px;
 
-  /* ── Colors: Background ── */
-  --color-bg-base: #0A0A0F;
-  --color-bg-deep: #0D0D18;
-  --color-bg-charcoal: #1A1A2E;
+  /* ── Colors: Background (neutral grey-black, like ChatGPT/Discord) ── */
+  --color-bg-base: #171717;
+  --color-bg-deep: #141414;
+  --color-bg-charcoal: #1E1E1E;
 
   /* ── Colors: Surface ── */
-  --color-surface-card: #16162A;
-  --color-surface-elevated: #1E1E38;
-  --color-surface-overlay: rgba(22, 22, 42, 0.95);
-  --color-surface-hover: #1C1C36;
-  --color-surface-pressed: #141428;
-  --color-surface-input: #12122A;
+  --color-surface-card: #212121;
+  --color-surface-elevated: #2A2A2A;
+  --color-surface-overlay: rgba(33, 33, 33, 0.95);
+  --color-surface-hover: #262626;
+  --color-surface-pressed: #1A1A1A;
+  --color-surface-input: #1E1E1E;
 
   /* ── Colors: Primary (Electric Blue) ── */
   --color-primary-50: #EBF0FE;
@@ -64,10 +64,10 @@
   --color-text-link: #4F7DF7;
   --color-text-link-hover: #6890F9;
 
-  /* ── Colors: Border ── */
-  --color-border-subtle: #2D2D4A;
-  --color-border-default: #3D3D5C;
-  --color-border-strong: #4D4D6A;
+  /* ── Colors: Border (neutral grey) ── */
+  --color-border-subtle: #333333;
+  --color-border-default: #404040;
+  --color-border-strong: #525252;
   --color-border-focus: #4F7DF7;
 
   /* ── Colors: Semantic ── */
@@ -108,11 +108,11 @@
   --max-width-content: 1440px;
 
   /* ── Backward-Compat Aliases ── */
-  --color-surface-base: #0A0A0F;
-  --color-surface-article: #16162A;
-  --color-surface-raised: #1E1E38;
-  --color-surface-inset: #12122A;
-  --color-surface-scrim: rgba(10, 10, 15, 0.8);
+  --color-surface-base: #171717;
+  --color-surface-article: #212121;
+  --color-surface-raised: #2A2A2A;
+  --color-surface-inset: #1E1E1E;
+  --color-surface-scrim: rgba(23, 23, 23, 0.8);
   --color-cta-default: #4F7DF7;
   --color-cta-hover: #6890F9;
   --color-cta-active: #3D65D4;
@@ -135,8 +135,8 @@
   --color-error-icon: #EF4444;
   --color-special: #F7A94F;
   --color-special-bg: rgba(247, 169, 79, 0.12);
-  --color-border-decorative: #2D2D4A;
-  --color-border-functional: #3D3D5C;
+  --color-border-decorative: #333333;
+  --color-border-functional: #404040;
   --color-border-interactive: #4F7DF7;
   --color-border-accent: #4F7DF7;
   --color-focus-ring: #4F7DF7;
