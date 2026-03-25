@@ -27,7 +27,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RAKUTEN_APP_ID = process.env.RAKUTEN_APP_ID || 'c6fa6ed2-114f-4025-bf99-3ac4a17d44d0';
 const RAKUTEN_ACCESS_KEY = process.env.RAKUTEN_ACCESS_KEY || 'pk_HlDOZRpiz5L7Zns0y04QYD5RlJf9721qEbJd166GmYK';
 const RAKUTEN_AFFILIATE_ID = process.env.RAKUTEN_AFFILIATE_ID || '520a0491.97d8289b.520a0492.f21fca06';
-const GDRIVE_DIR = 'g:/マイドライブ/Chartedly';
+// Auto-detect: Google Drive on Windows, local fallback on VPS/Linux
+const GDRIVE_DIR_WIN = 'g:/マイドライブ/Chartedly';
+const LOCAL_DATA_DIR = path.join(__dirname, '..', 'data');
+const GDRIVE_DIR = fs.existsSync(GDRIVE_DIR_WIN) ? GDRIVE_DIR_WIN : LOCAL_DATA_DIR;
+if (!fs.existsSync(GDRIVE_DIR)) fs.mkdirSync(GDRIVE_DIR, { recursive: true });
 const DISCOVERIES_CSV = path.join(GDRIVE_DIR, 'rakuten-discoveries.csv');
 const PRODUCTS_CSV = path.join(GDRIVE_DIR, 'products.csv');
 

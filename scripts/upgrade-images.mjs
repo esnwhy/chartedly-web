@@ -19,7 +19,10 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
-const GDRIVE_DIR = 'g:/マイドライブ/Chartedly';
+const GDRIVE_DIR_WIN = 'g:/マイドライブ/Chartedly';
+const LOCAL_DATA_DIR = path.join(__dirname, '..', 'data');
+const GDRIVE_DIR = fs.existsSync(GDRIVE_DIR_WIN) ? GDRIVE_DIR_WIN : LOCAL_DATA_DIR;
+if (!fs.existsSync(GDRIVE_DIR)) fs.mkdirSync(GDRIVE_DIR, { recursive: true });
 const DISCOVERIES_CSV = path.join(GDRIVE_DIR, 'rakuten-discoveries.csv');
 const PRODUCTS_CSV = path.join(GDRIVE_DIR, 'products.csv');
 const PRODUCTS_DIR = path.join(ROOT, 'src', 'content', 'products');

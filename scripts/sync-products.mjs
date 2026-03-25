@@ -24,7 +24,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const GDRIVE_CSV = 'g:/マイドライブ/Chartedly/products.csv';
+const GDRIVE_CSV_WIN = 'g:/マイドライブ/Chartedly/products.csv';
+const LOCAL_CSV = path.join(__dirname, '..', 'data', 'products.csv');
+const GDRIVE_CSV = fs.existsSync(GDRIVE_CSV_WIN) ? GDRIVE_CSV_WIN : LOCAL_CSV;
 const PRODUCTS_DIR = path.join(__dirname, '..', 'src', 'content', 'products');
 const IMAGES_DIR = path.join(__dirname, '..', 'public', 'images', 'products');
 

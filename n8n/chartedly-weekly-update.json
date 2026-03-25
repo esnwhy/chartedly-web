@@ -12,91 +12,81 @@
           ]
         }
       },
-      "id": "schedule-trigger",
+      "id": "a1b2c3d4-0001-0001-0001-000000000001",
       "name": "Every Monday 3AM JST",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [0, 0]
+      "position": [240, 400]
     },
     {
       "parameters": {
-        "command": "cd /opt/chartedly && git pull origin main 2>&1"
+        "command": "cd /opt/chartedly && git pull origin master 2>&1"
       },
-      "id": "git-pull",
+      "id": "a1b2c3d4-0001-0001-0001-000000000002",
       "name": "1. Git Pull Latest",
-      "type": "n8n-nodes-base.executeCommand",
+      "type": "n8n-nodes-base.exec",
       "typeVersion": 1,
-      "position": [220, 0]
+      "position": [460, 400]
     },
     {
       "parameters": {
-        "command": "cd /opt/chartedly && RAKUTEN_APP_ID=${RAKUTEN_APP_ID} RAKUTEN_ACCESS_KEY=${RAKUTEN_ACCESS_KEY} RAKUTEN_AFFILIATE_ID=${RAKUTEN_AFFILIATE_ID} node scripts/fetch-rakuten.mjs --all 2>&1 | tail -20"
+        "command": "cd /opt/chartedly && source .env && node scripts/fetch-rakuten.mjs --all 2>&1 | tail -30"
       },
-      "id": "fetch-rakuten",
+      "id": "a1b2c3d4-0001-0001-0001-000000000003",
       "name": "2. Fetch Rakuten Rankings",
-      "type": "n8n-nodes-base.executeCommand",
+      "type": "n8n-nodes-base.exec",
       "typeVersion": 1,
-      "position": [440, 0]
+      "position": [680, 400]
     },
     {
       "parameters": {
-        "command": "cd /opt/chartedly && ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY} node scripts/ai-enrich.mjs 2>&1 | tail -20"
+        "command": "cd /opt/chartedly && source .env && node scripts/ai-enrich.mjs 2>&1 | tail -30"
       },
-      "id": "ai-enrich",
+      "id": "a1b2c3d4-0001-0001-0001-000000000004",
       "name": "3. AI Enrich New Products",
-      "type": "n8n-nodes-base.executeCommand",
+      "type": "n8n-nodes-base.exec",
       "typeVersion": 1,
-      "position": [660, 0]
+      "position": [900, 400]
     },
     {
       "parameters": {
-        "command": "cd /opt/chartedly && node scripts/sync-products.mjs 2>&1 | tail -10"
+        "command": "cd /opt/chartedly && source .env && node scripts/sync-products.mjs 2>&1 | tail -15"
       },
-      "id": "sync-products",
+      "id": "a1b2c3d4-0001-0001-0001-000000000005",
       "name": "4. Sync Products",
-      "type": "n8n-nodes-base.executeCommand",
+      "type": "n8n-nodes-base.exec",
       "typeVersion": 1,
-      "position": [880, 0]
+      "position": [1120, 400]
     },
     {
       "parameters": {
-        "command": "cd /opt/chartedly && python3 scripts/fetch-brand-images.mjs --limit 20 2>&1 | tail -10; python3 scripts/remove-backgrounds.py 2>&1 | tail -10; python3 scripts/center-products.py 2>&1 | tail -10"
+        "command": "cd /opt/chartedly && PYTHONIOENCODING=utf-8 python3 scripts/remove-backgrounds.py 2>&1 | tail -15 && PYTHONIOENCODING=utf-8 python3 scripts/center-products.py 2>&1 | tail -15"
       },
-      "id": "process-images",
+      "id": "a1b2c3d4-0001-0001-0001-000000000006",
       "name": "5. Process Images",
-      "type": "n8n-nodes-base.executeCommand",
+      "type": "n8n-nodes-base.exec",
       "typeVersion": 1,
-      "position": [1100, 0]
+      "position": [1340, 400]
     },
     {
       "parameters": {
         "command": "cd /opt/chartedly && npm run build 2>&1 | tail -5"
       },
-      "id": "build-site",
+      "id": "a1b2c3d4-0001-0001-0001-000000000007",
       "name": "6. Build Site",
-      "type": "n8n-nodes-base.executeCommand",
+      "type": "n8n-nodes-base.exec",
       "typeVersion": 1,
-      "position": [1320, 0]
+      "position": [1560, 400]
     },
     {
       "parameters": {
-        "command": "cd /opt/chartedly && git add -A && git diff --staged --quiet && echo 'No changes' || (git commit -m \"Weekly update $(date +%Y-%m-%d)\" && git push origin main && echo 'Pushed!')"
+        "command": "cd /opt/chartedly && git add -A && git diff --staged --quiet && echo 'No changes to commit' || (git commit -m \"Weekly product update $(date +%Y-%m-%d)\" && git push origin master && echo 'Changes committed and pushed!')"
       },
-      "id": "git-commit",
+      "id": "a1b2c3d4-0001-0001-0001-000000000008",
       "name": "7. Commit & Push",
-      "type": "n8n-nodes-base.executeCommand",
+      "type": "n8n-nodes-base.exec",
       "typeVersion": 1,
-      "position": [1540, 0]
-    },
-    {
-      "parameters": {
-        "content": "=✅ **Chartedly Weekly Update Complete**\n\nRakuten: {{ $node['2. Fetch Rakuten Rankings'].json.stdout }}\nEnrich: {{ $node['3. AI Enrich New Products'].json.stdout }}\nBuild: {{ $node['6. Build Site'].json.stdout }}\nDeploy: {{ $node['7. Commit & Push'].json.stdout }}"
-      },
-      "id": "success-log",
-      "name": "8. Log Success",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [1760, 0]
+      "position": [1780, 400]
     }
   ],
   "connections": {
