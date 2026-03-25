@@ -160,6 +160,28 @@ const categoryColors: Record<string, string> = {
       })}
     </div>
 
+    <!-- Browse by Subcategory -->
+    <section class="mt-14">
+      <h2 class="text-2xl font-bold mb-2" style="color: var(--color-text-primary);">Browse by Subcategory</h2>
+      <p class="text-sm mb-6" style="color: var(--color-text-tertiary);">サブカテゴリーから探す</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        {categories.flatMap((cat) =>
+          cat.subcategories.sort((a, b) => b.count - a.count).map((sub) => (
+            <a
+              href={`/category/${cat.slug}/${sub.slug}`}
+              class="group flex flex-col gap-1 p-4 rounded-xl border transition-all duration-200 hover:border-[color:var(--color-text-tertiary)] hover:-translate-y-0.5"
+              style="background: var(--color-surface-card); border-color: var(--color-border-subtle);"
+            >
+              <span class="text-sm font-semibold" style="color: var(--color-text-primary);">{sub.name}</span>
+              <span class="text-xs" style="color: var(--color-text-tertiary);">
+                {cat.name} &middot; {sub.count} {sub.count === 1 ? 'product' : 'products'}
+              </span>
+            </a>
+          ))
+        )}
+      </div>
+    </section>
+
     <!-- All Products Quick Link -->
     <div class="mt-10 text-center">
       <a

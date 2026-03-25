@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Cookie Policy — Chartedly" isArticle={true}>
+  <div class="max-w-[768px] mx-auto px-4 sm:px-8 py-8">
+
+    <h1 class="text-3xl font-extrabold mb-2" style="color: var(--color-text-primary);">Cookie Policy</h1>
+    <p class="text-lg mb-8" style="color: var(--color-text-tertiary);">Cookieポリシー</p>
+
+    <p class="text-sm mb-8" style="color: var(--color-text-tertiary);">Last updated: March 2026</p>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-bold mb-3" style="color: var(--color-text-primary);">What Are Cookies</h2>
+      <p class="leading-relaxed" style="color: var(--color-text-secondary);">
+        Cookies are small text files stored on your device when you visit a website. They are used to remember preferences and understand how visitors use a site.
+      </p>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-bold mb-3" style="color: var(--color-text-primary);">Cookies We Use</h2>
+      <p class="leading-relaxed mb-4" style="color: var(--color-text-secondary);">
+        Chartedly uses a minimal set of cookies. We do not use advertising cookies or social media tracking cookies.
+      </p>
+
+      <div class="rounded-xl overflow-hidden border" style="border-color: var(--color-border-subtle);">
+        <table class="w-full text-sm">
+          <thead>
+            <tr style="background: var(--color-surface-card);">
+              <th class="px-4 py-3 text-left font-semibold" style="color: var(--color-text-primary);">Cookie</th>
+              <th class="px-4 py-3 text-left font-semibold" style="color: var(--color-text-primary);">Purpose</th>
+              <th class="px-4 py-3 text-left font-semibold" style="color: var(--color-text-primary);">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t" style="border-color: var(--color-border-subtle);">
+              <td class="px-4 py-3 font-mono text-xs" style="color: var(--color-text-secondary);">_ga</td>
+              <td class="px-4 py-3" style="color: var(--color-text-secondary);">Google Analytics — distinguishes unique visitors</td>
+              <td class="px-4 py-3" style="color: var(--color-text-tertiary);">2 years</td>
+            </tr>
+            <tr class="border-t" style="border-color: var(--color-border-subtle);">
+              <td class="px-4 py-3 font-mono text-xs" style="color: var(--color-text-secondary);">_ga_*</td>
+              <td class="px-4 py-3" style="color: var(--color-text-secondary);">Google Analytics — maintains session state</td>
+              <td class="px-4 py-3" style="color: var(--color-text-tertiary);">2 years</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-bold mb-3" style="color: var(--color-text-primary);">Third-Party Cookies</h2>
+      <p class="leading-relaxed" style="color: var(--color-text-secondary);">
+        When you click affiliate links to retailers like Amazon JP, those sites may set their own cookies. These are governed by the respective retailer's cookie and privacy policies and are outside our control.
+      </p>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-xl font-bold mb-3" style="color: var(--color-text-primary);">Managing Cookies</h2>
+      <p class="leading-relaxed mb-4" style="color: var(--color-text-secondary);">
+        You can control and delete cookies through your browser settings. Most browsers allow you to:
+      </p>
+      <ul class="list-disc pl-6 space-y-2 mb-4" style="color: var(--color-text-secondary);">
+        <li>View what cookies are stored and delete them individually</li>
+        <li>Block third-party cookies</li>
+        <li>Block cookies from specific sites</li>
+        <li>Block all cookies</li>
+        <li>Delete all cookies when you close the browser</li>
+      </ul>
+      <p class="leading-relaxed" style="color: var(--color-text-secondary);">
+        You can also opt out of Google Analytics specifically by installing the <a href="https://tools.google.com/dlpage/gaoptout" style="color: var(--color-text-primary); text-decoration: underline;" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-bold mb-3" style="color: var(--color-text-primary);">Contact</h2>
+      <p class="leading-relaxed" style="color: var(--color-text-secondary);">
+        Questions about our cookie usage? Email <a href="mailto:hello@chartedly.com" style="color: var(--color-text-primary); text-decoration: underline;">hello@chartedly.com</a>.
+      </p>
+    </section>
+
+  </div>
+</BaseLayout>

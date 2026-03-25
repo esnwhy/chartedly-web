@@ -223,6 +223,15 @@ function toCardProps(p: typeof allProducts[0]) {
           Weekly product picks, new reviews, and Japan living tips. No spam.
         </p>
 
+        <div class="rounded-lg px-5 py-4 mb-4" style="background: var(--color-bg-base); border: 1px solid var(--color-border-subtle);">
+          <p class="text-sm font-medium" style="color: var(--color-text-secondary);">
+            Newsletter launching soon. Stay tuned!
+          </p>
+          <p class="text-xs mt-1" style="color: var(--color-text-tertiary);">
+            ニュースレターは近日公開予定です。
+          </p>
+        </div>
+
         <form class="flex flex-col sm:flex-row gap-3 mb-4" data-newsletter-form>
           <input
             type="email"
@@ -236,12 +245,17 @@ function toCardProps(p: typeof allProducts[0]) {
             class="h-12 px-6 font-semibold rounded-lg sm:rounded-l-none sm:rounded-r-lg transition-colors cursor-pointer"
             style="background: #4F7DF7; color: #FFFFFF;"
           >
-            Subscribe
+            Notify Me
           </button>
         </form>
 
+        <!-- Toast notification -->
+        <div id="newsletter-toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-lg text-sm font-medium shadow-lg transition-opacity duration-300" style="background: var(--color-surface-elevated); color: var(--color-text-primary); border: 1px solid var(--color-border-subtle);">
+          Thanks! We'll let you know when the newsletter launches.
+        </div>
+
         <p class="text-sm" style="color: var(--color-text-tertiary);">
-          1,200+ readers &nbsp;&bull;&nbsp; Weekly &nbsp;&bull;&nbsp; Free
+          Weekly &nbsp;&bull;&nbsp; Free &nbsp;&bull;&nbsp; Coming Soon
         </p>
       </div>
     </section>
@@ -258,3 +272,24 @@ function toCardProps(p: typeof allProducts[0]) {
     scrollbar-width: none;
   }
 </style>
+
+<script>
+  const form = document.querySelector('[data-newsletter-form]');
+  const toast = document.getElementById('newsletter-toast');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!toast) return;
+
+    const input = form.querySelector('input[type="email"]') as HTMLInputElement | null;
+    if (input) input.value = '';
+
+    toast.classList.remove('hidden');
+    toast.style.opacity = '1';
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.classList.add('hidden'), 300);
+    }, 3000);
+  });
+</script>

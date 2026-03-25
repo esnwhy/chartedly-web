@@ -147,10 +147,10 @@ function isActive(href: string): boolean {
           <a
             href={href}
             class:list={[
-              'px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150',
+              'mobile-nav-link px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-150',
               active
-                ? 'text-[#4F7DF7] bg-[#4F7DF7]/10'
-                : 'text-[#9CA3AF] hover:text-white hover:bg-white/[0.06]',
+                ? 'mobile-nav-link--active'
+                : 'mobile-nav-link--inactive',
             ]}
             aria-current={active ? 'page' : undefined}
             data-i18n={i18nKey}
@@ -207,6 +207,19 @@ function isActive(href: string): boolean {
   }
   .nav__lang-option:hover:not(.nav__lang-option--active) {
     color: var(--color-text-secondary);
+  }
+
+  /* Mobile nav link styles */
+  .mobile-nav-link--active {
+    color: var(--color-accent, #4F7DF7);
+    background: rgba(79, 125, 247, 0.1);
+  }
+  .mobile-nav-link--inactive {
+    color: var(--color-text-secondary);
+  }
+  .mobile-nav-link--inactive:hover {
+    color: var(--color-text-primary);
+    background: var(--color-surface-card);
   }
 
   /* Mobile: simplified nav */
@@ -281,12 +294,24 @@ function isActive(href: string): boolean {
     }
 
     // Mobile menu toggle
+    function closeMobileMenu() {
+      menuPanel?.classList.add('hidden');
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+      menuBtn?.setAttribute('aria-expanded', 'false');
+    }
+
     menuBtn?.addEventListener('click', () => {
       const isOpen = menuPanel && !menuPanel.classList.contains('hidden');
       menuPanel?.classList.toggle('hidden');
       iconOpen?.classList.toggle('hidden');
       iconClose?.classList.toggle('hidden');
       menuBtn.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Close mobile menu when a nav link is clicked
+    menuPanel?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeMobileMenu);
     });
 
     // Search trigger — opens SearchOverlay

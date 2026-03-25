@@ -18,10 +18,9 @@ function isActive(href: string): boolean {
 
 <nav
   class="tab-bar fixed bottom-0 inset-x-0 z-50 border-t sm:hidden"
-  style="border-color: var(--color-border-subtle);"
+  style="border-color: var(--color-border-subtle); padding-bottom: env(safe-area-inset-bottom, 0px);"
   role="navigation"
   aria-label="Quick navigation"
-  style="padding-bottom: env(safe-area-inset-bottom, 0px);"
 >
   <ul class="flex items-stretch h-14 list-none m-0 p-0">
     {tabs.map(({ label, href, icon: Icon }) => {
