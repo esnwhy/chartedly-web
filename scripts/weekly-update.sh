@@ -43,16 +43,21 @@ else
   node scripts/ai-enrich.mjs 2>&1 | tail -10 >> "$LOG"
 fi
 
-# ── Step 2b: Cleanup junk products (shoes, car parts, etc.) ──
-echo "[2b] Cleaning up junk products..." >> "$LOG"
-PYTHONIOENCODING=utf-8 python3 scripts/cleanup-products.py 2>&1 | tail -10 >> "$LOG"
+# ── Step 2b: AI Category Quality Gate ──
+# Claude reviews EVERY product: keep, fix category, or remove
+echo "[2b] AI Category Quality Gate (reviewing all products)..." >> "$LOG"
+PYTHONIOENCODING=utf-8 python3 scripts/ai-category-gate.py 2>&1 | tail -15 >> "$LOG"
 
-# ── Step 2c: Dedup products (refills, bulk, duplicates) ──
-echo "[2c] Running deduplication filter..." >> "$LOG"
+# ── Step 2c: Cleanup remaining junk (pattern-based backup) ──
+echo "[2c] Pattern-based cleanup..." >> "$LOG"
+PYTHONIOENCODING=utf-8 python3 scripts/cleanup-products.py 2>&1 | tail -5 >> "$LOG"
+
+# ── Step 2d: Dedup products (refills, bulk, duplicates) ──
+echo "[2d] Running deduplication filter..." >> "$LOG"
 node scripts/dedup-products.mjs --force 2>&1 | tail -10 >> "$LOG"
 
-# ── Step 2d: Fix Amazon affiliate links (movemate04-22 tag) ──
-echo "[2d] Fixing affiliate links..." >> "$LOG"
+# ── Step 2e: Fix Amazon affiliate links (movemate04-22 tag) ──
+echo "[2e] Fixing affiliate links..." >> "$LOG"
 PYTHONIOENCODING=utf-8 python3 scripts/fix-all-links.py 2>&1 | tail -10 >> "$LOG"
 
 # ── Step 3: Sync products ──
