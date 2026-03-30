@@ -102,9 +102,44 @@ if (related.length < 5) {
 
 // Score display (out of 10)
 const scoreOut10 = (score / 10).toFixed(1);
+
+// Parse numeric price from price string (e.g. "¥1,280" -> 1280)
+function parsePrice(priceStr: string): string {
+  const match = priceStr.replace(/[,，]/g, '').match(/(\d+)/);
+  return match ? match[1] : '0';
+}
+
+const numericPrice = parsePrice(price);
+const productUrl = new URL(`/product/${product.id}`, 'https://chartedly.com').href;
+const productImage = image ? new URL(image, 'https://chartedly.com').href : '';
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name,
+  brand: { '@type': 'Brand', name: brand },
+  image: productImage,
+  description: description || `${name} by ${brand} — reviewed and rated on Chartedly.`,
+  offers: {
+    '@type': 'Offer',
+    price: numericPrice,
+    priceCurrency: 'JPY',
+    availability: 'https://schema.org/InStock',
+    url: retailerList.length > 0 ? retailerList[0].url : productUrl,
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: scoreOut10,
+    bestRating: '10',
+    worstRating: '0',
+  },
+});
 ---
 
-<BaseLayout title={`${name} — Chartedly`} isArticle={true}>
+<BaseLayout title={`${name} — Chartedly`} description={description || `${name} by ${brand} — honest review, score ${scoreOut10}/10. Compare the best ${type} products for life in Japan.`} isArticle={true}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={jsonLd} />
+  </Fragment>
   <div class="max-w-[1200px] mx-auto px-4 sm:px-8 py-6">
 
     <!-- ── Breadcrumb ── -->

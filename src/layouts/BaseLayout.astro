@@ -83,6 +83,7 @@ const searchProducts = allProducts.map((p) => ({
 
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <slot name="head" />
     {titleKey && <meta data-i18n-title={titleKey} />}
 
     <!-- Prevent flash: apply saved language before render -->

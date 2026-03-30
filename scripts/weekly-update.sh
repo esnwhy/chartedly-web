@@ -6,6 +6,11 @@
 # Weekly: new products + price updates
 # Monthly (1st Monday): re-score ALL products
 # ============================================
+#
+# Cron entries:
+# Weekly update: 0 3 * * 1 /opt/chartedly/scripts/weekly-update.sh >> /opt/chartedly/update.log 2>&1
+# Monthly rescore: 0 4 1 * * /opt/chartedly/scripts/monthly-rescore.sh >> /opt/chartedly/rescore.log 2>&1
+#
 
 set -e
 cd /opt/chartedly
@@ -38,9 +43,17 @@ else
   node scripts/ai-enrich.mjs 2>&1 | tail -10 >> "$LOG"
 fi
 
-# ── Step 2b: Dedup products ──
-echo "[2b] Running deduplication filter..." >> "$LOG"
+# ── Step 2b: Cleanup junk products (shoes, car parts, etc.) ──
+echo "[2b] Cleaning up junk products..." >> "$LOG"
+PYTHONIOENCODING=utf-8 python3 scripts/cleanup-products.py 2>&1 | tail -10 >> "$LOG"
+
+# ── Step 2c: Dedup products (refills, bulk, duplicates) ──
+echo "[2c] Running deduplication filter..." >> "$LOG"
 node scripts/dedup-products.mjs --force 2>&1 | tail -10 >> "$LOG"
+
+# ── Step 2d: Fix Amazon affiliate links (movemate04-22 tag) ──
+echo "[2d] Fixing affiliate links..." >> "$LOG"
+PYTHONIOENCODING=utf-8 python3 scripts/fix-all-links.py 2>&1 | tail -10 >> "$LOG"
 
 # ── Step 3: Sync products ──
 echo "[3] Syncing products..." >> "$LOG"
