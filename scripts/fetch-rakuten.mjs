@@ -115,6 +115,27 @@ const CATEGORIES = {
   'coffee':          { genreId: 204145, category: 'Food & Drink', subcategory: 'Coffee', type: 'Coffee' },
   // 22. DIY & Tools
   'diy-tools':       { genreId: 112893, category: 'DIY & Tools', subcategory: 'Tools', type: 'Tool' },
+
+  // ═══ EXPANDED FOOD & DRINK ═══
+  // Japanese snacks tourists love
+  'kitkat':          { genreId: 201336, category: 'Food & Drink', subcategory: 'Snacks & Sweets', type: 'Chocolate' },
+  'candy':           { genreId: 201342, category: 'Food & Drink', subcategory: 'Snacks & Sweets', type: 'Candy' },
+  'senbei':          { genreId: 201340, category: 'Food & Drink', subcategory: 'Snacks & Sweets', type: 'Rice Crackers' },
+  'wagashi':         { genreId: 201338, category: 'Food & Drink', subcategory: 'Snacks & Sweets', type: 'Wagashi' },
+  'cookies':         { genreId: 201337, category: 'Food & Drink', subcategory: 'Snacks & Sweets', type: 'Cookies' },
+  // Ramen & noodles
+  'instant-ramen':   { genreId: 200503, category: 'Food & Drink', subcategory: 'Noodles & Ramen', type: 'Instant Ramen' },
+  'ramen':           { genreId: 510890, category: 'Food & Drink', subcategory: 'Noodles & Ramen', type: 'Ramen' },
+  'soba':            { genreId: 200501, category: 'Food & Drink', subcategory: 'Noodles & Ramen', type: 'Soba' },
+  'udon':            { genreId: 200502, category: 'Food & Drink', subcategory: 'Noodles & Ramen', type: 'Udon' },
+  // Seasonings & cooking
+  'soy-sauce':       { genreId: 201284, category: 'Food & Drink', subcategory: 'Seasonings', type: 'Soy Sauce' },
+  'miso':            { genreId: 201283, category: 'Food & Drink', subcategory: 'Seasonings', type: 'Miso' },
+  'dashi':           { genreId: 510631, category: 'Food & Drink', subcategory: 'Seasonings', type: 'Dashi' },
+  'curry':           { genreId: 510649, category: 'Food & Drink', subcategory: 'Seasonings', type: 'Curry Roux' },
+  // Drinks
+  'beer':            { genreId: 201197, category: 'Food & Drink', subcategory: 'Beverages', type: 'Beer' },
+  'juice':           { genreId: 201261, category: 'Food & Drink', subcategory: 'Beverages', type: 'Juice' },
 };
 
 // ── Rate Limiter ───────────────────────────────────────
